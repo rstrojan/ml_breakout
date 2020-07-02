@@ -6,6 +6,7 @@ public class BallController : MonoBehaviour
 {
     public float speed = 10.0f;
     public float boundaryZ = 15;
+    private bool checkZ = true;
     
     // Start is called before the first frame update
     void Start()
@@ -16,10 +17,21 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.z >= boundaryZ){
+        if(transform.position.z >= boundaryZ && checkZ){
             changeLookForward(new Vector3(0, 0, -1));
+            checkZ = false;
+            StartCoroutine(CheckZWait());
+        }
+        if(transform.position.z < -15){
+            Destroy(gameObject);
+            Debug.Log("Game Over");
         }
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
+    }
+
+    IEnumerator CheckZWait(){
+        yield return new WaitForSeconds(0.5f);
+        checkZ = true;
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -28,6 +40,9 @@ public class BallController : MonoBehaviour
         Debug.Log("hitAngle: " + hitAngle.normal);
         changeLookForward(hitAngle.normal);
         Debug.Log("forward: " + transform.forward);
+        if(other.gameObject.CompareTag("Brick")){
+            Destroy(other.gameObject);
+        }
     }
 
     private void changeLookForward(Vector3 barrier){

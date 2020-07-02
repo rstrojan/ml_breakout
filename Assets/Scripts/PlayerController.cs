@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float horizontalInput;
     public float speed = 20.0f;
-    private float xRange = 20.0f;
+    private float xRange;
     private Vector3 startPos;
 
     private Rigidbody playerRb;
@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         startPos = transform.position;
+        xRange = (GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f) - (gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f);
     }
 
     // Update is called once per frame
