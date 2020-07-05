@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    private GameManager gameManager;
     public float speed = 10.0f;
     public float boundaryZ = 15;
     private bool checkZ = true;
@@ -11,7 +12,7 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -41,7 +42,10 @@ public class BallController : MonoBehaviour
         changeLookForward(hitAngle.normal);
         Debug.Log("forward: " + transform.forward);
         if(other.gameObject.CompareTag("Brick")){
+            // update the score
+            gameManager.UpdateScore(other.gameObject.GetComponent<BrickController>().scoreValue);
             Destroy(other.gameObject);
+            
         }
     }
 

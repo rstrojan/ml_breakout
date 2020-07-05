@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5799744955394857528}
   - component: {fileID: 5799744955394857529}
   - component: {fileID: 5799744955394857533}
+  - component: {fileID: 1405347890258223173}
   m_Layer: 0
   m_Name: Brick T3
   m_TagString: Brick
@@ -110,3 +111,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1405347890258223173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5799744955394857510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48900926b6b1c4041ae7a154935c2204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreValue: 8
