@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
-    public Button restartButton;
+    public Button mainMenuButton;
+    public Button gameStartButton;
     private int score;
     // Start is called before the first frame update
     void Start()
@@ -33,12 +34,17 @@ public class GameManager : MonoBehaviour
     // manage gameover state
     public void GameOver()
     {
-        restartButton.gameObject.SetActive(true);
+        mainMenuButton.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(true);
     }
 
     public void ToMainMenu()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadSceneAsync("BreakoutScene");
     }
 }
