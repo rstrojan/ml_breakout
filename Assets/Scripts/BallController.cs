@@ -23,8 +23,10 @@ public class BallController : MonoBehaviour
             checkZ = false;
             StartCoroutine(CheckZWait());
         }
+        // if ball gets past paddle, destroy it.
         if(transform.position.z < -15){
             Destroy(gameObject);
+            gameManager.GameOver();
             Debug.Log("Game Over");
         }
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
