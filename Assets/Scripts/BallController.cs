@@ -6,53 +6,51 @@ public class BallController : MonoBehaviour
 {
     private GameManager gameManager;
     public float speed = 10.0f;
-    public float boundaryZ = 15;
-    private bool checkZ = true;
+    private Rigidbody ballRb;
+
+    [SerializeField] Vector3 startVelocity;
+    private Vector3 lastUpdateVelocity;
+
+    int hitCount = 0;
     
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        ballRb = gameObject.GetComponent<Rigidbody>();
+        ballRb.velocity = startVelocity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.z >= boundaryZ && checkZ){
-            changeLookForward(new Vector3(0, 0, -1));
-            checkZ = false;
-            StartCoroutine(CheckZWait());
-        }
-        // if ball gets past paddle, destroy it.
-        if(transform.position.z < -15){
-            Destroy(gameObject);
-            gameManager.GameOver();
-            Debug.Log("Game Over");
-        }
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
-    }
-
-    IEnumerator CheckZWait(){
-        yield return new WaitForSeconds(0.5f);
-        checkZ = true;
+        // maintain constant speed
+        lastUpdateVelocity = ballRb.velocity;
     }
 
     private void OnCollisionEnter(Collision other) {
         
-        ContactPoint hitAngle = other.contacts[0];       // get point of contact with other object
-        Debug.Log("hitAngle: " + hitAngle.normal);
-        changeLookForward(hitAngle.normal);
-        Debug.Log("forward: " + transform.forward);
-        if(other.gameObject.CompareTag("Brick")){
+        Debug.Log("hitCount: " + hitCount);
+        hitCount++;
+        ContactPoint hitAngle = other.contacts[0];          // get point of contact with other object
+        ReflectBounce(hitAngle.normal);                 // change forward direction
+        if (other.gameObject.CompareTag("Brick"))
+        {
             // update the score
             gameManager.UpdateScore(other.gameObject.GetComponent<BrickController>().scoreValue);
-            Destroy(other.gameObject);
-            
+            Destroy(other.gameObject);                      // destroy brick
+        }
+        if(other.gameObject.CompareTag("Bottom Sensor")){
+            Destroy(gameObject);
+            gameManager.GameOver();
         }
     }
 
-    private void changeLookForward(Vector3 barrier){
-        Vector3 newAngle = Vector3.Reflect(transform.forward.normalized, barrier.normalized); // get angle of reflection
-        transform.forward = new Vector3(newAngle.x, 0, newAngle.z); // assign foward to angle of relection
+    // change forward direction of ball based on collision
+    private void ReflectBounce(Vector3 barrierNormal){
+        // Debug.Log("Velocity: " + ballRb.velocity);
+        Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity.normalized, barrierNormal); // get angle of reflection
+        // Debug.Log("newAngle: " + newAngle);
+        ballRb.velocity = newAngle * speed;
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Brick
   - Ball
+  - Bottom Sensor
   layers:
   - Default
   - TransparentFX

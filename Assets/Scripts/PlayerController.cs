@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         startPos = transform.position;
-        xRange = (GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f) - (gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f);
+        xRange = GetFloorRange();
     }
 
     // Update is called once per frame
@@ -40,5 +40,10 @@ public class PlayerController : MonoBehaviour
         if(transform.position.x > xRange){
             transform.position = new Vector3(xRange, startPos.y, startPos.z);
         }
+    }
+
+    // return size of current level floor
+    private float GetFloorRange(){
+        return (GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f) - (gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f);
     }
 }

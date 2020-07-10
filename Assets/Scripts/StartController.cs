@@ -8,8 +8,6 @@ public class StartController : MonoBehaviour
     private float groundWidth;
 
     public GameObject[] brickPrefabs;
-    // public GameObject brickPrefabs2;
-    // public GameObject brickPrefabs3;
     private float brickLength;
     private float maxBrickLength;
     private float brickWidth;
@@ -18,13 +16,12 @@ public class StartController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        ground = GameObject.Find("Ground").GetComponent<MeshRenderer>();
-        groundWidth = ground.bounds.size.x;
-        brickWidth = brickPrefabs[0].GetComponent<MeshRenderer>().bounds.size.z;
-        GetMaxBrickLength();
-        SetBricks();
+        ground = GameObject.Find("Ground").GetComponent<MeshRenderer>();    // get the ground object
+        groundWidth = ground.bounds.size.x;                                 // get the width of the ground
+        GetMaxBrickLength();                                                // get the length of the largest brick available
+        SetBricks();                                                        // set the bricks in the scene
         
     }
 
@@ -36,15 +33,13 @@ public class StartController : MonoBehaviour
 
     // set rows of bricks for beginning of level
     private void SetBricks(){
-        for(int i = 0; i < brickRows; i++){
-            float xPos = 0f - groundWidth/2f;
-            Debug.Log("starting xPos: " + xPos);
-            while(xPos + maxBrickLength < groundWidth/2f){
-                int thisBrick = Random.Range(0, brickPrefabs.Length);
-                brickLength = brickPrefabs[thisBrick].GetComponent<MeshRenderer>().bounds.size.x;
-                Instantiate(brickPrefabs[thisBrick], new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i), brickPrefabs[thisBrick].transform.rotation);
-                xPos += brickLength;
-                Debug.Log("brickLength: " + brickLength + "\nxPos: " + xPos);
+        for(int i = 0; i < brickRows; i++){                             // for each row of bricks
+            float xPos = 0f - groundWidth/2f;                           // get center of brick next to left wall as current position
+            while(xPos + maxBrickLength < groundWidth/2f){              // while there is still space for the largest brick
+                int thisBrick = Random.Range(0, brickPrefabs.Length);   // pick a brick type
+                brickLength = brickPrefabs[thisBrick].GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
+                Instantiate(brickPrefabs[thisBrick], new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i), brickPrefabs[thisBrick].transform.rotation);  // create brick at current position
+                xPos += brickLength;                                    // increment current position by length of this brick
             }
         }
     }
