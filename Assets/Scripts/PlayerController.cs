@@ -5,16 +5,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float horizontalInput;
-    public float speed = 20.0f;
+    // public float speed = 20.0f;
     private float xRange;
     private Vector3 startPos;
 
-    private Rigidbody playerRb;
+    // private Rigidbody playerRb;
+    public Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerRb = GetComponent<Rigidbody>();
+        // playerRb = GetComponent<Rigidbody>();
         startPos = transform.position;
         xRange = GetFloorRange();
     }
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
     // get player input to move left or right
     private void MovePlayer(){
         horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
+        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * player.speed);
     }
 
     // Limit player motion from left to right
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // return size of current level floor
+    // return size of current level floor minus player size
     private float GetFloorRange(){
         return (GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f) - (gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f);
     }
