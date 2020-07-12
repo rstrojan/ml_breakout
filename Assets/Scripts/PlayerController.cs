@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float horizontalInput;
-    // public float speed = 20.0f;
-    private float xRange;
-    private Vector3 startPos;
+    public float horizontalInput;               // input from player
+    private float xRange;                       // limit left right movement
+    private Vector3 startPos;                   // to save start position
 
-    // private Rigidbody playerRb;
     public Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        // playerRb = GetComponent<Rigidbody>();
         startPos = transform.position;
         xRange = GetFloorRange();
     }
@@ -46,5 +43,23 @@ public class PlayerController : MonoBehaviour
     // return size of current level floor minus player size
     private float GetFloorRange(){
         return (GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f) - (gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f);
+    }
+
+    // catch a power up
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("Powerup")){
+            player.hasPowerup = true;
+            GameObject powerupIndicator = other.GetComponent<PowerupController>().powerup.powerupIndicator;
+            GameObject powInd = Instantiate(powerupIndicator, transform.position, powerupIndicator.transform.rotation);
+            StartCoroutine(PowerupCountDownRoutine(powInd));
+            Destroy(other.gameObject);
+        }
+    }
+
+    // limit powerup activity
+    IEnumerator PowerupCountDownRoutine(GameObject powerupIndicator){
+        yield return new WaitForSeconds(5);
+        player.hasPowerup = false;
+        Destroy(powerupIndicator);
     }
 }

@@ -8,6 +8,8 @@ public class Brick
     public int hitCount;
     public bool isDestructable;
     public int scoreValue;
+    public bool hasPowerUp;
+    public GameObject powerup;
 
     public bool IsDestroyed(){
         if(!isDestructable){

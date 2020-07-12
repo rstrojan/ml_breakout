@@ -7,5 +7,6 @@ public class Player
 {
     public Rigidbody playerRb;
     public float speed;
-    [SerializeField] bool isSticky;
+    public bool isSticky;
+    public bool hasPowerup;
 }

@@ -14,6 +14,8 @@ public class StartController : MonoBehaviour
     private int brickRows = 4;
     private int brickZPosStart = 5;
     public int destructableBrickCount = 0;
+    public float chanceForPowerUp = 0.05f;
+    public int powerupCount = 0;
 
     public GameObject playerPrefab;
     public GameObject ballPrefab;
@@ -41,15 +43,18 @@ public class StartController : MonoBehaviour
         for(int i = 0; i < brickRows; i++){                             // for each row of bricks
             float xPos = 0f - groundWidth/2f;                           // get center of brick next to left wall as current position
             while(xPos + maxBrickLength < groundWidth/2f){              // while there is still space for the largest brick
-                int thisBrick = Random.Range(0, brickPrefabs.Length);   // pick a brick type
-                brickLength = brickPrefabs[thisBrick].GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
-                Instantiate(brickPrefabs[thisBrick], new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i), brickPrefabs[thisBrick].transform.rotation);  // create brick at current position
-                xPos += brickLength;
-                if(brickPrefabs[thisBrick].GetComponent<BrickController>().brick.isDestructable){
+                GameObject brickChoice = brickPrefabs[Random.Range(0, brickPrefabs.Length)];   // pick a brick type
+                brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
+                GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i), brickChoice.transform.rotation);  // create brick at current position
+                PowerUpStatus(newBrick);
+                if(newBrick.GetComponent<BrickController>().brick.isDestructable){
                     destructableBrickCount++;
-                }                                    // increment current position by length of this brick
+                }
+                xPos += brickLength;                                    // increment current position by length of this brick
             }
         }
+        Debug.Log("Destructable Bricks: " + destructableBrickCount);
+        Debug.Log("Num Bricks with Powerups: " + powerupCount);
     }
 
     // get longest brick for brick setting
@@ -60,6 +65,15 @@ public class StartController : MonoBehaviour
             if(maxBrickLength < length){
                 maxBrickLength = length;
             }
+        }
+    }
+
+    // set status of powerup
+    private void PowerUpStatus(GameObject newBrick){
+        // float
+        if(Random.Range(0f, 1f) <= chanceForPowerUp){
+            newBrick.GetComponent<BrickController>().brick.hasPowerUp = true;
+            powerupCount++;
         }
     }
 }

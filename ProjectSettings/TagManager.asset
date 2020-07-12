@@ -7,6 +7,7 @@ TagManager:
   - Brick
   - Ball
   - Bottom Sensor
+  - Powerup
   layers:
   - Default
   - TransparentFX

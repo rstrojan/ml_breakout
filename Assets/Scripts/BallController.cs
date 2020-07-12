@@ -39,6 +39,9 @@ public class BallController : MonoBehaviour
             Brick brick = other.gameObject.GetComponent<BrickController>().brick;
             if(brick.IsDestroyed()){
                 gameManager.UpdateScore(brick.scoreValue);
+                if(brick.hasPowerUp){
+                    Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);
+                }
                 Destroy(other.gameObject);                      // destroy brick
             }
         }

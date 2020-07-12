@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5799744955394857533}
   - component: {fileID: 1405347890258223173}
   m_Layer: 0
-  m_Name: Brick T3
+  m_Name: Brick_Basic1
   m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,3 +127,6 @@ MonoBehaviour:
     hitCount: 1
     isDestructable: 1
     scoreValue: 5
+    hasPowerUp: 0
+    powerup: {fileID: 7552715887311672744, guid: de90c0dc3338b1f4996f014940b3331a,
+      type: 3}
