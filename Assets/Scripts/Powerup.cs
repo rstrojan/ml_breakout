@@ -6,5 +6,15 @@ using UnityEngine;
 public class Powerup
 {
     public float speed;
+    public float duration;
+    public bool isActive = false;
     public GameObject powerupIndicator;
+
+    public virtual void StartEffect(){
+             
+    }
+
+    public virtual void EndEffect(){
+
+    }
 }

@@ -70,7 +70,6 @@ public class StartController : MonoBehaviour
 
     // set status of powerup
     private void PowerUpStatus(GameObject newBrick){
-        // float
         if(Random.Range(0f, 1f) <= chanceForPowerUp){
             newBrick.GetComponent<BrickController>().brick.hasPowerUp = true;
             powerupCount++;

@@ -109,5 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerup:
     speed: 5
+    duration: 5
     powerupIndicator: {fileID: 2149101644975052512, guid: 5e3d329f2003ba84982e3e5b2a4b7034,
       type: 3}
+    activeIndicator: {fileID: 0}

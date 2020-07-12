@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float horizontalInput;               // input from player
     private float xRange;                       // limit left right movement
     private Vector3 startPos;                   // to save start position
+    private bool isColliding;
 
     public Player player;
 
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isColliding = false;
         MovePlayer();
         ConstrainPlayer();        
     }
@@ -47,19 +49,13 @@ public class PlayerController : MonoBehaviour
 
     // catch a power up
     private void OnTriggerEnter(Collider other) {
+        if(isColliding){
+            return;
+        }
+        isColliding = true;
         if(other.CompareTag("Powerup")){
-            player.hasPowerup = true;
-            GameObject powerupIndicator = other.GetComponent<PowerupController>().powerup.powerupIndicator;
-            GameObject powInd = Instantiate(powerupIndicator, transform.position, powerupIndicator.transform.rotation);
-            StartCoroutine(PowerupCountDownRoutine(powInd));
-            Destroy(other.gameObject);
+            other.GetComponent<PowerupController>().ActivateEffect();
         }
     }
 
-    // limit powerup activity
-    IEnumerator PowerupCountDownRoutine(GameObject powerupIndicator){
-        yield return new WaitForSeconds(5);
-        player.hasPowerup = false;
-        Destroy(powerupIndicator);
-    }
 }
