@@ -45,10 +45,10 @@ public class BallController : MonoBehaviour
                 Destroy(other.gameObject);                      // destroy brick
             }
         }
-        // if(other.gameObject.CompareTag("Bottom Sensor")){
-        //     Destroy(gameObject);
-        //     gameManager.GameOver();
-        // }
+        if(other.gameObject.CompareTag("Bottom Sensor")){
+            Destroy(gameObject);
+            gameManager.GameOver();
+        }
     }
 
     // change forward direction of ball based on collision
