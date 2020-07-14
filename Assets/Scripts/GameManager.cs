@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // when hit escape toggle pause
+        // hit escape to toggle pause
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
@@ -127,17 +127,18 @@ public class GameManager : MonoBehaviour
         LoadScore();
     }
 
+    public void LoadScore()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScoreName = PlayerPrefs.GetString("HighScoreName", "AAA");
+        highScoreText.text = "High Score: " + highScoreName + " - " + highScore;
+
+    }
+
     public void ClearScore()
     {
         PlayerPrefs.DeleteAll();
         LoadScore();
     }
 
-    public void LoadScore()
-    {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        highScoreName = PlayerPrefs.GetString("HighScoreName", "A55");
-        highScoreText.text = "High Score: " + highScoreName + " - " + highScore;
-
-    }
 }
