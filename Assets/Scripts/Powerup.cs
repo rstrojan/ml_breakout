@@ -11,10 +11,10 @@ public class Powerup
     public GameObject powerupIndicator;
 
     public virtual void StartEffect(){
-             
+        Debug.Log("running generic start");
     }
 
     public virtual void EndEffect(){
-
+        Debug.Log("running generic end");
     }
 }

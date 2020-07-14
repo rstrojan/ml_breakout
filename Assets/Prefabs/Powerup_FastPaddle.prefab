@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3282497594078253152}
   - component: {fileID: 3282497594078253153}
   - component: {fileID: 3282497594078253154}
-  - component: {fileID: 3282497594078253155}
+  - component: {fileID: -5345579451001269323}
   m_Layer: 0
   m_Name: Powerup_FastPaddle
   m_TagString: Powerup
@@ -95,7 +95,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3282497594078253155
+--- !u!114 &-5345579451001269323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,10 +104,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3282497594078253156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b85b68dfffeaa014cbf1691840bfb067, type: 3}
+  m_Script: {fileID: 11500000, guid: e6e12a323911b3142913b640f478d323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerup:
-    speed: 5
-    powerupIndicator: {fileID: 2149101644975052512, guid: 5e3d329f2003ba84982e3e5b2a4b7034,
-      type: 3}
+  speed: 5
+  duration: 5
+  isActive: 0
+  powerupIndicator: {fileID: 2149101644975052512, guid: 5e3d329f2003ba84982e3e5b2a4b7034,
+    type: 3}
+  speedMult: 2

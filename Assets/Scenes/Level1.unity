@@ -637,7 +637,7 @@ MonoBehaviour:
   - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
   destructableBrickCount: 0
-  chanceForPowerUp: 0.05
+  chanceForPowerUp: 1
   powerupCount: 0
   playerPrefab: {fileID: 7762289324594964532, guid: fec127c37a269c746a830864ac162758,
     type: 3}

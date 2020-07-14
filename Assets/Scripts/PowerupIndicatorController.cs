@@ -20,9 +20,9 @@ public class PowerupIndicatorController : MonoBehaviour
     }
 
     IEnumerator IndicatorCountDownRoutine(float duration){
-        Debug.Log("duration: " + duration);
+        Debug.Log("indicator duration: " + duration);
         yield return new WaitForSeconds(duration);
-        Debug.Log("post duration");
+        Debug.Log("end indicator");
         EndEffect();
     }
 

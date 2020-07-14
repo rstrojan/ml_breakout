@@ -40,6 +40,7 @@
      <Compile Include="Assets\Scripts\BallController.cs" />
      <Compile Include="Assets\Scripts\Brick.cs" />
      <Compile Include="Assets\Scripts\BrickController.cs" />
+     <Compile Include="Assets\Scripts\FastPadPwrController.cs" />
      <Compile Include="Assets\Scripts\FastPaddle.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
