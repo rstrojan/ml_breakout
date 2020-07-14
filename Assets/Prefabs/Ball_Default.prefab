@@ -123,6 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485e30ba4b9819b4fbbab8fac30b3fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ball:
-    startVelocity: {x: 0, y: 0, z: 10}
-    ballRb: {fileID: 9124081322659260907}
+  ballRb: {fileID: 0}
+  startVelocity: {x: 0, y: 0, z: 10}

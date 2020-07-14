@@ -27,31 +27,32 @@ public class PowerupController : MonoBehaviour
     }
 
     public void ActivateEffect(){
-        GameObject[] powerupsList = GameObject.FindGameObjectsWithTag("Powerup");
-        GameObject[] indicators = GameObject.FindGameObjectsWithTag("PowerupIndicator");
-        if(powerupsList != null){
-            for(int i = 0; i < powerupsList.Length; i++){
-                if(powerupsList[i].GetComponent<PowerupController>().isActive){
-                    powerupsList[i].GetComponent<PowerupController>().EndPowerup();
+        // this block elimnates previous powerups and indicators to switch to new one
+        GameObject[] powerupsList = GameObject.FindGameObjectsWithTag("Powerup");           // get active powerups
+        GameObject[] indicators = GameObject.FindGameObjectsWithTag("PowerupIndicator");    // get active indicators
+        if(powerupsList != null){                                                           // none then skip
+            for(int i = 0; i < powerupsList.Length; i++){                                   // iterate through list
+                if(powerupsList[i].GetComponent<PowerupController>().isActive){             // if active,
+                    powerupsList[i].GetComponent<PowerupController>().EndPowerup();         // get rid of it
                 }
             }
         }
-        if(indicators != null){
-            for(int i = 0; i < indicators.Length; i++){
-                indicators[i].GetComponent<PowerupIndicatorController>().EndEffect();
+        if(indicators != null){                                                             // none then skip
+            for(int i = 0; i < indicators.Length; i++){                                     // iterate through list
+                indicators[i].GetComponent<PowerupIndicatorController>().EndEffect();       // get rid of indicators
             }
         }
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");                  // get player
         Player player = playerObj.GetComponent<PlayerController>().player;
-        player.hasPowerup = true;
-        isActive = true;
-        GameObject activeIndicator = Instantiate(powerupIndicator, playerObj.transform.position, powerupIndicator.transform.rotation);
-        StartEffect();
-        StartCoroutine(PowerupCountDownRoutine());
-        activeIndicator.GetComponent<PowerupIndicatorController>().StartEffect(duration);
-        GetComponent<MeshRenderer>().enabled = false;
-        GetComponent<CapsuleCollider>().isTrigger = false;
-        canMove = false;        
+        player.hasPowerup = true;                                                           // player has powerup
+        isActive = true;                                                                    // powerup is active
+        GameObject activeIndicator = Instantiate(powerupIndicator, playerObj.transform.position, powerupIndicator.transform.rotation);  // get indicator
+        StartEffect();                                                                      // start powerup effect
+        StartCoroutine(PowerupCountDownRoutine());                                          // start timer for powerup
+        activeIndicator.GetComponent<PowerupIndicatorController>().StartEffect(duration);   // start indicator
+        GetComponent<MeshRenderer>().enabled = false;                                       // make powerup object invisible
+        GetComponent<CapsuleCollider>().isTrigger = false;                                  // remove triggering
+        canMove = false;                                                                    // stopp motion - last lines are to keep object while active
     }
 
     // limit powerup activity

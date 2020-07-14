@@ -7,7 +7,10 @@ public class StartController : MonoBehaviour
     MeshRenderer ground;
     private float groundWidth;
 
+    public GameObject playerPrefab;
+    public GameObject ballPrefab;
     public GameObject[] brickPrefabs;
+    
     private float brickLength;
     private float maxBrickLength;
     private float brickWidth;
@@ -17,8 +20,7 @@ public class StartController : MonoBehaviour
     public float chanceForPowerUp = 0.05f;
     public int powerupCount = 0;
 
-    public GameObject playerPrefab;
-    public GameObject ballPrefab;
+    
 
 
     // Start is called before the first frame update

@@ -5,7 +5,8 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private GameManager gameManager;
-    public Ball ball;
+    private Rigidbody ballRb;
+    public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
 
     private float xRange;
@@ -15,8 +16,8 @@ public class BallController : MonoBehaviour
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         xRange = GetFloorRange();
-        
-        SetBallVelocity(ball.startVelocity);
+        ballRb = GameObject.FindGameObjectWithTag("Ball").GetComponent<Rigidbody>();
+        SetBallVelocity(startVelocity);
     }
 
     // Update is called once per frame
@@ -24,23 +25,22 @@ public class BallController : MonoBehaviour
     {
         CheckXBoundary();
         // maintain constant speed
-        // CheckSpeed();    - direction transition requires low magnitudes for duration. maybe count frames?
-        lastUpdateVelocity = ball.ballRb.velocity;
+        lastUpdateVelocity = ballRb.velocity;           // always grab current velocity
 
     }
 
     private void OnCollisionEnter(Collision other) {
         
-        ContactPoint hitAngle = other.contacts[0];          // get point of contact with other object
+        ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
         ReflectBounce(hitAngle.normal);                 // change forward direction
         if (other.gameObject.CompareTag("Brick"))
         {
             // update the score
             Brick brick = other.gameObject.GetComponent<BrickController>().brick;
-            if(brick.IsDestroyed()){
+            if(brick.IsDestroyed()){                       // MAYBE MOVE THIS TO BRICK CONTROLLER OnDestroy() METHOD
                 gameManager.UpdateScore(brick.scoreValue);
                 if(brick.hasPowerUp){
-                    Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);
+                    Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);  // create powerup
                 }
                 Destroy(other.gameObject);                      // destroy brick
             }
@@ -54,14 +54,14 @@ public class BallController : MonoBehaviour
     // change forward direction of ball based on collision
     private void ReflectBounce(Vector3 barrierNormal){
         Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity.normalized, barrierNormal); // get angle of reflection
-        SetBallVelocity(newAngle * ball.startVelocity.magnitude);
+        SetBallVelocity(newAngle * startVelocity.magnitude);
     }
 
-    // check for slowed or stopped ball
+    // check for slowed or stopped ball - STILL AN ISSUE. THIS METHODOLOGY DOESN'T WORK BECAUSE DIRECTION CHANGE INVOLVES CROSSING 0
     private void CheckSpeed(){
-        if(ball.ballRb.velocity.magnitude < ball.startVelocity.magnitude){
-            Debug.Log("Check speed vel: " + ball.ballRb.velocity);
-            SetBallVelocity(lastUpdateVelocity.normalized * ball.startVelocity.magnitude); 
+        if(ballRb.velocity.magnitude < startVelocity.magnitude){
+            Debug.Log("Check speed vel: " + ballRb.velocity);
+            SetBallVelocity(lastUpdateVelocity.normalized * startVelocity.magnitude); 
         }
     }
 
@@ -82,6 +82,6 @@ public class BallController : MonoBehaviour
 
     // set new ball velocity
     public void SetBallVelocity(Vector3 newVelocity){
-        ball.ballRb.velocity = newVelocity;
+        ballRb.velocity = newVelocity;
     }
 }
