@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody playerRb;
+    public float speed;
+    public bool isSticky;
+    public bool hasPowerup;
+
     public float horizontalInput;               // input from player
     private float xRange;                       // limit left right movement
     private Vector3 startPos;                   // to save start position
     private bool isColliding;
-
-    public Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +32,7 @@ public class PlayerController : MonoBehaviour
     // get player input to move left or right
     private void MovePlayer(){
         horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * player.speed);
+        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
     // Limit player motion from left to right

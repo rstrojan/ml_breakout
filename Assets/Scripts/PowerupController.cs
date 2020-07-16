@@ -7,9 +7,10 @@ public class PowerupController : MonoBehaviour
     public float speed;
     public float duration;
     public bool isActive = false;
-    public GameObject powerupIndicator;
     private float lowerBound;
     private bool canMove = true;
+    public GameObject powerupIndicator;
+    private GameObject activeIndicator;
     
     private void Awake() {
         lowerBound = GameObject.Find("Bottom Sensor").transform.position.z; // get limit of motion
@@ -29,7 +30,6 @@ public class PowerupController : MonoBehaviour
     public void ActivateEffect(){
         // this block elimnates previous powerups and indicators to switch to new one
         GameObject[] powerupsList = GameObject.FindGameObjectsWithTag("Powerup");           // get active powerups
-        GameObject[] indicators = GameObject.FindGameObjectsWithTag("PowerupIndicator");    // get active indicators
         if(powerupsList != null){                                                           // none then skip
             for(int i = 0; i < powerupsList.Length; i++){                                   // iterate through list
                 if(powerupsList[i].GetComponent<PowerupController>().isActive){             // if active,
@@ -37,21 +37,14 @@ public class PowerupController : MonoBehaviour
                 }
             }
         }
-        if(indicators != null){                                                             // none then skip
-            for(int i = 0; i < indicators.Length; i++){                                     // iterate through list
-                indicators[i].GetComponent<PowerupIndicatorController>().EndEffect();       // get rid of indicators
-            }
-        }
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");                  // get player
-        Player player = playerObj.GetComponent<PlayerController>().player;
-        player.hasPowerup = true;                                                           // player has powerup
+        GameObject player = GameObject.FindGameObjectWithTag("Player");                     // get player
+        player.GetComponent<PlayerController>().hasPowerup = true;                          // player has powerup
         isActive = true;                                                                    // powerup is active
-        GameObject activeIndicator = Instantiate(powerupIndicator, playerObj.transform.position, powerupIndicator.transform.rotation);  // get indicator
+        activeIndicator = Instantiate(powerupIndicator, player.transform.position, powerupIndicator.transform.rotation);  // get indicator
         StartEffect();                                                                      // start powerup effect
         StartCoroutine(PowerupCountDownRoutine());                                          // start timer for powerup
-        activeIndicator.GetComponent<PowerupIndicatorController>().StartEffect(duration);   // start indicator
         GetComponent<MeshRenderer>().enabled = false;                                       // make powerup object invisible
-        GetComponent<CapsuleCollider>().isTrigger = false;                                  // remove triggering
+        GetComponent<CapsuleCollider>().enabled = false;                                    // remove triggering
         canMove = false;                                                                    // stopp motion - last lines are to keep object while active
     }
 
@@ -66,9 +59,10 @@ public class PowerupController : MonoBehaviour
     // stop effect of powerup
     public void EndPowerup(){
         Debug.Log("end powerup");
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().player.hasPowerup = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hasPowerup = false;
         EndEffect();
-        Destroy(gameObject);        
+        Destroy(activeIndicator);
+        Destroy(gameObject);       
     }
 
     public virtual void StartEffect(){
