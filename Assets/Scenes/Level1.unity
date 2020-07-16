@@ -1334,16 +1334,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7762289324594964532, guid: fec127c37a269c746a830864ac162758,
     type: 3}
-  ballPrefab:
-  - {fileID: 9124081322659260902, guid: 3df69faca33eb55408f4ebc2a9a93723, type: 3}
-  - {fileID: 593747313408661961, guid: b8e266aa1f57f5e4f97bdf3206ccb17a, type: 3}
+  ballPrefab: {fileID: 9124081322659260902, guid: 3df69faca33eb55408f4ebc2a9a93723,
+    type: 3}
   brickPrefabs:
   - {fileID: 6925747361474776221, guid: 72e0a298f1657504789a696e49c68bbc, type: 3}
   - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
   destructableBrickCount: 0
   chanceForPowerUp: 1
-  ballCount: 0
+  previousBallCount: 0
+  currentBallCount: 0
   powerupCount: 0
 --- !u!4 &755414407
 Transform:
