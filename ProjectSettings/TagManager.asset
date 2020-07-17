@@ -10,6 +10,8 @@ TagManager:
   - Powerup
   - PowerupIndicator
   - Ball_Default
+  - Top Sensor
+  - Projectile
   layers:
   - Default
   - TransparentFX

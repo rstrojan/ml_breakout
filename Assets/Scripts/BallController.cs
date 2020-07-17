@@ -10,6 +10,7 @@ public class BallController : MonoBehaviour
     public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
     private float freezeCheck = 0;
+    [SerializeField] float hitPower;
 
     private float xRange;
     
@@ -42,13 +43,14 @@ public class BallController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-        
-        ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
-        ReflectBounce(hitAngle.normal);                 // change forward direction
-        if (other.gameObject.CompareTag("Brick"))
+        if(!other.gameObject.CompareTag("Projectile")){
+            ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
+            ReflectBounce(hitAngle.normal);                 // change forward direction
+        }        
+        if(other.gameObject.CompareTag("Brick"))
         {
             Brick brick = other.gameObject.GetComponent<BrickController>().brick;
-            if(brick.IsDestroyed()){                        // check if brick is destructable and hits left is 0
+            if(brick.IsDestroyed(hitPower)){                        // check if brick is destructable and hits left is 0
                 gameManager.UpdateScore(brick.scoreValue);  // update the score
                 if(brick.hasPowerUp){
                     Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);  // create powerup

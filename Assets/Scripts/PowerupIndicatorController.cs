@@ -15,18 +15,4 @@ public class PowerupIndicatorController : MonoBehaviour
         transform.position = player.transform.position;
     }
 
-    // public void StartEffect(float duration){
-    //     StartCoroutine(IndicatorCountDownRoutine(duration));
-    // }
-
-    // IEnumerator IndicatorCountDownRoutine(float duration){
-    //     Debug.Log("indicator duration: " + duration);
-    //     yield return new WaitForSeconds(duration);
-    //     Debug.Log("end indicator");
-    //     EndEffect();
-    // }
-
-    // public void EndEffect(){
-    //     Destroy(gameObject);
-    // }
 }

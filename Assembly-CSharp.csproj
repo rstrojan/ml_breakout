@@ -43,9 +43,12 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\LevelController.cs" />
      <Compile Include="Assets\Scripts\MultiBallPwrController.cs" />
+     <Compile Include="Assets\Scripts\ObjectPooler.cs" />
+     <Compile Include="Assets\Scripts\PaddleGunController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PowerupController.cs" />
      <Compile Include="Assets\Scripts\PowerupIndicatorController.cs" />
+     <Compile Include="Assets\Scripts\ProjectileController.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7721282601962421490}
   - component: {fileID: 2952433173669361360}
   m_Layer: 0
-  m_Name: Ball_Fast
+  m_Name: Ball_Multi
   m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,3 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 0, z: 10}
+  hitPower: 1

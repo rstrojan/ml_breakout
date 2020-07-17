@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 497443053}
   m_Layer: 0
   m_Name: Top Sensor
-  m_TagString: Untagged
+  m_TagString: Top Sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3222,6 +3222,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1574504514}
   m_CullTransparentMesh: 0
+--- !u!1 &1866517750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1866517752}
+  - component: {fileID: 1866517751}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1866517751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866517750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77922e79444ba348bc428942c6df1b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects1: []
+  objectToPool1: {fileID: 5052509004253777658, guid: 6a483036896800a418b2eeaf60afffb2,
+    type: 3}
+  amountToPool1: 10
+  pooledObjects2: []
+  objectToPool2: {fileID: 5052509004253777658, guid: 6a483036896800a418b2eeaf60afffb2,
+    type: 3}
+  amountToPool2: 10
+--- !u!4 &1866517752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866517750}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1886909435
 GameObject:
   m_ObjectHideFlags: 0
