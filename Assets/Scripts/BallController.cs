@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    private GameManager gameManager;
-    private GameObject levelController;
+    // private GameManager gameManager;
+    // private GameObject levelController;
     private Rigidbody ballRb;
     public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
     private float freezeCheck = 0;
-    [SerializeField] float hitPower;
+    public float hitPower;
 
     private float xRange;
     
     // Start is called before the first frame update
     void Awake(){
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        levelController = GameObject.Find("Level Controller");
+        // gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        // levelController = GameObject.Find("Level Controller");
         xRange = GetFloorRange();
         ballRb = gameObject.GetComponent<Rigidbody>();
         SetBallVelocity(startVelocity);
@@ -43,24 +43,22 @@ public class BallController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-        if(!other.gameObject.CompareTag("Projectile")){
-            ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
-            ReflectBounce(hitAngle.normal);                 // change forward direction
-        }        
-        if(other.gameObject.CompareTag("Brick"))
-        {
-            Brick brick = other.gameObject.GetComponent<BrickController>().brick;
-            if(brick.IsDestroyed(hitPower)){                        // check if brick is destructable and hits left is 0
-                gameManager.UpdateScore(brick.scoreValue);  // update the score
-                if(brick.hasPowerUp){
-                    Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);  // create powerup
-                }
-                Destroy(other.gameObject);                      // destroy brick
-                levelController.GetComponent<LevelController>().destructableBrickCount--;
-            }
-        }
+        ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
+        ReflectBounce(hitAngle.normal);                 // change forward direction
+        // if(other.gameObject.CompareTag("Brick"))
+        // {
+        // //     Brick brick = other.gameObject.GetComponent<BrickController>().brick;
+        // //     if(brick.IsDestroyed(hitPower)){                        // check if brick is destructable and hits left is 0
+        // //         gameManager.UpdateScore(brick.scoreValue);  // update the score
+        // //         if(brick.hasPowerUp){
+        // //             Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);  // create powerup
+        // //         }
+        // //         Destroy(other.gameObject);                      // destroy brick
+        // //         levelController.GetComponent<LevelController>().destructableBrickCount--;
+        // //     }
+        // // }
         if(other.gameObject.CompareTag("Bottom Sensor")){
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 
