@@ -140,4 +140,25 @@ public class GameManager : MonoBehaviour
         highScoreText.text = "High Score: " + highScoreName + " - " + highScore;
 
     }
+
+    public void TestSave()
+    {
+        SaveSerial saver = new SaveSerial();
+        int testint = 1;
+        string testname = "abc";
+        saver.SaveGame(testname, testint);
+
+    }
+
+    public void TestLoad()
+    {
+        SaveSerial loader = new SaveSerial();
+        loader.LoadGame();
+        foreach (HighScoreEntry a in loader.HighScoreList)
+        {
+            Debug.Log(a.name + " - " + a.score);
+
+        }
+    }
+
 }
