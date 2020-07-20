@@ -5,18 +5,20 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private GameManager gameManager;
+    private GameObject levelController;
     private Rigidbody ballRb;
     public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
+    private float freezeCheck = 0;
 
     private float xRange;
     
     // Start is called before the first frame update
-    void Start()
-    {
+    void Awake(){
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        levelController = GameObject.Find("Level Controller");
         xRange = GetFloorRange();
-        ballRb = GameObject.FindGameObjectWithTag("Ball").GetComponent<Rigidbody>();
+        ballRb = gameObject.GetComponent<Rigidbody>();
         SetBallVelocity(startVelocity);
     }
 
@@ -24,7 +26,17 @@ public class BallController : MonoBehaviour
     void Update()
     {
         CheckXBoundary();
-        // maintain constant speed
+        ballRb.velocity = ballRb.velocity.normalized * startVelocity.magnitude; // maintain constant speed
+        if(ballRb.velocity.magnitude < startVelocity.magnitude){
+            freezeCheck += Time.deltaTime;
+            if(freezeCheck >= 0.5f){
+                ballRb.velocity = startVelocity;
+                freezeCheck = 0;
+            }
+        }
+        else{
+            freezeCheck = 0;
+        }
         lastUpdateVelocity = ballRb.velocity;           // always grab current velocity
 
     }
@@ -35,34 +47,25 @@ public class BallController : MonoBehaviour
         ReflectBounce(hitAngle.normal);                 // change forward direction
         if (other.gameObject.CompareTag("Brick"))
         {
-            // update the score
             Brick brick = other.gameObject.GetComponent<BrickController>().brick;
-            if(brick.IsDestroyed()){                       // MAYBE MOVE THIS TO BRICK CONTROLLER OnDestroy() METHOD
-                gameManager.UpdateScore(brick.scoreValue);
+            if(brick.IsDestroyed()){                        // check if brick is destructable and hits left is 0
+                gameManager.UpdateScore(brick.scoreValue);  // update the score
                 if(brick.hasPowerUp){
                     Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);  // create powerup
                 }
                 Destroy(other.gameObject);                      // destroy brick
+                levelController.GetComponent<LevelController>().destructableBrickCount--;
             }
         }
-        // if(other.gameObject.CompareTag("Bottom Sensor")){
-        //     Destroy(gameObject);
-        //     gameManager.GameOver();
-        // }
+        if(other.gameObject.CompareTag("Bottom Sensor")){
+            // Destroy(gameObject);
+        }
     }
 
     // change forward direction of ball based on collision
     private void ReflectBounce(Vector3 barrierNormal){
         Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity.normalized, barrierNormal); // get angle of reflection
         SetBallVelocity(newAngle * startVelocity.magnitude);
-    }
-
-    // check for slowed or stopped ball - STILL AN ISSUE. THIS METHODOLOGY DOESN'T WORK BECAUSE DIRECTION CHANGE INVOLVES CROSSING 0
-    private void CheckSpeed(){
-        if(ballRb.velocity.magnitude < startVelocity.magnitude){
-            Debug.Log("Check speed vel: " + ballRb.velocity);
-            SetBallVelocity(lastUpdateVelocity.normalized * startVelocity.magnitude); 
-        }
     }
 
     // check for ball going through walls

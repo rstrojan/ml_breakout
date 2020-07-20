@@ -128,5 +128,5 @@ MonoBehaviour:
     isDestructable: 1
     scoreValue: 10
     hasPowerUp: 0
-    powerup: {fileID: 7552715887311672744, guid: de90c0dc3338b1f4996f014940b3331a,
+    powerup: {fileID: 3777832561556891002, guid: 6fb0278f23c71a04287f2f967a443305,
       type: 3}

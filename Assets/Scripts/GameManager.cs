@@ -93,6 +93,11 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
     }
 
+    // MAKE ME DO STUFF!
+    public void LevelComplete(){
+        Debug.Log("Level Complete!");
+    }
+
     public void ToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");

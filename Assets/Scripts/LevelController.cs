@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartController : MonoBehaviour
+public class LevelController : MonoBehaviour
 {
+    private GameManager gameManager;
+
     MeshRenderer ground;
     private float groundWidth;
 
@@ -18,14 +20,18 @@ public class StartController : MonoBehaviour
     private int brickZPosStart = 5;
     public int destructableBrickCount = 0;
     public float chanceForPowerUp = 0.05f;
-    public int powerupCount = 0;
+
+    public int previousBallCount;
+    public int currentBallCount;
+
+    public int powerupCount = 0;            // I don't think this is necessary but good for testing
 
     
 
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake(){
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         ground = GameObject.Find("Ground").GetComponent<MeshRenderer>();    // get the ground object
         groundWidth = ground.bounds.size.x;                                 // get the width of the ground
         GetMaxBrickLength();                                                // get the length of the largest brick available
@@ -37,11 +43,18 @@ public class StartController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currentBallCount = 0;
+        currentBallCount += GameObject.FindGameObjectsWithTag("Ball").Length; // count balls in play
+        if(currentBallCount <= 0){
+            gameManager.GameOver();     // if all balls destroyed, end game
+        }
+        if(destructableBrickCount <= 0){
+            gameManager.LevelComplete();
+        }
     }
 
     // set rows of bricks for beginning of level
-    private void SetBricks(){
+    protected virtual void SetBricks(){
         for(int i = 0; i < brickRows; i++){                             // for each row of bricks
             float xPos = 0f - groundWidth/2f;                           // get center of brick next to left wall as current position
             while(xPos + maxBrickLength < groundWidth/2f){              // while there is still space for the largest brick
@@ -55,12 +68,12 @@ public class StartController : MonoBehaviour
                 xPos += brickLength;                                    // increment current position by length of this brick
             }
         }
-        Debug.Log("Destructable Bricks: " + destructableBrickCount);
-        Debug.Log("Num Bricks with Powerups: " + powerupCount);
+        Debug.Log("Destructable Bricks: " + destructableBrickCount);    // 4TESTING
+        Debug.Log("Num Bricks with Powerups: " + powerupCount);         // 4TESTING
     }
 
     // get longest brick for brick setting
-    private void GetMaxBrickLength(){
+    protected void GetMaxBrickLength(){
         maxBrickLength = 0;
         for(int i = 0; i < brickPrefabs.Length; i++){
             float length = brickPrefabs[i].GetComponent<MeshRenderer>().bounds.size.x;
@@ -71,7 +84,7 @@ public class StartController : MonoBehaviour
     }
 
     // set status of powerup
-    private void PowerUpStatus(GameObject newBrick){
+    protected void PowerUpStatus(GameObject newBrick){
         if(Random.Range(0f, 1f) <= chanceForPowerUp){
             newBrick.GetComponent<BrickController>().brick.hasPowerUp = true;
             powerupCount++;

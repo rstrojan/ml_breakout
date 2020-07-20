@@ -9,6 +9,7 @@ TagManager:
   - Bottom Sensor
   - Powerup
   - PowerupIndicator
+  - Ball_Default
   layers:
   - Default
   - TransparentFX

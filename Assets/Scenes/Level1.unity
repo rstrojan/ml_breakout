@@ -1314,7 +1314,7 @@ GameObject:
   - component: {fileID: 755414407}
   - component: {fileID: 755414406}
   m_Layer: 0
-  m_Name: Start Controller
+  m_Name: Level Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1342,6 +1342,8 @@ MonoBehaviour:
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
   destructableBrickCount: 0
   chanceForPowerUp: 1
+  previousBallCount: 0
+  currentBallCount: 0
   powerupCount: 0
 --- !u!4 &755414407
 Transform:
