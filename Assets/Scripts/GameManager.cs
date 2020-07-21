@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI highScoreObject;
+    public TextMeshProUGUI highScoreListText;
     public TextMeshProUGUI newHighScoreObject;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Button mainMenuButton;
     public Button gameStartButton;
     public InputField newScoreName;
+    public InputField newScoreVal;
 
     private bool isPaused;
     private float pausedTimeScale;
@@ -81,7 +83,8 @@ public class GameManager : MonoBehaviour
     // manage gameover state
     public void GameOver()
     {
-        LoadScore(); // make sure we have high score data
+        LoadScore(); // make sure we have high score dat
+        Debug.Log("score loaded");
         highScoreObject.gameObject.SetActive(true);
         if (highScore < score)
         {
@@ -120,11 +123,21 @@ public class GameManager : MonoBehaviour
     public void SaveScore()
     {
         
-        if (highScore < score)
+        SaveSerial saver = new SaveSerial();
+        int scoreInt = score;
+        string scoreName = newScoreName.text;
+
+        //THIS IF BLOCK IS FOR TESTING SCORE SAVING 
+        if (SceneManager.GetActiveScene().name == "MainMenu")
         {
-            PlayerPrefs.SetString("HighScoreName", newScoreName.text);
-            PlayerPrefs.SetInt("HighScore", score);
-            PlayerPrefs.Save();
+            scoreInt = int.Parse(newScoreVal.text);
+            scoreName = newScoreName.text;
+        }
+
+        saver.SaveGame(scoreName, scoreInt);
+
+        if (newHighScoreObject)
+        {
             newHighScoreObject.gameObject.SetActive(false);
         }
 
@@ -135,35 +148,33 @@ public class GameManager : MonoBehaviour
     public void ClearScore()
     {
         PlayerPrefs.DeleteAll();
-        LoadScore();
+
+        SaveSerial clearer = new SaveSerial();
+        clearer.ClearData();
+        LoadScore(); // update info on screen
+        
     }
 
     public void LoadScore()
     {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        highScoreName = PlayerPrefs.GetString("HighScoreName", "A55");
-        highScoreText.text = "High Score: " + highScoreName + " - " + highScore;
-
-    }
-
-    public void TestSave()
-    {
-        SaveSerial saver = new SaveSerial();
-        int testint = 1;
-        string testname = "abc";
-        saver.SaveGame(testname, testint);
-
-    }
-
-    public void TestLoad()
-    {
         SaveSerial loader = new SaveSerial();
         loader.LoadGame();
+        string scoreList = "";
         foreach (HighScoreEntry a in loader.HighScoreList)
         {
-            Debug.Log(a.name + " - " + a.score);
-
+            scoreList += a.name + " - " + a.score + '\n';
         }
+
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            highScoreListText.text = scoreList;
+        }
+        highScore = loader.HighScoreList[0].score;
+        highScoreName = loader.HighScoreList[0].name;
+        highScoreText.text = "High Score: " + highScoreName + " - " + highScore;
+
+
+        Debug.Log(scoreList);
     }
 
 }
