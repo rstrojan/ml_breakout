@@ -63,3 +63,5 @@ crashlytics-build.properties
 Assembly-CSharp.csproj
 Library/ArtifactDB
 Library/ScriptAssemblies/Assembly-CSharp.dll
+Library/shadercompiler-UnityShaderCompiler.exe0.log
+Library/shadercompiler-UnityShaderCompiler.exe1.log
