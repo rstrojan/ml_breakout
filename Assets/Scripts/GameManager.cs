@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour
         }
         mainMenuButton.gameObject.SetActive(true);
         playAgainButton.gameObject.SetActive(true);
-
         gameOverText.gameObject.SetActive(true);
     }
 
