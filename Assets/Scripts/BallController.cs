@@ -58,7 +58,7 @@ public class BallController : MonoBehaviour
         // //     }
         // // }
         if(other.gameObject.CompareTag("Bottom Sensor")){
-            // Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
