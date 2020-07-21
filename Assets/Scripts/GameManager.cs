@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Button restartLevelButton;
     public Button resumeButton;
     public Button mainMenuButton;
+    public Button playAgainButton;
     public Button gameStartButton;
     public InputField newScoreName;
     public InputField newScoreVal;
@@ -88,11 +89,14 @@ public class GameManager : MonoBehaviour
         highScoreObject.gameObject.SetActive(true);
         if (highScore < score)
         {
+            Debug.Log(highScore + " vs " + score);
             newHighScoreObject.text = "New High Score: " + score;
             highScoreText.text = "Old High Score: " + highScoreName + " - " + highScore;
             newHighScoreObject.gameObject.SetActive(true);
         }
         mainMenuButton.gameObject.SetActive(true);
+        playAgainButton.gameObject.SetActive(true);
+
         gameOverText.gameObject.SetActive(true);
     }
 
