@@ -177,4 +177,9 @@ public class GameManager : MonoBehaviour
         Debug.Log(scoreList);
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+    
 }
