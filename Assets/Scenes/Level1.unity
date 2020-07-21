@@ -1341,7 +1341,7 @@ MonoBehaviour:
   - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
   destructableBrickCount: 0
-  chanceForPowerUp: 0.05
+  chanceForPowerUp: 0.4
   previousBallCount: 0
   currentBallCount: 0
   powerupCount: 0
@@ -2958,6 +2958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highScoreText: {fileID: 826413148}
   highScoreObject: {fileID: 1105106458}
+  highScoreListText: {fileID: 0}
   newHighScoreObject: {fileID: 660371145}
   scoreText: {fileID: 1235734389}
   gameOverText: {fileID: 1444542446}
@@ -2968,6 +2969,7 @@ MonoBehaviour:
   mainMenuButton: {fileID: 619408989}
   gameStartButton: {fileID: 0}
   newScoreName: {fileID: 77075138}
+  newScoreVal: {fileID: 0}
 --- !u!1 &1479292467
 GameObject:
   m_ObjectHideFlags: 0
