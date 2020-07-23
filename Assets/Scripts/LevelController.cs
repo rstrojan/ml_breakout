@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Helper;
 
 public class LevelController : MonoBehaviour
 {
@@ -32,12 +33,17 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Awake(){
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        ground = GameObject.Find("Ground").GetComponent<MeshRenderer>();    // get the ground object
+        Debug.Log("is 2P: " + gameManager.isTwoPlayer);
+        if((gameObject.name == "Level Controller") && gameManager.isTwoPlayer){
+            Debug.Log("true 2P");
+            SetTwoPlayer();
+        }
+        ground = this.transform.GetChild(1).gameObject.FindComponentChildWithTag<MeshRenderer>("Ground");
         groundWidth = ground.bounds.size.x;                                 // get the width of the ground
         GetMaxBrickLength();                                                // get the length of the largest brick available
         SetBricks();                                                        // set the bricks in the scene
-        Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation); // set player in scene
-        Instantiate(ballPrefab, ballPrefab.transform.position, ballPrefab.transform.rotation);  // set ball in scene
+        Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
+        Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
     }
 
     // Update is called once per frame
@@ -60,7 +66,7 @@ public class LevelController : MonoBehaviour
             while(xPos + maxBrickLength < groundWidth/2f){              // while there is still space for the largest brick
                 GameObject brickChoice = brickPrefabs[Random.Range(0, brickPrefabs.Length)];   // pick a brick type
                 brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
-                GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i), brickChoice.transform.rotation);  // create brick at current position
+                GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i) + transform.position, brickChoice.transform.rotation);  // create brick at current position
                 PowerUpStatus(newBrick);
                 if(newBrick.GetComponent<BrickController>().brick.isDestructable){
                     destructableBrickCount++;
@@ -89,5 +95,12 @@ public class LevelController : MonoBehaviour
             newBrick.GetComponent<BrickController>().brick.hasPowerUp = true;
             powerupCount++;
         }
+    }
+
+
+    private void SetTwoPlayer(){
+        Debug.Log("setting 2 players");
+        this.transform.GetChild(2).gameObject.SetActive(true);
+        this.transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
     }
 }

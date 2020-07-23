@@ -9,8 +9,8 @@ public class MultiBallPwrController : PowerupController
     private Vector3 currentBallPosition;
     private Vector3 currentBallVelocity;
     private int ballCount;
-    [SerializeField] int ballsToMake = 5;
-    [SerializeField] float angleVariation = 30f;
+    [SerializeField] int ballsToMake;
+    [SerializeField] float angleVariation;
 
     public override void StartEffect(){
         ballCount = GameObject.Find("Level Controller").GetComponent<LevelController>().currentBallCount;

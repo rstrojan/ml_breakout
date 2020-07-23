@@ -12,6 +12,7 @@ TagManager:
   - Ball_Default
   - Top Sensor
   - Projectile
+  - Ground
   layers:
   - Default
   - TransparentFX

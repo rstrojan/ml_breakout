@@ -115,4 +115,4 @@ MonoBehaviour:
   ballPrefab: {fileID: 593747313408661961, guid: b8e266aa1f57f5e4f97bdf3206ccb17a,
     type: 3}
   ballsToMake: 5
-  angleVariation: 15
+  angleVariation: 30

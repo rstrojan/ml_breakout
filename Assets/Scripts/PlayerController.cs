@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     {
         startPos = transform.position;
         xRange = GetFloorRange();
-        Debug.Log(xRange);
     }
 
     // Update is called once per frame
@@ -38,11 +37,11 @@ public class PlayerController : MonoBehaviour
 
     // Limit player motion from left to right
     private void ConstrainPlayer(){
-        if(transform.position.x <= -xRange){
-            transform.position = new Vector3(-xRange, startPos.y, startPos.z);
+        if(transform.position.x <= -xRange + startPos.x){
+            transform.position = new Vector3(-xRange + startPos.x, startPos.y, startPos.z);
         }
-        if(transform.position.x >= xRange){
-            transform.position = new Vector3(xRange, startPos.y, startPos.z);
+        if(transform.position.x >= xRange + startPos.x){
+            transform.position = new Vector3(xRange + startPos.x, startPos.y, startPos.z);
         }
     }
 

@@ -50,15 +50,12 @@ public class PowerupController : MonoBehaviour
 
     // limit powerup activity
     IEnumerator PowerupCountDownRoutine(){
-        Debug.Log("powerup start " + duration + " seconds");
         yield return new WaitForSeconds(duration);
-        Debug.Log("powerup timer end");
         EndPowerup();
     }
 
     // stop effect of powerup
     public void EndPowerup(){
-        Debug.Log("end powerup");
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hasPowerup = false;
         EndEffect();
         Destroy(activeIndicator);

@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    // private GameManager gameManager;
-    // private GameObject levelController;
     private Rigidbody ballRb;
     public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
     private float freezeCheck = 0;
     public float hitPower;
 
+    private Vector3 startPos;
     private float xRange;
     
     // Start is called before the first frame update
-    void Awake(){
-        // gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        // levelController = GameObject.Find("Level Controller");
+    void Awake(){;
+        startPos = transform.position;
         xRange = GetFloorRange();
         ballRb = gameObject.GetComponent<Rigidbody>();
         SetBallVelocity(startVelocity);
@@ -45,18 +43,6 @@ public class BallController : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
         ReflectBounce(hitAngle.normal);                 // change forward direction
-        // if(other.gameObject.CompareTag("Brick"))
-        // {
-        // //     Brick brick = other.gameObject.GetComponent<BrickController>().brick;
-        // //     if(brick.IsDestroyed(hitPower)){                        // check if brick is destructable and hits left is 0
-        // //         gameManager.UpdateScore(brick.scoreValue);  // update the score
-        // //         if(brick.hasPowerUp){
-        // //             Instantiate(brick.powerup, other.gameObject.transform.position, brick.powerup.transform.rotation);  // create powerup
-        // //         }
-        // //         Destroy(other.gameObject);                      // destroy brick
-        // //         levelController.GetComponent<LevelController>().destructableBrickCount--;
-        // //     }
-        // // }
         if(other.gameObject.CompareTag("Bottom Sensor")){
             Destroy(gameObject);
         }
@@ -70,11 +56,11 @@ public class BallController : MonoBehaviour
 
     // check for ball going through walls
     private void CheckXBoundary(){
-        if(transform.position.x > xRange){
-            transform.position = new Vector3(xRange * 0.9f, transform.position.y, transform.position.z);
+        if(transform.position.x > xRange + startPos.x){
+            transform.position = new Vector3((xRange + startPos.x) * 0.99f, transform.position.y, transform.position.z);
         }
-        if(transform.position.x < -xRange){
-            transform.position = new Vector3(-xRange * 0.9f, transform.position.y, transform.position.z);
+        if(transform.position.x < -xRange + startPos.x){
+            transform.position = new Vector3((-xRange + startPos.x) * 0.99f, transform.position.y, transform.position.z);
         }
     }
 

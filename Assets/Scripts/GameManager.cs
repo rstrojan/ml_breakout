@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private string highScoreName;
     private int highScore;
     private int score;
+    public bool isTwoPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
