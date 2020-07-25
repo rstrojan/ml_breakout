@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    // private GameManager gameManager;
-    // private GameObject levelController;
     private float topBoundary;
 
     [SerializeField] float speed;
@@ -14,8 +12,6 @@ public class ProjectileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        // levelController = GameObject.Find("Level Controller");
         topBoundary = GameObject.Find("Top Sensor").transform.position.z;   // can't use collision becuase neither have Rigidbody
     }
 

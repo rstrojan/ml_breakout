@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    public int playerId;
     private Rigidbody ballRb;
     public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
     private float freezeCheck = 0;
     public float hitPower;
-
-    private Vector3 startPos;
-    private float xRange;
+    private float halfSize;
+    public float minXPosition;
+    public float maxXPosition;
+    
+    public GameObject levelController;  // set in Level Controller
     
     // Start is called before the first frame update
-    void Awake(){;
-        startPos = transform.position;
-        xRange = GetFloorRange();
+    void Awake(){
         ballRb = gameObject.GetComponent<Rigidbody>();
+        halfSize = gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f;
         SetBallVelocity(startVelocity);
+    }
+
+    private void Start() {
+        GetFloorRange();
     }
 
     // Update is called once per frame
@@ -44,7 +50,8 @@ public class BallController : MonoBehaviour
         ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
         ReflectBounce(hitAngle.normal);                 // change forward direction
         if(other.gameObject.CompareTag("Bottom Sensor")){
-            Destroy(gameObject);
+            // levelController.GetComponent<LevelController>().ballCount--; 
+            // Destroy(gameObject);
         }
     }
 
@@ -56,17 +63,19 @@ public class BallController : MonoBehaviour
 
     // check for ball going through walls
     private void CheckXBoundary(){
-        if(transform.position.x > xRange + startPos.x){
-            transform.position = new Vector3((xRange + startPos.x) * 0.99f, transform.position.y, transform.position.z);
+        if(transform.position.x > maxXPosition){
+            transform.position = new Vector3(maxXPosition, transform.position.y, transform.position.z);
         }
-        if(transform.position.x < -xRange + startPos.x){
-            transform.position = new Vector3((-xRange + startPos.x) * 0.99f, transform.position.y, transform.position.z);
+        if(transform.position.x < minXPosition){
+            transform.position = new Vector3(minXPosition, transform.position.y, transform.position.z);
         }
     }
 
     // return size of current level floor
-    private float GetFloorRange(){
-        return (GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f);
+    private void GetFloorRange(){
+        float xRange = GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f;
+        minXPosition = levelController.gameObject.transform.position.x - xRange + halfSize;
+        maxXPosition = levelController.gameObject.transform.position.x + xRange - halfSize;
     }
 
     // set new ball velocity

@@ -8,24 +8,37 @@ public class MultiBallPwrController : PowerupController
     private GameObject currentBall;
     private Vector3 currentBallPosition;
     private Vector3 currentBallVelocity;
-    private int ballCount;
+    public int ballCount;
     [SerializeField] int ballsToMake;
     [SerializeField] float angleVariation;
 
+
     public override void StartEffect(){
-        ballCount = GameObject.Find("Level Controller").GetComponent<LevelController>().currentBallCount;
-        currentBall = GameObject.FindGameObjectWithTag("Ball");
+        ballCount = levelController.GetComponent<LevelController>().ballCount;
+        FindBall();
         currentBallPosition = currentBall.transform.position;
         currentBallVelocity = currentBall.GetComponent<Rigidbody>().velocity;
         for(int i = 0; i < (ballsToMake - ballCount); i++){
             Vector3 newBallVelocity = new Vector3((currentBallVelocity.x + angleVariation * (i + 1)), currentBallVelocity.y, currentBallVelocity.z);
             GameObject newBall = Instantiate(ballPrefab, currentBallPosition, ballPrefab.transform.rotation);
             newBall.GetComponent<Rigidbody>().velocity = newBallVelocity;
+            newBall.GetComponent<BallController>().playerId = playerId;
+            newBall.GetComponent<BallController>().levelController = levelController;
         }
-        GameObject.Find("Level Controller").GetComponent<LevelController>().currentBallCount += (ballsToMake - ballCount);
+        levelController.GetComponent<LevelController>().ballCount += (ballsToMake - ballCount);
     }
 
     public override void EndEffect(){
         return;
+    }
+
+    private void FindBall(){
+        GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+        foreach (var ball in balls){
+            if(ball.GetComponent<BallController>().playerId == playerId){
+                currentBall = ball;
+                break;
+            }
+        }
     }
 }

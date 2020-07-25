@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class BrickController : MonoBehaviour
 {
-    private GameManager gameManager;
-    private GameObject levelController;
+    public int playerId;
+    public GameManager gameManager;     // assigned in Level Controller
+    public GameObject levelController;  // assigned in Level Controller
+    public GameObject player;           // assigned in Level Controller
     public Brick brick;
-
-    private void Awake() {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        levelController = GameObject.Find("Level Controller");
-    }
 
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ball")){
@@ -29,11 +26,13 @@ public class BrickController : MonoBehaviour
     }
 
     public void HitBrick(float hitPower){
-        // Brick thisBrick = brick.GetComponent<BrickController>().brick;
         if(brick.IsDestroyed(hitPower)){                        // check if thisBrick is destructable and hits left is 0
-            gameManager.UpdateScore(brick.scoreValue);          // update the score
+            gameManager.UpdateScore(brick.scoreValue, playerId);          // update the score
             if(brick.hasPowerUp){
-                Instantiate(brick.powerup, transform.position, brick.powerup.transform.rotation);  // create powerup
+                GameObject powerup = Instantiate(brick.powerup, transform.position, brick.powerup.transform.rotation);  // create powerup
+                powerup.GetComponent<PowerupController>().playerId = playerId;
+                powerup.GetComponent<PowerupController>().player = player;
+                powerup.GetComponent<PowerupController>().levelController = levelController;
             }
             levelController.GetComponent<LevelController>().destructableBrickCount--;   // decrease brick count
             Destroy(gameObject);                          // destroy brick

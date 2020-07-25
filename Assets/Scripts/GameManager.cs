@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI highScoreObject;
     public TextMeshProUGUI highScoreListText;
     public TextMeshProUGUI newHighScoreObject;
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreTextPlayerOne;
+    public TextMeshProUGUI scoreTextPlayerTwo;
     public TextMeshProUGUI gameOverText;
     public GameObject pauseMenuObject;
     public TextMeshProUGUI pauseText;
@@ -22,18 +23,22 @@ public class GameManager : MonoBehaviour
     public InputField newScoreName;
     public InputField newScoreVal;
 
+
     private bool isPaused;
     private float pausedTimeScale;
     private string highScoreName;
     private int highScore;
-    private int score;
-    public bool isTwoPlayer;
+    private int scorePlayerOne;
+    private int scorePlayerTwo;
+    public static bool isTwoPlayer;
 
+    
     // Start is called before the first frame update
     void Start()
     {
         // init scores in case theres no save data
-        score = 0;
+        scorePlayerOne = 0;
+        scorePlayerTwo = 0;
         // get high score
         LoadScore();
 
@@ -52,10 +57,16 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void UpdateScore(int scoreToAdd)
+    public void UpdateScore(int scoreToAdd, int playerId)
     {
-        score += scoreToAdd;
-        scoreText.text = "Score: " + score;
+        if(playerId == 1){
+            scorePlayerOne += scoreToAdd;
+            scoreTextPlayerOne.text = "Score: " + scorePlayerOne;
+        }
+        else{
+            scorePlayerTwo += scoreToAdd;
+            scoreTextPlayerTwo.text = "Score: " + scorePlayerTwo;            
+        }
     }
 
     public void TogglePause()
@@ -76,6 +87,7 @@ public class GameManager : MonoBehaviour
             {
                 isPaused = false; //flip the bool
                 Time.timeScale = pausedTimeScale; //set the timescale to what it was before
+                pauseMenuObject.gameObject.SetActive(false);
             }
             
         }
@@ -88,9 +100,9 @@ public class GameManager : MonoBehaviour
         LoadScore(); // make sure we have high score dat
         Debug.Log("score loaded");
         highScoreObject.gameObject.SetActive(true);
-        if (highScore < score)
+        if (highScore < scorePlayerOne)
         {
-            newHighScoreObject.text = "New High Score: " + score;
+            newHighScoreObject.text = "New High Score: " + scorePlayerOne;
             highScoreText.text = "Old High Score: " + highScoreName + " - " + highScore;
             newHighScoreObject.gameObject.SetActive(true);
         }
@@ -126,7 +138,7 @@ public class GameManager : MonoBehaviour
     {
         
         SaveSerial saver = new SaveSerial();
-        int scoreInt = score;
+        int scoreInt = scorePlayerOne;
         string scoreName = newScoreName.text;
 
         //THIS IF BLOCK IS FOR TESTING SCORE SAVING 
@@ -184,4 +196,8 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
     
+    public void SetTwoPlayer(){
+        isTwoPlayer = true;
+        StartGame();
+    }
 }

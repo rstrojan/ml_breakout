@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PowerupController : MonoBehaviour
 {
+    public int playerId;
     public float speed;
     public float duration;
     public bool isActive = false;
@@ -11,8 +12,10 @@ public class PowerupController : MonoBehaviour
     private bool canMove = true;
     public GameObject powerupIndicator;
     private GameObject activeIndicator;
+    public GameObject player;           // assigned in BrickController
+    public GameObject levelController;  // assigned in BrickController
     
-    private void Awake() {
+    protected void Awake() {
         lowerBound = GameObject.Find("Bottom Sensor").transform.position.z; // get limit of motion
     }
 
@@ -32,15 +35,16 @@ public class PowerupController : MonoBehaviour
         GameObject[] powerupsList = GameObject.FindGameObjectsWithTag("Powerup");           // get active powerups
         if(powerupsList != null){                                                           // none then skip
             for(int i = 0; i < powerupsList.Length; i++){                                   // iterate through list
-                if(powerupsList[i].GetComponent<PowerupController>().isActive){             // if active,
+                if(powerupsList[i].GetComponent<PowerupController>().isActive && powerupsList[i].GetComponent<PowerupController>().playerId == playerId){             // if active,
                     powerupsList[i].GetComponent<PowerupController>().EndPowerup();         // get rid of it
                 }
             }
         }
-        GameObject player = GameObject.FindGameObjectWithTag("Player");                     // get player
+
         player.GetComponent<PlayerController>().hasPowerup = true;                          // player has powerup
         isActive = true;                                                                    // powerup is active
         activeIndicator = Instantiate(powerupIndicator, player.transform.position, powerupIndicator.transform.rotation);  // get indicator
+        activeIndicator.GetComponent<PowerupIndicatorController>().player = player;
         StartEffect();                                                                      // start powerup effect
         StartCoroutine(PowerupCountDownRoutine());                                          // start timer for powerup
         GetComponent<MeshRenderer>().enabled = false;                                       // make powerup object invisible
@@ -56,7 +60,7 @@ public class PowerupController : MonoBehaviour
 
     // stop effect of powerup
     public void EndPowerup(){
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hasPowerup = false;
+        player.GetComponent<PlayerController>().hasPowerup = false;
         EndEffect();
         Destroy(activeIndicator);
         Destroy(gameObject);       
