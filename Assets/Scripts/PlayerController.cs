@@ -29,17 +29,14 @@ public class PlayerController : MonoBehaviour
         if(playerId == 1){
             if(isTwoPlayer){
                 horizontalAxis = "Player1_Horizontal";
-                Debug.Log("pid: " + playerId + ", axis: " + horizontalAxis);
             }
             else{
                 horizontalAxis = "Horizontal";
-                Debug.Log("pid: " + playerId + ", axis: " + horizontalAxis);
             }
             
         }
         if((playerId == 2)){
             horizontalAxis = "Player2_Horizontal";
-            Debug.Log("pid: " + playerId + ", axis: " + horizontalAxis);
         }
     }
 
