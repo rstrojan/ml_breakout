@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Brick
   - Ball
+  - Bottom Sensor
+  - Powerup
+  - PowerupIndicator
+  - Ball_Default
+  - Top Sensor
+  - Projectile
+  - Ground
   layers:
   - Default
   - TransparentFX

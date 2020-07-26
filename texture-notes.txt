@@ -1,0 +1,33 @@
+Unity Particle Pack
+dust everywhere?
+
+Ultimate 10 shaders
+walls - Plasma (1)
+floor - simple sine wave: low amplitude, slow speed
+
+ball - force field
+
+JMO Assets
+ball - 	CFX_ElectricityBall on impact
+	CFX3_Hit_Electric_A_Ground against walls?
+
+player - powerup ind. 	CFX_Magical_Source?
+			CFX4 Aura Bubble C?
+			CFX4 Distruptive Force?
+
+brick - ondestroy CFX_RockHit?
+
+Maybe Barbarian warrior for player? walk/run anim.
+Medieval Cartoon Warriors? 12 anim. each/ customizable
+
+SoundBits
+ball bounce - GlitchFX_02_Percussion_049 & _039
+JustImpacts_PROCESSED_180 for metal bricks?
+maybe SotD_2013-10-29_(FX-Snares)
+
+Just_Transitions_SciFi for level intro/outro?
+
+Just_Whoosh(es) sped up for powerups?
+
+
+
