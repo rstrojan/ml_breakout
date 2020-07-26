@@ -1649,8 +1649,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 2
-  levelController2P: {fileID: 0}
-  scoreText2P: {fileID: 0}
+  levelController2P: {fileID: 730607339}
+  scoreText2P: {fileID: 1821518890}
   mainCamera: {fileID: 0}
   gameManager: {fileID: 1470078273}
   playerPrefab: {fileID: 7762289324594964532, guid: fec127c37a269c746a830864ac162758,
@@ -1661,6 +1661,10 @@ MonoBehaviour:
   - {fileID: 6925747361474776221, guid: 72e0a298f1657504789a696e49c68bbc, type: 3}
   - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
+  chanceForBrickType:
+  - 0.1
+  - 0.4
+  - 0.5
   destructableBrickCount: 0
   chanceForPowerUp: 0.4
   ballCount: 0
@@ -1713,7 +1717,7 @@ MonoBehaviour:
   playerId: 1
   levelController2P: {fileID: 730607339}
   scoreText2P: {fileID: 1821518890}
-  mainCamera: {fileID: 963194227}
+  mainCamera: {fileID: 963194225}
   gameManager: {fileID: 1470078273}
   playerPrefab: {fileID: 7762289324594964532, guid: fec127c37a269c746a830864ac162758,
     type: 3}
@@ -1723,6 +1727,10 @@ MonoBehaviour:
   - {fileID: 6925747361474776221, guid: 72e0a298f1657504789a696e49c68bbc, type: 3}
   - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
+  chanceForBrickType:
+  - 0.1
+  - 0.4
+  - 0.5
   destructableBrickCount: 0
   chanceForPowerUp: 0.4
   ballCount: 0
@@ -2091,7 +2099,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 55, z: 0}
+  m_LocalPosition: {x: 0, y: 45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755414407}
@@ -2872,7 +2880,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216576180}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 45, z: 0}
+  m_LocalPosition: {x: 0, y: 55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 730607341}
