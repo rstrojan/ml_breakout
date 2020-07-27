@@ -5,6 +5,11 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// This object controls all of the menus and UIs.
+// Most menu elements are children to a single menuObject
+// that can easily be turned on/off depending on the conditions
+// set by the GM.
+
 public class UIController : MonoBehaviour
 {
     public GameManager gameManager;
@@ -45,6 +50,7 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Turns on score UI overlay while game is being played
         if (SceneManager.GetActiveScene().name != "MainMenu" && !GameManager.isGameOver)
         {
             if (!GameManager.isTwoPlayer)
@@ -91,6 +97,7 @@ public class UIController : MonoBehaviour
             GameOver();
         }
 
+        // toggle main menu 
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             mainMenuObject.gameObject.SetActive(true);
@@ -121,12 +128,14 @@ public class UIController : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
     }
 
+    //update the in game score UI overlay.
     public void UpdateScore()
     { 
         scoreTextPlayerOne.text = "Score: " + gameManager.scorePlayerOne;
         scoreTextPlayerTwo.text = "Score: " + gameManager.scorePlayerTwo;
     }
 
+    //button function for saving the score in gameover menu
     public void SaveButton()
     {
         gameManager.SaveScore(newScoreName.text);

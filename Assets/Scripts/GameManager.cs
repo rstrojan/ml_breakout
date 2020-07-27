@@ -7,21 +7,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    //public TextMeshProUGUI highScoreText;
-    //public TextMeshProUGUI highScoreObject;
-    //public TextMeshProUGUI highScoreListText;
-    //public TextMeshProUGUI newHighScoreObject;
-    //public TextMeshProUGUI scoreTextPlayerOne;
-    //public TextMeshProUGUI scoreTextPlayerTwo;
-    //public TextMeshProUGUI gameOverText;
-    //public GameObject pauseMenuObject;
-    //public TextMeshProUGUI pauseText;
-    //public Button restartLevelButton;
-    //public Button resumeButton;
-    //public Button mainMenuButton;
-    //public Button gameStartButton;
-    //public InputField newScoreName;
-    //public InputField newScoreVal;
 
     public GameObject uiController;
     public static bool isPaused;
@@ -104,6 +89,7 @@ public class GameManager : MonoBehaviour
             }
             
         }
+        GameOver();
     }
 
        
@@ -112,11 +98,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("Level Complete!");
     }
 
+    // Set isGameOver to true.
     public void GameOver()
     {
         isGameOver = true;
     }
 
+    // load mainmenu scene, make sure timescale is set to 1, isGameover to false
     public void ToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
@@ -124,6 +112,7 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
     }
 
+    // load level1 scene, make sure timescale is set to 1, isGameover to false
     public void StartGame()
     {
         SceneManager.LoadSceneAsync("Level1");
@@ -131,6 +120,7 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
     }
 
+    // restart current scene, make sure timescale is set to 1, isGameover to false
     public void Restart()
     {
         // get current scene and reload it.
@@ -158,6 +148,7 @@ public class GameManager : MonoBehaviour
         LoadScore();
     }
 
+    // delete the game file and clear all current vars
     public void ClearScore()
     {
         PlayerPrefs.DeleteAll();
@@ -168,6 +159,7 @@ public class GameManager : MonoBehaviour
         
     }
 
+    //open game file and load all vars
     public void LoadScore()
     {
         SaveSerial loader = new SaveSerial();
@@ -188,11 +180,13 @@ public class GameManager : MonoBehaviour
         Debug.Log(scoreList);
     }
 
+    //exit game to desktop
     public void ExitGame()
     {
         Application.Quit();
     }
     
+    //set isTwoPlayer to true
     public void SetTwoPlayer(){
         isTwoPlayer = true;
         StartGame();
