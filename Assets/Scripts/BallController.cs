@@ -50,8 +50,8 @@ public class BallController : MonoBehaviour
         ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
         ReflectBounce(hitAngle.normal);                 // change forward direction
         if(other.gameObject.CompareTag("Bottom Sensor")){
-            // levelController.GetComponent<LevelController>().ballCount--; 
-            // Destroy(gameObject);
+             // levelController.GetComponent<LevelController>().ballCount--; 
+             // Destroy(gameObject);
         }
     }
 

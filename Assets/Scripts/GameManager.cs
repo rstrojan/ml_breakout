@@ -7,32 +7,40 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI highScoreText;
-    public TextMeshProUGUI highScoreObject;
-    public TextMeshProUGUI highScoreListText;
-    public TextMeshProUGUI newHighScoreObject;
-    public TextMeshProUGUI scoreTextPlayerOne;
-    public TextMeshProUGUI scoreTextPlayerTwo;
-    public TextMeshProUGUI gameOverText;
-    public GameObject pauseMenuObject;
-    public TextMeshProUGUI pauseText;
-    public Button restartLevelButton;
-    public Button resumeButton;
-    public Button mainMenuButton;
-    public Button gameStartButton;
-    public InputField newScoreName;
-    public InputField newScoreVal;
+    //public TextMeshProUGUI highScoreText;
+    //public TextMeshProUGUI highScoreObject;
+    //public TextMeshProUGUI highScoreListText;
+    //public TextMeshProUGUI newHighScoreObject;
+    //public TextMeshProUGUI scoreTextPlayerOne;
+    //public TextMeshProUGUI scoreTextPlayerTwo;
+    //public TextMeshProUGUI gameOverText;
+    //public GameObject pauseMenuObject;
+    //public TextMeshProUGUI pauseText;
+    //public Button restartLevelButton;
+    //public Button resumeButton;
+    //public Button mainMenuButton;
+    //public Button gameStartButton;
+    //public InputField newScoreName;
+    //public InputField newScoreVal;
 
-
-    private bool isPaused;
-    private float pausedTimeScale;
-    private string highScoreName;
-    private int highScore;
-    private int scorePlayerOne;
-    private int scorePlayerTwo;
+    public GameObject uiController;
+    public static bool isPaused;
+    public static bool isPlaying;
+    public static bool isGameOver;
     public static bool isTwoPlayer;
 
-    
+    public float pausedTimeScale;
+    public string highScoreName;
+    public int highScore;
+    public string highScoreListText;
+    public int scorePlayerOne;
+    public int scorePlayerTwo;
+
+    //these objects are for testing purposes.
+    public InputField TEST_newScoreName;
+    public InputField TEST_newScoreVal;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,18 +62,26 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
-        
+
+        if (!isPaused && !isGameOver && (SceneManager.GetActiveScene().name != "MainMenu"))
+        {
+            isPlaying = true;
+        }
+        else
+        {
+            isPlaying = false;
+        }
     }
 
     public void UpdateScore(int scoreToAdd, int playerId)
     {
-        if(playerId == 1){
+        if (playerId == 1)
+        {
             scorePlayerOne += scoreToAdd;
-            scoreTextPlayerOne.text = "Score: " + scorePlayerOne;
         }
-        else{
+        else
+        {
             scorePlayerTwo += scoreToAdd;
-            scoreTextPlayerTwo.text = "Score: " + scorePlayerTwo;            
         }
     }
 
@@ -80,51 +96,39 @@ public class GameManager : MonoBehaviour
                 isPaused = true; //flip the bool
                 pausedTimeScale = Time.timeScale; //capture current timescale
                 Time.timeScale = 0; //set timescale to 0
-                pauseMenuObject.gameObject.SetActive(true); //show pause menu
-
             }
             else
             {
                 isPaused = false; //flip the bool
-                Time.timeScale = pausedTimeScale; //set the timescale to what it was before
-                pauseMenuObject.gameObject.SetActive(false);
+                Time.timeScale = pausedTimeScale; //set the timescale to what it was before            
             }
             
         }
     }
 
-
-    // manage gameover state
-    public void GameOver()
-    {
-        LoadScore(); // make sure we have high score dat
-        Debug.Log("score loaded");
-        highScoreObject.gameObject.SetActive(true);
-        if (highScore < scorePlayerOne)
-        {
-            newHighScoreObject.text = "New High Score: " + scorePlayerOne;
-            highScoreText.text = "Old High Score: " + highScoreName + " - " + highScore;
-            newHighScoreObject.gameObject.SetActive(true);
-        }
-        mainMenuButton.gameObject.SetActive(true);
-        gameOverText.gameObject.SetActive(true);
-    }
-
+       
     // MAKE ME DO STUFF!
     public void LevelComplete(){
         Debug.Log("Level Complete!");
+    }
+
+    public void GameOver()
+    {
+        isGameOver = true;
     }
 
     public void ToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1;
+        isGameOver = false;
     }
 
     public void StartGame()
     {
         SceneManager.LoadSceneAsync("Level1");
         Time.timeScale = 1;
+        isGameOver = false;
     }
 
     public void Restart()
@@ -132,28 +136,23 @@ public class GameManager : MonoBehaviour
         // get current scene and reload it.
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
+        isGameOver = false;
     }
 
-    public void SaveScore()
+    public void SaveScore(string scoreName)
     {
         
         SaveSerial saver = new SaveSerial();
         int scoreInt = scorePlayerOne;
-        string scoreName = newScoreName.text;
 
         //THIS IF BLOCK IS FOR TESTING SCORE SAVING 
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
-            scoreInt = int.Parse(newScoreVal.text);
-            scoreName = newScoreName.text;
+            scoreInt = int.Parse(TEST_newScoreVal.text);
+            scoreName = TEST_newScoreName.text;
         }
 
         saver.SaveGame(scoreName, scoreInt);
-
-        if (newHighScoreObject)
-        {
-            newHighScoreObject.gameObject.SetActive(false);
-        }
 
         // call loadScore again to update vars
         LoadScore();
@@ -181,12 +180,10 @@ public class GameManager : MonoBehaviour
 
         if(SceneManager.GetActiveScene().name == "MainMenu")
         {
-            highScoreListText.text = scoreList;
+            highScoreListText = scoreList;
         }
         highScore = loader.HighScoreList[0].score;
         highScoreName = loader.HighScoreList[0].name;
-        highScoreText.text = "High Score: " + highScoreName + " - " + highScore;
-
 
         Debug.Log(scoreList);
     }
