@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
+        Debug.Log("Game Over");
     }
 
     // load mainmenu scene, make sure timescale is set to 1, isGameover to false
