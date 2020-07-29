@@ -25,7 +25,11 @@ public class PaddleAgent : Agent
     // - distance from each wall to edge of paddle
     public override void CollectObservations(VectorSensor sensor)
     {
-        
+        // find all balls
+        GameObject[] balls;
+        balls = GameObject.FindGameObjectsWithTag("ball");
+
+
 
 
     }
