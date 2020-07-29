@@ -107,12 +107,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aab9c2bec9e41d44a8d85fa74773111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerId: 0
   speed: 5
   duration: 0.1
   isActive: 0
   powerupIndicator: {fileID: 2149101644975052512, guid: 5e3d329f2003ba84982e3e5b2a4b7034,
     type: 3}
+  player: {fileID: 0}
+  levelController: {fileID: 0}
   ballPrefab: {fileID: 593747313408661961, guid: b8e266aa1f57f5e4f97bdf3206ccb17a,
     type: 3}
+  ballCount: 0
   ballsToMake: 5
   angleVariation: 30

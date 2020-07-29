@@ -123,5 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485e30ba4b9819b4fbbab8fac30b3fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerId: 0
   startVelocity: {x: 0, y: 0, z: 12}
   hitPower: 1
+  minXPosition: 0
+  maxXPosition: 0
+  levelController: {fileID: 0}
+  bottomSensorBounce: 0
