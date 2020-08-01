@@ -52,6 +52,7 @@ public class LevelController : MonoBehaviour
         ballCount++;
         GetMaxBrickLength();                                                // get the length of the largest brick available
         SetBricks();                                                        // set the bricks in the scene
+        Debug.Log("player: " + player);
     }
 
     // Update is called once per frame
@@ -65,28 +66,27 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    private void SetPlayers(){
+        if(playerId == 1 && isTwoPlayer){
+            SetTwoPlayer();
+        }
+    }
+
+    // set up 2 player environment
+    private void SetTwoPlayer(){
+        levelController2P.gameObject.SetActive(true);  // set LevelController2P to active
+        mainCamera.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);   // set main Camera to half screen
+        scoreText2P.gameObject.SetActive(true);
+    }
+    
     // set rows of bricks for beginning of level
     protected virtual void SetBricks(){
-        for(int i = 0; i < brickRows; i++){                             // for each row of bricks
-            float xPos = 0f - groundWidth/2f + Random.Range(0, maxBrickLength);                           // get center of brick next to left wall as current position
-            while(xPos + maxBrickLength < groundWidth/2f){              // while there is still space for the largest brick
-                GameObject brickChoice = ChooseBrick();
-                brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
-                GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + i) + transform.position, brickChoice.transform.rotation);  // create brick at current position
-                newBrick.GetComponent<BrickController>().playerId = playerId;   // pass player ID to brick object
-                newBrick.GetComponent<BrickController>().levelController = this.gameObject; // pass correct level controller to brick object
-                newBrick.GetComponent<BrickController>().gameManager = gameManager; // pass this level's instance of GM to brick object for scoring
-                newBrick.GetComponent<BrickController>().player = player;       // pass player object to brick object
-                PowerUpStatus(newBrick);                                        // determine if this brick has a power up
-                if(newBrick.GetComponent<BrickController>().brick.isDestructable){
-                    destructableBrickCount++;                                   // count bricks to be destroyed to complete level
-                }
-                xPos += brickLength;                                    // increment current position by length of this brick
-            }
-        }
+        // SimpleBrickLayout();
+        // TwoColumnBrickLayout();
+        ThreeColumnBrickLayout();
 
-        for(int i = 0; i < brickPicks.Length; i++)
-        {
+        // prints counts of brick type choices to check percentages
+        for(int i = 0; i < brickPicks.Length; i++){
             Debug.Log("brickPicks[" + i + "]: " + brickPicks[i]);
         }
     }
@@ -120,24 +120,69 @@ public class LevelController : MonoBehaviour
     }
 
     // set status of powerup
-    protected void PowerUpStatus(GameObject newBrick){
+    protected void PowerUpStatus(GameObject brick){
         if(Random.Range(0f, 1f) <= chanceForPowerUp){
-            newBrick.GetComponent<BrickController>().brick.hasPowerUp = true;
+            brick.GetComponent<BrickController>().brick.hasPowerUp = true;
             powerupCount++;
         }
     }
 
-    private void SetPlayers(){
-        if(playerId == 1 && isTwoPlayer){
-            SetTwoPlayer();
+    // Brick layouts block
+    private void InitBrick(GameObject brick){
+        BrickController bc = brick.GetComponent<BrickController>();
+        bc.playerId = playerId;   // pass player ID to brick object
+        bc.levelController = this.gameObject; // pass correct level controller to brick object
+        bc.gameManager = gameManager; // pass this level's instance of GM to brick object for scoring
+        bc.player = player;       // pass player object to brick object
+        PowerUpStatus(brick);                                        // determine if this brick has a power up
+        if(bc.brick.isDestructable){
+            destructableBrickCount++;                                   // count bricks to be destroyed to complete level
         }
     }
 
-    // set up 2 player environment
-    private void SetTwoPlayer(){
-        levelController2P.gameObject.SetActive(true);  // set LevelController2P to active
-        mainCamera.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);   // set main Camera to half screen
-        scoreText2P.gameObject.SetActive(true);
+    private void MakeRow(float xPos, float xMax, int iter){
+        while(xPos + maxBrickLength < xMax){              // while there is still space for the largest brick
+            GameObject brickChoice = ChooseBrick();
+            brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
+            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + iter) + transform.position, brickChoice.transform.rotation);  // create brick at current position
+            InitBrick(newBrick);
+            xPos += brickLength;                                    // increment current position by length of this brick
+        }
+    }
+
+    private void SimpleBrickLayout(){
+        float xPos;
+        for(int i = 0; i < brickRows; i++){                             // for each row of bricks
+            xPos = 0f - groundWidth/2f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
+            MakeRow(xPos, groundWidth/2f, i);
+        }
+    }
+
+    private void TwoColumnBrickLayout(){
+        float xPos;
+        for(int i = 0; i < brickRows; i++){                             // for each row of bricks
+            // first column
+            xPos = 0f - groundWidth/2f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
+            MakeRow(xPos, 0, i);
+            // second column
+            xPos = 0f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
+            MakeRow(xPos, groundWidth/2f, i);
+        }
+    }
+
+    private void ThreeColumnBrickLayout(){
+        float xPos;
+        for(int i = 0; i < brickRows; i++){                             // for each row of bricks
+            // first column
+            xPos = 0f - groundWidth/2f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
+            MakeRow(xPos, 0f - groundWidth/6f, i);
+            // second column
+            xPos = 0f - groundWidth/6f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
+            MakeRow(xPos, 0 + groundWidth/6f, i);
+            // third column
+            xPos = 0f + groundWidth/6f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
+            MakeRow(xPos, 0 + groundWidth/2f, i);
+        }
     }
 
 }
