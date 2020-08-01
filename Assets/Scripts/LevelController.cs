@@ -16,6 +16,7 @@ public class LevelController : MonoBehaviour
     private MeshRenderer ground;
     private float groundWidth;
 
+    [Header("Default Scene Values")]
     public GameObject playerPrefab;
     public GameObject ballPrefab;
     public GameObject[] brickPrefabs;
