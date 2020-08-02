@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     // Set isLevelComplete
     public void LevelComplete(){
         isLevelComplete = true;
-        Debug.Log("Level Complete!");
+       // Debug.Log("Level Complete!");
     }
 
     // Go to isNextLevel
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        Debug.Log("Game Over");
+        // Debug.Log("Game Over");
     }
 
     //toggle whether p1 is AI or not
@@ -216,7 +216,7 @@ public class GameManager : MonoBehaviour
         highScore = loader.HighScoreList[0].score;
         highScoreName = loader.HighScoreList[0].name;
 
-        Debug.Log(scoreList);
+        // Debug.Log(scoreList);
     }
 
     //exit game to desktop

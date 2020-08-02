@@ -18,6 +18,14 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI scoreTextPlayerOne;
     public TextMeshProUGUI scoreTextPlayerTwo;
 
+    //objects for count down
+    public bool isCountingDown;
+    public float startTime;
+    public float timer;
+    public TextMeshProUGUI timerText;
+    public GameObject timerTextObject;
+    public float savedTimeScale;
+
     //main menu objects
     public GameObject mainMenuObject;
     public Button soloPlayButton;
@@ -55,6 +63,18 @@ public class UIController : MonoBehaviour
         //Turns on score UI overlay while game is being played
         if (SceneManager.GetActiveScene().name != "MainMenu" && !GameManager.isGameOver)
         {
+            //turn off main menu if not in main menu;
+            mainMenuObject.gameObject.SetActive(false);
+
+            //set up timer
+            startTime = Time.time;
+            isCountingDown = true;
+            timer = 4.0f;
+            timerText.gameObject.SetActive(true);
+            timerText.alpha = 255;
+
+
+            //check for players
             if (!GameManager.isTwoPlayer)
             {
                 scoreTextPlayerOne.gameObject.SetActive(true);
@@ -73,9 +93,49 @@ public class UIController : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        //inspiration for this timer found here: https://forum.unity.com/threads/start-timer-on-new-scene.487709/
+        //countdown timer
+        if (isCountingDown)
+        {
+            //get diff between curr time and startime
+            float timediff = (Time.time - startTime);
+            Debug.Log("counting down " + (Time.time - startTime));
+            //while timer is greather than or equal to 0
+            if (timer - timediff >= 0.0)
+            {
+                if (timer - timediff > 3.0f)
+                {
+                    timerText.text = "3";
+                }
+                else if (timer - timediff > 2.0f)
+                {
+                    timerText.text = "2";
+                }
+                else if (timer - timediff > 1.0f)
+                {
+                    timerText.text = "1";
+                }
+                else if (timer - timediff > 0.0f)
+                {
+                    timerText.text = "GO!";
+                    timerText.alpha = 255 * timer; // fade alpha based on time
+                }
+            }
+            else
+            {
+                isCountingDown = false;
+                timerText.gameObject.SetActive(false);
+            }
+
+        }
+
+    }
     // Update is called once per frame
     void Update()
     {
+
 
         // if game is paused, turn on pause menu
         if (GameManager.isPaused == true)
@@ -134,7 +194,6 @@ public class UIController : MonoBehaviour
     public void GameOver()
     {
         gameManager.LoadScore(); // make sure we have high score dat
-        Debug.Log("score loaded");
         highScoreObject.gameObject.SetActive(true);
         if (gameManager.highScore < GameManager.scorePlayerOne)
         {
