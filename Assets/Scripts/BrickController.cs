@@ -38,6 +38,7 @@ public class BrickController : MonoBehaviour
                 powerup.GetComponent<PowerupController>().levelController = levelController;    // pass correct level controller to powerup object
             }
             levelController.GetComponent<LevelController>().destructableBrickCount--;   // decrease brick count
+            GameObject.FindWithTag("Player").gameObject.GetComponent<PaddleAgent>().BrokeBrick();      // signal to agent it broke brick
             Destroy(gameObject);                          // destroy brick
         }
     }

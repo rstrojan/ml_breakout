@@ -142,3 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4ae018a0b994c58b077dc4128361f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0

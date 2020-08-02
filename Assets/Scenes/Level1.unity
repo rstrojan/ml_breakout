@@ -1927,7 +1927,7 @@ GameObject:
   - component: {fileID: 863004288}
   m_Layer: 0
   m_Name: Wall_Right
-  m_TagString: Untagged
+  m_TagString: Wall_Right
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2760,7 +2760,7 @@ GameObject:
   - component: {fileID: 1199653222}
   m_Layer: 0
   m_Name: Wall_Left
-  m_TagString: Untagged
+  m_TagString: Wall_Left
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

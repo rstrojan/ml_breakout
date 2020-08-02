@@ -49,8 +49,13 @@ public class BallController : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
         ReflectBounce(hitAngle.normal);                 // change forward direction
+        if(other.gameObject.CompareTag("Player")){
+            other.gameObject.GetComponent<PaddleAgent>().HitBall();
+        }
         if(other.gameObject.CompareTag("Bottom Sensor")){
             // levelController.GetComponent<LevelController>().ballCount--; 
+            Debug.Log("What is player: " + GameObject.FindWithTag("Player"));
+            // GameObject.Find("Player").GetComponent<PaddleAgent>().LostBall();
             // Destroy(gameObject);
         }
     }

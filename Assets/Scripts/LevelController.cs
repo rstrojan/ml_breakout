@@ -22,6 +22,7 @@ public class LevelController : MonoBehaviour
     public float[] chanceForBrickType;
     private int[] brickPicks = {0, 0, 0};
     private GameObject player;
+    private Vector3 startPosition;
     
     private float brickLength;
     private float maxBrickLength;
@@ -46,12 +47,9 @@ public class LevelController : MonoBehaviour
         player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
         player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
         player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object
-        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
-        ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
-        ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
-        ballCount++;
-        GetMaxBrickLength();                                                // get the length of the largest brick available
-        SetBricks();                                                        // set the bricks in the scene
+        player.GetComponent<PaddleAgent>().levelController = this.gameObject;
+        startPosition = player.transform.position;
+        // SetScene();
     }
 
     // Update is called once per frame
@@ -141,15 +139,25 @@ public class LevelController : MonoBehaviour
         scoreText2P.gameObject.SetActive(true);
     }
 
-    // count balls in play for this player
-    // private int CountBalls(){
-    //     int count = 0;
-    //     GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
-    //     foreach (var ball in balls){
-    //         if(ball.GetComponent<BallController>().playerId == playerId){
-    //             count++;
-    //         }
-    //     }
-    //     return count;
-    // }
+    
+    public void SetScene(){
+        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
+        ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
+        ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
+        ballCount = 1;
+        GetMaxBrickLength();                                                // get the length of the largest brick available
+        SetBricks();                                                        // set the bricks in the scene
+        player.transform.position = startPosition;
+    }
+
+    public void ClearScene(){
+        GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
+        foreach(var brick in bricks){
+            Destroy(brick);
+        }
+        GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+        foreach(var ball in balls){
+            Destroy(ball);
+        }
+    }
 }

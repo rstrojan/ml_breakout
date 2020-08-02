@@ -13,6 +13,8 @@ TagManager:
   - Top Sensor
   - Projectile
   - Ground
+  - Wall_Left
+  - Wall_Right
   layers:
   - Default
   - TransparentFX
