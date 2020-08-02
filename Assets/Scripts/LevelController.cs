@@ -28,7 +28,7 @@ public class LevelController : MonoBehaviour
     private float maxBrickLength;
     private float brickWidth;
     private int brickRows = 4;
-    private int brickZPosStart = 5;
+    public int brickZPosStart = 10;
     public int destructableBrickCount = 0;
     public float chanceForPowerUp;
 
@@ -135,7 +135,6 @@ public class LevelController : MonoBehaviour
     private void SetTwoPlayer(){
         levelController2P.gameObject.SetActive(true);  // set LevelController2P to active
         mainCamera.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);   // set main Camera to half screen
-        mainCamera.transform.position = new Vector3(0, 55, 0);
         scoreText2P.gameObject.SetActive(true);
     }
 

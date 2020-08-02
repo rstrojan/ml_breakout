@@ -15,6 +15,8 @@ public class BallController : MonoBehaviour
     public float maxXPosition;
     
     public GameObject levelController;  // set in Level Controller
+
+    public bool bottomSensorBounce;
     
     // Start is called before the first frame update
     void Awake(){
@@ -34,7 +36,7 @@ public class BallController : MonoBehaviour
         ballRb.velocity = ballRb.velocity.normalized * startVelocity.magnitude; // maintain constant speed
         if(ballRb.velocity.magnitude < startVelocity.magnitude){
             freezeCheck += Time.deltaTime;
-            if(freezeCheck >= 0.5f){
+            if(freezeCheck >= 0.8f){
                 ballRb.velocity = startVelocity;
                 freezeCheck = 0;
             }
@@ -53,17 +55,20 @@ public class BallController : MonoBehaviour
             other.gameObject.GetComponent<PaddleAgent>().HitBall();
         }
         if(other.gameObject.CompareTag("Bottom Sensor")){
-            // levelController.GetComponent<LevelController>().ballCount--; 
-            Debug.Log("What is player: " + GameObject.FindWithTag("Player"));
-            // GameObject.Find("Player").GetComponent<PaddleAgent>().LostBall();
-            // Destroy(gameObject);
+            if(bottomSensorBounce){
+                return;
+            }
+            levelController.GetComponent<LevelController>().ballCount--; 
+            Destroy(gameObject);
         }
     }
 
     // change forward direction of ball based on collision
     private void ReflectBounce(Vector3 barrierNormal){
-        Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity.normalized, barrierNormal); // get angle of reflection
-        SetBallVelocity(newAngle * startVelocity.magnitude);
+        // Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity.normalized, barrierNormal); // get angle of reflection
+        Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity, barrierNormal);
+        // SetBallVelocity(newAngle * startVelocity.magnitude);
+        SetBallVelocity(newAngle);
     }
 
     // check for ball going through walls
