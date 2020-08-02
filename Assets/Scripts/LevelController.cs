@@ -152,12 +152,16 @@ public class LevelController : MonoBehaviour
 
     public void ClearScene(){
         GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
-        foreach(var brick in bricks){
-            Destroy(brick);
+        if(bricks.Length != 0){
+            foreach(var brick in bricks){
+                Destroy(brick);
+            }
         }
         GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
-        foreach(var ball in balls){
-            Destroy(ball);
+        if(balls.Length != 0){
+            foreach(var ball in balls){
+                Destroy(ball);
+            }
         }
     }
 }

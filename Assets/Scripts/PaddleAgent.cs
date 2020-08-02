@@ -25,6 +25,7 @@ public class PaddleAgent : Agent
     public override void OnEpisodeBegin()
     {
         Debug.Log("In OnEpisodeBegin");
+        levelController.GetComponent<LevelController>().ClearScene();
         levelController.GetComponent<LevelController>().SetScene();
     }
 
@@ -111,7 +112,6 @@ public class PaddleAgent : Agent
     public void LostBall()
     {
         AddReward(-1f);
-        levelController.GetComponent<LevelController>().ClearScene();
         EndEpisode();
     }
 }
