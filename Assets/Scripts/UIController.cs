@@ -23,6 +23,8 @@ public class UIController : MonoBehaviour
     public Button soloPlayButton;
     public Button duoPlayButton;
     public Button quitButton;
+    public Button playerOneAIButton;
+    public Button playerTwoAIButton;
     public TextMeshProUGUI mainMenuTitle;
     public TextMeshProUGUI highestScoreTitle;
     public GameObject highScoreListObject;
@@ -104,6 +106,22 @@ public class UIController : MonoBehaviour
             gameManager.LoadScore();
             highestScoreTitle.text = "#1 Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
             highScoreList.text = gameManager.highScoreListText;
+            if (GameManager.playerOneIsAI)
+            {
+                playerOneAIButton.GetComponentInChildren<Text>().text = "P1 is AI";
+            }
+            else
+            {
+                playerOneAIButton.GetComponentInChildren<Text>().text = "P1 is Human";
+            }
+            if (GameManager.playerTwoIsAI)
+            {
+                playerTwoAIButton.GetComponentInChildren<Text>().text = "P2 is AI";
+            }
+            else
+            {
+                playerTwoAIButton.GetComponentInChildren<Text>().text = "P2 is Human";
+            }
         }
         else
         {
@@ -118,9 +136,9 @@ public class UIController : MonoBehaviour
         gameManager.LoadScore(); // make sure we have high score dat
         Debug.Log("score loaded");
         highScoreObject.gameObject.SetActive(true);
-        if (gameManager.highScore < gameManager.scorePlayerOne)
+        if (gameManager.highScore < GameManager.scorePlayerOne)
         {
-            newHighScoreObject.text = "New High Score: " + gameManager.scorePlayerOne;
+            newHighScoreObject.text = "New High Score: " + GameManager.scorePlayerOne;
             highScoreText.text = "Old High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
             newHighScoreObject.gameObject.SetActive(true);
         }
@@ -131,8 +149,8 @@ public class UIController : MonoBehaviour
     //update the in game score UI overlay.
     public void UpdateScore()
     { 
-        scoreTextPlayerOne.text = "Score: " + gameManager.scorePlayerOne;
-        scoreTextPlayerTwo.text = "Score: " + gameManager.scorePlayerTwo;
+        scoreTextPlayerOne.text = "Score: " + GameManager.scorePlayerOne;
+        scoreTextPlayerTwo.text = "Score: " + GameManager.scorePlayerTwo;
     }
 
     //button function for saving the score in gameover menu
