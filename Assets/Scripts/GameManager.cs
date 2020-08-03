@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
     public static bool playerOneIsAI;
     public static bool playerTwoIsAI;
 
+    //for pause menu
     public float pausedTimeScale;
+
+    //High score data
     public string highScoreName;
     public int highScore;
     public string highScoreListText;
@@ -38,7 +41,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //for testing
+        Debug.Log("Now Playing Level " + levelTracker);
         // get high score
         LoadScore();
 
@@ -50,13 +54,15 @@ public class GameManager : MonoBehaviour
             levelTracker = 0;
         }
 
-        //set isPaused
+        //certain states need to be reset at start of level
         isPaused = false;
+        isLevelComplete = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // when hit escape toggle pause
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -104,7 +110,6 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        GameOver();
     }
 
        
@@ -117,13 +122,17 @@ public class GameManager : MonoBehaviour
     // Go to isNextLevel
     public void NextLevel()
     {
+        isGameOver = false;
+        levelTracker++;
         isNextLevel = true;
+        SceneManager.LoadScene("Level1");
     }
 
     // Set isGameOver to true.
     public void GameOver()
     {
         isGameOver = true;
+        isLevelComplete = false;
         // Debug.Log("Game Over");
     }
 
@@ -142,9 +151,10 @@ public class GameManager : MonoBehaviour
     // load mainmenu scene, make sure timescale is set to 1, isGameover to false
     public void ToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1;
         isGameOver = false;
+        SceneManager.LoadScene("MainMenu");
+
     }
 
     // start game from main menu
