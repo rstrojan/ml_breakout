@@ -1639,11 +1639,6 @@ PrefabInstance:
       propertyPath: highestScoreTitle
       value: 
       objectReference: {fileID: 880227179}
-    - target: {fileID: 8965556054886913054, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ab8e6f8bc706774eae69a56fd9fe120, type: 3}
 --- !u!1 &1655453157
