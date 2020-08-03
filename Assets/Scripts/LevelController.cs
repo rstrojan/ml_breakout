@@ -6,6 +6,7 @@ using static Helper;
 
 public class LevelController : MonoBehaviour
 {
+    [Header("Specific to Controller")]
     public int playerId;
     public static bool isTwoPlayer;
     [SerializeField] GameObject levelController2P;
@@ -21,29 +22,45 @@ public class LevelController : MonoBehaviour
     public GameObject ballPrefab;
     public GameObject[] brickPrefabs;
     public float[] chanceForBrickType;
-    private int[] brickPicks = {0, 0, 0};
-    private GameObject player;
+    public float chanceForPowerUp;
     
+    private GameObject player;
     private float brickLength;
     private float maxBrickLength;
     private float brickWidth;
-    private int brickRows = 4;
-    public int brickZPosStart = 10;
-    public int destructableBrickCount = 0;
-    public float chanceForPowerUp;
+    private int brickZMin = 5;
+    private int brickZMax = 10;
 
+    [Header("Values set during play")]
+    public int destructableBrickCount = 0;
     public int ballCount;
-    public int powerupCount = 0;            // I don't think this is necessary but good for testing
+    [SerializeField] int powerupCount = 0;            // I don't think this is necessary but good for testing
+    [SerializeField] int[] brickPicks = {0, 0, 0, 0};   // for testing ratio of chosen bricks
+
+    [Header("Scene Randomization Variables")]
+    public int levelProgression = 1;
+    public static int brickZPosStart = 10;  // make static
+    public static int brickColumnCount = 1;  // make static
+    public static int maxBrickTypes;  // make static
+    public static int brickRows = 4;  // make static
+    private int rowSkip = 1;  // make static
+    private int rowSkipMax = 2;
+    public static int groundMatChoice;
+    public static int wallMatChoice;
+    [SerializeField] Material[] groundMaterials;
+    [SerializeField] Material[] wallMaterials;
 
     private void Awake() {
         isTwoPlayer = GameManager.isTwoPlayer;
+        // levelProgression = GameManager.levelProgression;
         ground = this.transform.GetChild(1).gameObject.FindComponentChildWithTag<MeshRenderer>("Ground");
         groundWidth = ground.bounds.size.x;                                 // get the width of the ground
     }
 
     void Start(){
-        // isTwoPlayer = gameManager.isTwoPlayer;
+        RunSceneGenerator();
         SetPlayers();
+        SetEvironment();
         player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
         player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
         player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object
@@ -53,7 +70,6 @@ public class LevelController : MonoBehaviour
         ballCount++;
         GetMaxBrickLength();                                                // get the length of the largest brick available
         SetBricks();                                                        // set the bricks in the scene
-        Debug.Log("player: " + player);
     }
 
     // Update is called once per frame
@@ -79,23 +95,38 @@ public class LevelController : MonoBehaviour
         mainCamera.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);   // set main Camera to half screen
         scoreText2P.gameObject.SetActive(true);
     }
+
+    // set ground and wall materials for current scene
+    private void SetEvironment(){
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+        foreach (var wall in walls){
+            wall.GetComponent<Renderer>().material = wallMaterials[wallMatChoice];
+        }
+        GameObject[] grounds = GameObject.FindGameObjectsWithTag("Ground");
+        foreach(var ground in grounds){
+            ground.GetComponent<Renderer>().material = groundMaterials[groundMatChoice];
+        }
+    }
     
     // set rows of bricks for beginning of level
     protected virtual void SetBricks(){
-        // SimpleBrickLayout();
-        // TwoColumnBrickLayout();
-        ThreeColumnBrickLayout();
-
-        // prints counts of brick type choices to check percentages
-        for(int i = 0; i < brickPicks.Length; i++){
-            Debug.Log("brickPicks[" + i + "]: " + brickPicks[i]);
+        switch (brickColumnCount){
+            case 2:
+                TwoColumnBrickLayout();
+                break;
+            case 3:
+                ThreeColumnBrickLayout();
+                break;
+            default:
+                OneColumnBrickLayout();
+                break;
         }
     }
 
     // get longest brick for brick setting
     protected void GetMaxBrickLength(){
         maxBrickLength = 0;
-        for(int i = 0; i < brickPrefabs.Length; i++){
+        for(int i = 0; i < maxBrickTypes; i++){
             float length = brickPrefabs[i].GetComponent<MeshRenderer>().bounds.size.x;
             if(maxBrickLength < length){
                 maxBrickLength = length;
@@ -107,7 +138,7 @@ public class LevelController : MonoBehaviour
     protected GameObject ChooseBrick(){
         float randNum = Random.Range(0f, 1f);           // get random number
         float minRange = 0;                             // set minimum range to zero
-        for(int i = 0; i < brickPrefabs.Length; i++){   // for each brick prefab option
+        for(int i = 0; i < maxBrickTypes; i++){   // for each brick prefab option
             // if random number is greater than min range and less than max range for this type
             if((randNum >= minRange) && (randNum <= (minRange + chanceForBrickType[i]))){
                 brickPicks[i]++;
@@ -117,6 +148,7 @@ public class LevelController : MonoBehaviour
                 minRange += chanceForBrickType[i];      // or shift min range to look at next prefab option
             }
         }
+        brickPicks[0]++;
         return brickPrefabs[0];                         // default to first prefab
     }
 
@@ -145,18 +177,23 @@ public class LevelController : MonoBehaviour
         while(xPos + maxBrickLength < xMax){              // while there is still space for the largest brick
             GameObject brickChoice = ChooseBrick();
             brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
-            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + iter) + transform.position, brickChoice.transform.rotation);  // create brick at current position
+            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + iter + rowSkip) + transform.position, brickChoice.transform.rotation);  // create brick at current position
+            Debug.Log("zPo: " + brickZPosStart + " iter: " + iter + " rowskip: " + rowSkip + " = zPos: " + newBrick.transform.position.z);
             InitBrick(newBrick);
             xPos += brickLength;                                    // increment current position by length of this brick
         }
     }
 
-    private void SimpleBrickLayout(){
+    private void OneColumnBrickLayout(){
         float xPos;
         for(int i = 0; i < brickRows; i++){                             // for each row of bricks
             xPos = 0f - groundWidth/2f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
             MakeRow(xPos, groundWidth/2f, i);
+            if(rowSkip != 0){
+                rowSkip += Random.Range(0, rowSkipMax);
+            }
         }
+        
     }
 
     private void TwoColumnBrickLayout(){
@@ -168,6 +205,9 @@ public class LevelController : MonoBehaviour
             // second column
             xPos = 0f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
             MakeRow(xPos, groundWidth/2f, i);
+            if(rowSkip != 0){
+                rowSkip += Random.Range(0, rowSkipMax);
+            }
         }
     }
 
@@ -183,6 +223,48 @@ public class LevelController : MonoBehaviour
             // third column
             xPos = 0f + groundWidth/6f + Random.Range(0, maxBrickLength); // get center of brick next to left wall as current position
             MakeRow(xPos, 0 + groundWidth/2f, i);
+            if(rowSkip != 0){
+                rowSkip += Random.Range(0, rowSkipMax);
+            }
+        }
+    }
+
+    // sets class variables to randomize scene loosely based on game level progression
+    private void RunSceneGenerator(){
+        if(playerId != 1){
+            return;
+        }
+        switch(levelProgression){
+            case 1:
+                maxBrickTypes = 2;
+                break;
+            case 2:
+                maxBrickTypes = 3;
+                brickColumnCount = 2;
+                brickRows = 5;
+                groundMatChoice = 2;
+                wallMatChoice = 2;
+                break;
+            case 3:
+                maxBrickTypes = brickPrefabs.Length;
+                brickColumnCount = 3;
+                brickRows = 4;
+                groundMatChoice = 3;
+                wallMatChoice = 3;
+                break;
+            default:
+                maxBrickTypes = brickPrefabs.Length;
+                brickColumnCount = Random.Range(1, 4);
+                brickRows = Random.Range(4, 8);
+                chanceForPowerUp = Random.Range(0.2f, 0.5f);
+                brickZPosStart = Random.Range(brickZMin, brickZMax);
+                rowSkip = Random.Range(0, 2);
+                if(rowSkip == 1){
+                    brickZPosStart--;
+                }
+                groundMatChoice = Random.Range(0, groundMaterials.Length);
+                wallMatChoice = Random.Range(0, wallMaterials.Length);
+                break;
         }
     }
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PaddleGunController : MonoBehaviour
 {
-    private MeshRenderer mesh;
     private float projectileOffsetX;
     private float projectileOffsetZ;
     public KeyCode fireKey;
