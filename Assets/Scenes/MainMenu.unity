@@ -1514,15 +1514,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1169657271, guid: 6ab8e6f8bc706774eae69a56fd9fe120, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 672615322920050362, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 672615323778057098, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
         type: 3}
       propertyPath: m_Name
@@ -1598,19 +1589,8 @@ PrefabInstance:
       propertyPath: highestScoreTitle
       value: 
       objectReference: {fileID: 880227179}
-    - target: {fileID: 7718700208765300376, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
-        type: 3}
-      propertyPath: timerTextObject
-      value: 
-      objectReference: {fileID: 1347881297}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ab8e6f8bc706774eae69a56fd9fe120, type: 3}
---- !u!1 &1347881297 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1347881297, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
-    type: 3}
-  m_PrefabInstance: {fileID: 1316019385}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1655453157
 GameObject:
   m_ObjectHideFlags: 0

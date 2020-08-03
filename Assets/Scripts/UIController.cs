@@ -20,11 +20,11 @@ public class UIController : MonoBehaviour
 
     //objects for count down
     public bool isCountingDown;
-    public float startTime;
-    public float timer;
     public TextMeshProUGUI timerText;
     public GameObject timerTextObject;
-    public float savedTimeScale;
+    int timer = 3;
+    float savedTimesScale;
+    float startime;
 
     //main menu objects
     public GameObject mainMenuObject;
@@ -66,12 +66,13 @@ public class UIController : MonoBehaviour
             //turn off main menu if not in main menu;
             mainMenuObject.gameObject.SetActive(false);
 
-            //set up timer
-            startTime = Time.time;
-            isCountingDown = true;
-            timer = 4.0f;
-            timerText.gameObject.SetActive(true);
-            timerText.alpha = 255;
+            //Setting up for countdown
+            savedTimesScale = Time.timeScale; //grab current timescale
+            timerText.gameObject.SetActive(true); //turn on the ui
+            isCountingDown = true; //make sure it starts
+            startime = Time.unscaledTime; //grab current time
+            Time.timeScale = 0;
+
 
 
             //check for players
@@ -93,48 +94,38 @@ public class UIController : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+
+
+
+    // Update is called once per frame
+    void Update()
     {
-        //inspiration for this timer found here: https://forum.unity.com/threads/start-timer-on-new-scene.487709/
-        //countdown timer
+        //countdown block
         if (isCountingDown)
         {
-            //get diff between curr time and startime
-            float timediff = (Time.time - startTime);
-            Debug.Log("counting down " + (Time.time - startTime));
-            //while timer is greather than or equal to 0
-            if (timer - timediff >= 0.0)
+            if ((Time.unscaledTime - startime) < 1.0f)
             {
-                if (timer - timediff > 3.0f)
-                {
-                    timerText.text = "3";
-                }
-                else if (timer - timediff > 2.0f)
-                {
-                    timerText.text = "2";
-                }
-                else if (timer - timediff > 1.0f)
-                {
-                    timerText.text = "1";
-                }
-                else if (timer - timediff > 0.0f)
-                {
-                    timerText.text = "GO!";
-                    timerText.alpha = 255 * timer; // fade alpha based on time
-                }
+                timerText.text = "3";
             }
-            else
+            else if ((Time.unscaledTime - startime) < 2.0f)
+            {
+                timerText.text = "2";
+            }
+            else if ((Time.unscaledTime - startime) < 3.0f)
+            {
+                timerText.text = "1";
+            }
+            else if ((Time.unscaledTime - startime) < 4.0f)
+            {
+                timerText.text = "GO!";
+                Time.timeScale = savedTimesScale;
+            }
+            else if ((Time.unscaledTime - startime) < 5.0f)
             {
                 isCountingDown = false;
                 timerText.gameObject.SetActive(false);
             }
-
         }
-
-    }
-    // Update is called once per frame
-    void Update()
-    {
 
 
         // if game is paused, turn on pause menu
