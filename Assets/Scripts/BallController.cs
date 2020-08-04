@@ -61,6 +61,7 @@ public class BallController : MonoBehaviour
                 return;
             }
             levelController.GetComponent<LevelController>().ballCount--;
+            // GameObject.Find("Player").GetComponent<PaddleAgent>().HitBall();
             // paddleAgent.LostBall(); 
             Destroy(gameObject);
         }
