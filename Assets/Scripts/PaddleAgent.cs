@@ -39,6 +39,12 @@ public class PaddleAgent : Agent
         GameObject[] balls;
         balls = GameObject.FindGameObjectsWithTag("Ball");
 
+        Debug.Log("Contents of array: ");
+        foreach (var ball in balls)
+        {
+            Debug.Log(ball.ToString());
+        }
+
         // 1. get correct ball
         foreach (var ball in balls)
         {
@@ -58,7 +64,8 @@ public class PaddleAgent : Agent
 
         // take direction relative to center of paddle
         // Vector3 ballDirection = myBall.GetComponent<Rigidbody>().velocity;
-        float angle = Vector3.Angle(myBall.transform.forward, this.transform.forward);
+        float angle = Vector3.Angle(myBall.GetComponent<Rigidbody>().velocity.normalized, 
+                                    this.GetComponent<Rigidbody>().velocity.normalized);
         sensor.AddObservation(angle);
 
         // distance from each wall to edge of paddle
@@ -87,12 +94,16 @@ public class PaddleAgent : Agent
         // Actions, size = 1 (only changing x position)
         Vector3 controlSignal = Vector3.zero;
         controlSignal.x = vectorAction[0];
-        rBody.AddForce(controlSignal * speed);
+        Debug.Log("controlSignal: " + controlSignal);
+        // rBody.AddForce(controlSignal * speed);
+        // this.transform.Translate(Vector3.right * Time.deltaTime * controlSignal * speed);
+        this.transform.Translate(controlSignal * speed);
+
 
         // tiny reward for ball moving
         if (myBall.GetComponent<Rigidbody>().velocity != Vector3.zero)
         {
-            SetReward(0.1f);
+            AddReward(0.01f);
         }
     }
 

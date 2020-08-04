@@ -130,3 +130,5 @@ MonoBehaviour:
   maxXPosition: 0
   levelController: {fileID: 0}
   bottomSensorBounce: 0
+  paddleAgent: {fileID: 3305529523032148909, guid: fec127c37a269c746a830864ac162758,
+    type: 3}

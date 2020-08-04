@@ -17,6 +17,8 @@ public class BallController : MonoBehaviour
     public GameObject levelController;  // set in Level Controller
 
     public bool bottomSensorBounce;
+
+    // public PaddleAgent paddleAgent;
     
     // Start is called before the first frame update
     void Awake(){
@@ -58,7 +60,8 @@ public class BallController : MonoBehaviour
             if(bottomSensorBounce){
                 return;
             }
-            levelController.GetComponent<LevelController>().ballCount--; 
+            levelController.GetComponent<LevelController>().ballCount--;
+            // paddleAgent.LostBall(); 
             Destroy(gameObject);
         }
     }

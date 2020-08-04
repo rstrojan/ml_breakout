@@ -143,6 +143,8 @@ public class LevelController : MonoBehaviour
         GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
         ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
         ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
+        Debug.Log("Level Controller ball: " + ball);
+        Debug.Log("Level Controller ball playerID: " + ball.GetComponent<BallController>().playerId);
         ballCount = 1;
         GetMaxBrickLength();                                                // get the length of the largest brick available
         SetBricks();                                                        // set the bricks in the scene
