@@ -42,9 +42,9 @@ public class LevelController : MonoBehaviour
     public static int brickColumnCount = 1;  // make static
     public static int maxBrickTypes;  // make static
     public static int brickRows = 4;  // make static
-    private int rowSkip = 0;  // make static
-    private int rowSkipMax = 2;
-    private bool doAddRandomBricks = false;
+    public static int rowSkip = 0;  // make static
+    public static int rowSkipMax = 2;
+    public static bool doAddRandomBricks = false;
     public static int groundMatChoice;
     public static int wallMatChoice;
     [SerializeField] Material[] groundMaterials;
@@ -97,6 +97,9 @@ public class LevelController : MonoBehaviour
 
     // set ground and wall materials for current scene
     private void SetEvironment(){
+        if(playerId != 1){
+            return;
+        }
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
         foreach (var wall in walls){
             wall.GetComponent<Renderer>().material = wallMaterials[wallMatChoice];
@@ -277,11 +280,9 @@ public class LevelController : MonoBehaviour
         }
         switch(levelProgression){
             case 1:
-                Debug.Log("levelProgression: " + levelProgression + "\ncase: 1");
                 maxBrickTypes = 2;
                 break;
             case 2:
-                Debug.Log("levelProgression: " + levelProgression + "\ncase: 2");
                 maxBrickTypes = 3;
                 brickColumnCount = 2;
                 brickRows = 5;
@@ -289,7 +290,6 @@ public class LevelController : MonoBehaviour
                 wallMatChoice = 2;
                 break;
             case 3:
-                Debug.Log("levelProgression: " + levelProgression + "\ncase: 3");
                 maxBrickTypes = brickPrefabs.Length;
                 brickColumnCount = 3;
                 brickRows = 4;
@@ -297,7 +297,6 @@ public class LevelController : MonoBehaviour
                 wallMatChoice = 3;
                 break;
             case 4:
-                Debug.Log("levelProgression: " + levelProgression + "\ncase: 4");
                 maxBrickTypes = brickPrefabs.Length;
                 brickColumnCount = Random.Range(1, 4);
                 brickRows = Random.Range(4, 8);
@@ -311,7 +310,6 @@ public class LevelController : MonoBehaviour
                 wallMatChoice = Random.Range(0, wallMaterials.Length);
                 break;
             default:
-                Debug.Log("levelProgression: " + levelProgression + "\ncase: Default");
                 maxBrickTypes = brickPrefabs.Length;
                 brickColumnCount = Random.Range(1, 4);
                 brickRows = Random.Range(4, 8);
