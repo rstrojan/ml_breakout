@@ -726,9 +726,10 @@ MonoBehaviour:
   ballPrefab: {fileID: 9124081322659260902, guid: 3df69faca33eb55408f4ebc2a9a93723,
     type: 3}
   brickPrefabs:
-  - {fileID: 6925747361474776221, guid: 72e0a298f1657504789a696e49c68bbc, type: 3}
-  - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
   - {fileID: 5799744955394857510, guid: ed921ea590807db4cb7de75f938bee48, type: 3}
+  - {fileID: 7647135144393802923, guid: 4a172870e0485504a8a8b45f09701e9d, type: 3}
+  - {fileID: 6925747361474776221, guid: 72e0a298f1657504789a696e49c68bbc, type: 3}
+  - {fileID: 8624337854875628727, guid: 852d05b5731ad284cafafbe6aa32df73, type: 3}
   chanceForBrickType:
   - 0.1
   - 0.4
@@ -810,7 +811,7 @@ MonoBehaviour:
   ballCount: 0
   powerupCount: 0
   brickPicks: 00000000000000000000000000000000
-  levelProgression: 4
+  levelProgression: 5
   groundMaterials:
   - {fileID: 2100000, guid: 9be3bf14d30b3734698eb978a26e07bb, type: 2}
   - {fileID: 2100000, guid: 1c8d20bd47222a54cacaaea3bff6645b, type: 2}
@@ -823,12 +824,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 9adb5ecdf22c4ff448615330af7d76b9, type: 2}
   - {fileID: 2100000, guid: 9e05aca5c536e9e4eb819667ce3e215f, type: 2}
   wallMaterials:
-  - {fileID: 2100000, guid: 9be3bf14d30b3734698eb978a26e07bb, type: 2}
+  - {fileID: 2100000, guid: e0de07fc2dde4d1479f8123889bebbb5, type: 2}
   - {fileID: 2100000, guid: 1c8d20bd47222a54cacaaea3bff6645b, type: 2}
   - {fileID: 2100000, guid: 55b91e48611cd8e4f92c8372ffb31c19, type: 2}
   - {fileID: 2100000, guid: 1e37b8efaadb4fd47add7499f9482f2f, type: 2}
   - {fileID: 2100000, guid: d9d1b0a95f2c3844a839d35c637162e5, type: 2}
-  - {fileID: 2100000, guid: e0de07fc2dde4d1479f8123889bebbb5, type: 2}
+  - {fileID: 2100000, guid: 9be3bf14d30b3734698eb978a26e07bb, type: 2}
   - {fileID: 2100000, guid: 49ef762cfb3f19a40ad79ce239bf44c2, type: 2}
   - {fileID: 2100000, guid: af51e2919ad6df14482578404801dbe5, type: 2}
   - {fileID: 2100000, guid: 9adb5ecdf22c4ff448615330af7d76b9, type: 2}
