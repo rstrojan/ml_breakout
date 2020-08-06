@@ -5,6 +5,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     public int playerId;
+    public GameObject player;
     private Rigidbody ballRb;
     public Vector3 startVelocity;
     private Vector3 lastUpdateVelocity;
@@ -55,7 +56,10 @@ public class BallController : MonoBehaviour
             if(bottomSensorBounce){
                 return;
             }
-            levelController.GetComponent<LevelController>().ballCount--; 
+            levelController.GetComponent<LevelController>().ballCount--;
+            if(player.GetComponent<PlayerController>().isAgent){
+                player.GetComponent<AgentController>().LostBall();
+            } 
             Destroy(gameObject);
         }
     }

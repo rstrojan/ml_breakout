@@ -6,6 +6,13 @@ using static Helper;
 
 public class LevelController : MonoBehaviour
 {
+    [Header("For Agents and Training")]
+    public bool isAgent;
+    public bool isTraining;
+    public int numSimulations;
+    public GameObject agentPrefab;
+    public GameObject levelControllerPrefab;
+
     [Header("Specific to Controller")]
     public int playerId;
     public static bool isTwoPlayer;
@@ -13,18 +20,18 @@ public class LevelController : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText2P;
     [SerializeField] GameObject mainCamera;
     public GameManager gameManager; 
-
-    private MeshRenderer ground;
+    public GameObject ground;
     private float groundWidth;
 
     [Header("Default Scene Values")]
     public GameObject playerPrefab;
+    private GameObject player;
+    private Vector3 startPosition;
     public GameObject ballPrefab;
     public GameObject[] brickPrefabs;
     public float[] chanceForBrickType;
     public float chanceForPowerUp;
     
-    private GameObject player;
     private float maxBrickLength;
     private float brickWidth;
     private int brickZMin = 5;
@@ -53,33 +60,66 @@ public class LevelController : MonoBehaviour
     private void Awake() {
         isTwoPlayer = GameManager.isTwoPlayer;
         // levelProgression = GameManager.levelProgression;
-        ground = this.transform.GetChild(1).gameObject.FindComponentChildWithTag<MeshRenderer>("Ground");
-        groundWidth = ground.bounds.size.x;                                 // get the width of the ground
+        // ground = this.transform.GetChild(1).gameObject.FindComponentChildWithTag<MeshRenderer>("Ground");
+        groundWidth = ground.GetComponent<MeshRenderer>().bounds.size.x;      // get the width of the ground
     }
 
     void Start(){
-        RunSceneGenerator();
-        SetPlayers();
-        SetEvironment();
-        player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
-        player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
-        player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object
-        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
-        ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
-        ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
-        ballCount++;
-        SetBricks();                                                        // set the bricks in the scene
+        RunSceneGenerator();    // generate level variation variables based on progression
+        SetPlayers();           // set one or two player
+        SetEvironment();        // set the environment variables
+        InitPlayer();           // initialize player
+        if(!isTraining){
+            InitBall();             // initialize primary ball
+            SetBricks();            // set the bricks in the scene
+        }
+        else{
+            MakeSceneCopies();  // copy scene for training
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if(ballCount <= 0){
-            gameManager.GameOver();     // if all balls destroyed, end game
+            if(isTraining){
+                player.GetComponent<AgentController>().LostAllBalls();
+            }
+            else{
+                gameManager.GameOver();     // if all balls destroyed, end game
+            }
         }
         if(destructableBrickCount <= 0){
-            gameManager.LevelComplete();    // if all destroyable bricks are destroyed, complete level
+            if(isTraining){
+                player.GetComponent<AgentController>().DestroyedAllBricks();
+            }
+            else{                
+                gameManager.LevelComplete();    // if all destroyable bricks are destroyed, complete level
+            }
         }
+    }
+
+    private void InitPlayer(){
+        Debug.Log("ID: " + playerId);
+        if(isAgent){
+            player = Instantiate(agentPrefab, agentPrefab.transform.position + transform.position, agentPrefab.transform.rotation);
+            player.GetComponent<PlayerController>().isAgent = true;
+        }
+        else{
+            player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
+            player.GetComponent<PlayerController>().isAgent = false;
+        }
+        player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
+        player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object        
+        startPosition = player.transform.position;
+    }
+
+    private void InitBall(){
+        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
+        ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
+        ball.GetComponent<BallController>().player = player;
+        ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
+        ballCount = 1;
     }
 
     private void SetPlayers(){
@@ -310,6 +350,7 @@ public class LevelController : MonoBehaviour
                 wallMatChoice = Random.Range(0, wallMaterials.Length);
                 break;
             default:
+                Debug.Log("level 5+");
                 maxBrickTypes = brickPrefabs.Length;
                 brickColumnCount = Random.Range(1, 4);
                 brickRows = Random.Range(4, 8);
@@ -324,6 +365,51 @@ public class LevelController : MonoBehaviour
                 BrickMix();
                 doAddRandomBricks = true;
                 break;
+        }
+    }
+
+    // Agent specific block
+    // function provided for Agents to reset the scene
+    public void SetScene(){
+        InitBall();
+        SetBricks();                                                        // set the bricks in the scene
+        player.transform.position = startPosition;
+    }
+
+    // function provided for Agents to clear the scene
+    public void ClearScene(){
+        GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
+        if(bricks.Length != 0){
+            foreach(var brick in bricks){
+                if(brick.GetComponent<BrickController>().playerId == playerId){
+                    Destroy(brick);
+                }
+            }
+        }
+        GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+        if(balls.Length != 0){
+            foreach(var ball in balls){
+                if(ball.GetComponent<BallController>().playerId == playerId){
+                    Destroy(ball);
+                }                
+            }
+        }
+    }
+
+    private void MakeSceneCopies(){
+        if(playerId != 1){
+            return;
+        }
+        Vector3 nextPosition = transform.position + new Vector3(200f, 0f, 0f);
+        for(int i = 0; i < numSimulations; i++){
+            GameObject newLevelController = Instantiate(levelControllerPrefab, nextPosition, levelControllerPrefab.transform.rotation);
+            LevelController levCon = newLevelController.GetComponent<LevelController>();
+            levCon.playerId = playerId + 1 + i;
+            levCon.isAgent = true;
+            levCon.isTraining = true;
+            levCon.gameManager = gameManager;
+            levCon.mainCamera.GetComponent<AudioListener>().enabled = false;
+            nextPosition += new Vector3(200f, 0f, 0f);
         }
     }
 

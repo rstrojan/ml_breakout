@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int playerId;
+    public bool isAgent;
     public bool isTwoPlayer;
     private string horizontalAxis;
 
     private Rigidbody playerRb;
     public float speed;
-    public bool isSticky;
     public bool hasPowerup;
 
     private float horizontalInput;                       // input from player
@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(playerId == 1){
+        Debug.Log("running player Start()\nplayerId: " + playerId);
+        if(playerId == 1 && !isAgent){
             if(isTwoPlayer){
                 horizontalAxis = "Player1_Horizontal";
             }
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
             }
             
         }
-        if((playerId == 2)){
+        if((playerId == 2 && !isAgent)){
             horizontalAxis = "Player2_Horizontal";
         }
     }
@@ -44,7 +45,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         isColliding = false;
-        MovePlayer();
+        if(!isAgent){
+            MovePlayer();
+        }
         ConstrainPlayer();        
     }
 
@@ -77,6 +80,9 @@ public class PlayerController : MonoBehaviour
         isColliding = true;
         if(other.CompareTag("Powerup")){
             other.GetComponent<PowerupController>().ActivateEffect();
+            if(isAgent){
+                gameObject.GetComponent<AgentController>().GotPowerUp();
+            }
         }
     }
 
