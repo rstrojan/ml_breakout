@@ -1186,11 +1186,16 @@ PrefabInstance:
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: isTraining
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: levelProgression
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: numSimulations
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041289, guid: da74d5fd2be495e4b90f043edf4ed5b7,

@@ -104,6 +104,7 @@ public class LevelController : MonoBehaviour
         if(isAgent){
             player = Instantiate(agentPrefab, agentPrefab.transform.position + transform.position, agentPrefab.transform.rotation);
             player.GetComponent<PlayerController>().isAgent = true;
+            player.GetComponent<AgentController>().levelController = this.gameObject;
         }
         else{
             player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
