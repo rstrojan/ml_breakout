@@ -64,3 +64,5 @@ crashlytics-build.properties
 Assembly-CSharp.csproj
 Library/ArtifactDB
 Library/ScriptAssemblies/Assembly-CSharp.dll
+
+results/
