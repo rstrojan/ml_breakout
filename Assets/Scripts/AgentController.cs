@@ -9,19 +9,8 @@ public class AgentController : Agent
 {
     private Rigidbody rBody;
     public GameObject levelController;
+    private float speed;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // resets the game for a new round of training
     public override void OnEpisodeBegin()
     {
@@ -29,9 +18,33 @@ public class AgentController : Agent
         levelController.GetComponent<LevelController>().SetScene();
     }
 
+    void Start(){
+        speed = gameObject.GetComponent<PlayerController>().speed;
+    }
+
+    void Update(){
+        speed = gameObject.GetComponent<PlayerController>().speed;
+    }
+
     public override void OnActionReceived(float[] vectorAction)
     {
+        Debug.Log("action: " + vectorAction);
+        int horizontalInput;
+        var action = Mathf.FloorToInt(vectorAction[0]);
 
+        switch(action){
+            case 1:
+                horizontalInput = -1;
+                break;
+            case 2:
+                horizontalInput = 1;
+                break;
+            default:
+                horizontalInput = 0;
+                break;
+        }
+
+        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
     public void LostBall(){
