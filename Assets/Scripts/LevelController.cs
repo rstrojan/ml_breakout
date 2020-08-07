@@ -395,6 +395,22 @@ public class LevelController : MonoBehaviour
                 }                
             }
         }
+        GameObject[] powerups = GameObject.FindGameObjectsWithTag("Powerup");
+        if(powerups.Length != 0){
+            foreach(var powerup in powerups){
+                if(powerup.GetComponentInParent<PowerupController>().playerId == playerId){
+                    Destroy(powerup);
+                }
+            }
+        }
+        GameObject[] powerupIndicators = GameObject.FindGameObjectsWithTag("PowerupIndicator");
+        if(powerupIndicators.Length != 0){
+            foreach(var indicator in powerupIndicators){
+                if(indicator.GetComponentInParent<PowerupController>().playerId == playerId){
+                    Destroy(indicator);
+                }
+            }
+        }
     }
 
     private void MakeSceneCopies(){

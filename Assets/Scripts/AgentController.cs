@@ -10,10 +10,12 @@ public class AgentController : Agent
     private Rigidbody rBody;
     public GameObject levelController;
     private float speed;
+    public bool fire;
     
     // resets the game for a new round of training
     public override void OnEpisodeBegin()
     {
+        Debug.Log("levelController: " + levelController.name);
         levelController.GetComponent<LevelController>().ClearScene();
         levelController.GetComponent<LevelController>().SetScene();
     }
@@ -29,10 +31,16 @@ public class AgentController : Agent
     public override void OnActionReceived(float[] vectorAction)
     {
         Debug.Log("action: " + vectorAction);
-        int horizontalInput;
-        var action = Mathf.FloorToInt(vectorAction[0]);
+        var moveChoice = Mathf.FloorToInt(vectorAction[0]);
+        Move(moveChoice);
+        var fireChoice = Mathf.FloorToInt(vectorAction[1]);
+        DoFire(fireChoice);        
+    }
 
-        switch(action){
+    private void Move(int moveChoice){
+        int horizontalInput;
+
+        switch(moveChoice){
             case 1:
                 horizontalInput = -1;
                 break;
@@ -43,8 +51,18 @@ public class AgentController : Agent
                 horizontalInput = 0;
                 break;
         }
-
         transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
+    }
+
+    private void DoFire(int fireChoice){
+        switch(fireChoice){
+            case 1:
+                fire = true;
+                break;
+            default:
+                fire = false;
+                break;
+        }
     }
 
     public void LostBall(){
@@ -76,5 +94,13 @@ public class AgentController : Agent
         // huge positive reward
         Debug.Log("Destroyed all bricks");
         AddReward(1.0f);
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.CompareTag("Ball")){
+            // small positive reward
+            Debug.Log("Hit Ball");
+            AddReward(0.1f);
+        }
     }
 }

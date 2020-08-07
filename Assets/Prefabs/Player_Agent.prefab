@@ -128,15 +128,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
-    NumStackedVectorObservations: 1
-    VectorActionSize: 03000000
+    VectorObservationSize: 8
+    NumStackedVectorObservations: 3
+    VectorActionSize: 0300000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: PaddleAgent
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!114 &-8263485815737088830
@@ -156,6 +156,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 10000
   levelController: {fileID: 0}
+  fire: 0
 --- !u!114 &-1533593388025755600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,11 +187,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
-  m_DetectableTags: []
+  m_DetectableTags:
+  - Ball
+  - Brick
+  - Powerup
+  - Wall
   m_RaysPerDirection: 12
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.5
-  m_RayLength: 20
+  m_RayLength: 34
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
