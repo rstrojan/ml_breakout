@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3282497594078253183
 Transform:
   m_ObjectHideFlags: 0
@@ -107,9 +107,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e12a323911b3142913b640f478d323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerId: 0
   speed: 5
   duration: 5
   isActive: 0
   powerupIndicator: {fileID: 2149101644975052512, guid: 5e3d329f2003ba84982e3e5b2a4b7034,
     type: 3}
+  player: {fileID: 0}
+  levelController: {fileID: 0}
   speedMult: 2

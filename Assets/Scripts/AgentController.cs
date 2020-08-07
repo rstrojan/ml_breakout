@@ -8,29 +8,37 @@ using UnityEngine;
 public class AgentController : Agent
 {
     private Rigidbody rBody;
-    public GameObject levelController;
+    public LevelController levelController;
+    private PlayerController playerController;
     private float speed;
     public bool fire;
-    
+    public bool useVectorObs;
+    private int horizontalInput;
+
+    public override void Initialize() {
+        levelController = transform.parent.gameObject.GetComponent<LevelController>();
+        playerController = gameObject.GetComponent<PlayerController>();
+    }
+
     // resets the game for a new round of training
     public override void OnEpisodeBegin()
     {
-        Debug.Log("levelController: " + levelController.name);
-        levelController.GetComponent<LevelController>().ClearScene();
-        levelController.GetComponent<LevelController>().SetScene();
+        levelController.ClearScene();
+        levelController.SetScene();
     }
 
     void Start(){
-        speed = gameObject.GetComponent<PlayerController>().speed;
+        speed = playerController.speed;
     }
 
     void Update(){
-        speed = gameObject.GetComponent<PlayerController>().speed;
+        speed = playerController.speed;        
+        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        Debug.Log("action: " + vectorAction);
+        Debug.Log("action0: " + vectorAction[0] + "\naction1: " + vectorAction[1]);
         var moveChoice = Mathf.FloorToInt(vectorAction[0]);
         Move(moveChoice);
         var fireChoice = Mathf.FloorToInt(vectorAction[1]);
@@ -38,7 +46,6 @@ public class AgentController : Agent
     }
 
     private void Move(int moveChoice){
-        int horizontalInput;
 
         switch(moveChoice){
             case 1:
@@ -51,7 +58,6 @@ public class AgentController : Agent
                 horizontalInput = 0;
                 break;
         }
-        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
     private void DoFire(int fireChoice){

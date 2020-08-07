@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    public LevelController levelController;
     public int playerId;
     public GameObject player;
     private Rigidbody ballRb;
@@ -14,13 +15,14 @@ public class BallController : MonoBehaviour
     private float halfSize;
     public float minXPosition;
     public float maxXPosition;
-    
-    public GameObject levelController;  // set in Level Controller
 
     public bool bottomSensorBounce;
     
     // Start is called before the first frame update
     void Awake(){
+        levelController = transform.parent.gameObject.GetComponent<LevelController>();
+        playerId = levelController.playerId;
+        player = levelController.player;
         ballRb = gameObject.GetComponent<Rigidbody>();
         halfSize = gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f;
         SetBallVelocity(startVelocity);
@@ -56,7 +58,7 @@ public class BallController : MonoBehaviour
             if(bottomSensorBounce){
                 return;
             }
-            levelController.GetComponent<LevelController>().ballCount--;
+            levelController.ballCount--;
             if(player.GetComponent<PlayerController>().isAgent){
                 player.GetComponent<AgentController>().LostBall();
             } 
@@ -85,8 +87,8 @@ public class BallController : MonoBehaviour
     // return size of current level floor
     private void GetFloorRange(){
         float xRange = GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f;
-        minXPosition = levelController.gameObject.transform.position.x - xRange + halfSize;
-        maxXPosition = levelController.gameObject.transform.position.x + xRange - halfSize;
+        minXPosition = transform.parent.gameObject.transform.position.x - xRange + halfSize;
+        maxXPosition = transform.parent.gameObject.transform.position.x + xRange - halfSize;
     }
 
     // set new ball velocity

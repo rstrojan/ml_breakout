@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6925747361474776225
 Transform:
   m_ObjectHideFlags: 0
@@ -123,10 +123,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48900926b6b1c4041ae7a154935c2204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerId: 0
+  gameManager: {fileID: 0}
+  levelController: {fileID: 0}
+  player: {fileID: 0}
   brick:
     hitCount: 2
     isDestructable: 1
     scoreValue: 10
     hasPowerUp: 0
-    powerup: {fileID: 3777832561556891002, guid: 6fb0278f23c71a04287f2f967a443305,
+    powerup: {fileID: 5969151993398068009, guid: 87cb4257dd5699042bbbe6327b21144f,
       type: 3}

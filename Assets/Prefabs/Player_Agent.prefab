@@ -17,13 +17,14 @@ GameObject:
   - component: {fileID: -8263485815737088830}
   - component: {fileID: -1533593388025755600}
   - component: {fileID: 5754017017722617031}
+  - component: {fileID: -17480477886082924}
   m_Layer: 0
   m_Name: Player_Agent
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8071313727967465626
 Transform:
   m_ObjectHideFlags: 0
@@ -128,12 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 8
+    VectorObservationSize: 0
     NumStackedVectorObservations: 3
     VectorActionSize: 0300000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3caab82f7ee33084ca33736294b8e851, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: PaddleAgent
@@ -157,6 +158,7 @@ MonoBehaviour:
   MaxStep: 10000
   levelController: {fileID: 0}
   fire: 0
+  useVectorObs: 1
 --- !u!114 &-1533593388025755600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eac77db3fda79641982e5aff5072b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelController: {fileID: 0}
   playerId: 0
   isAgent: 0
   isTwoPlayer: 0
@@ -192,7 +195,7 @@ MonoBehaviour:
   - Brick
   - Powerup
   - Wall
-  m_RaysPerDirection: 12
+  m_RaysPerDirection: 6
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.5
   m_RayLength: 34
@@ -204,3 +207,17 @@ MonoBehaviour:
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 0
   m_EndVerticalOffset: 0
+--- !u!114 &-17480477886082924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8071313727967465630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 1
+  TakeActionsBetweenDecisions: 1

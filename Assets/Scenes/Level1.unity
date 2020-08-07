@@ -635,6 +635,7 @@ MonoBehaviour:
   gameManager: {fileID: 1470078273}
   ground: {fileID: 475723669}
   playerPrefab: {fileID: 0}
+  player: {fileID: 0}
   ballPrefab: {fileID: 9124081322659260902, guid: 3df69faca33eb55408f4ebc2a9a93723,
     type: 3}
   brickPrefabs:
@@ -1196,7 +1197,12 @@ PrefabInstance:
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: numSimulations
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: chanceForPowerUp
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041289, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
@@ -1257,6 +1263,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176341196041291, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176341390587068, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da74d5fd2be495e4b90f043edf4ed5b7, type: 3}

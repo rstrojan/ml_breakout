@@ -6,9 +6,15 @@ public class BrickController : MonoBehaviour
 {
     public int playerId;
     public GameManager gameManager;     // assigned in Level Controller
-    public GameObject levelController;  // assigned in Level Controller
+    public LevelController levelController;  // assigned in Level Controller
     public GameObject player;           // assigned in Level Controller
     public Brick brick;
+
+    private void Awake() {
+        levelController = transform.parent.gameObject.GetComponent<LevelController>();
+        playerId = levelController.playerId;
+        player = levelController.player;
+    }
 
     // brick is hit by ball
     private void OnCollisionEnter(Collision other) {
@@ -32,17 +38,22 @@ public class BrickController : MonoBehaviour
         if(brick.IsDestroyed(hitPower)){                 // check if thisBrick is destructable and hits left is 0
             gameManager.UpdateScore(brick.scoreValue, playerId);          // update the score
             if(brick.hasPowerUp){
-                GameObject powerup = Instantiate(brick.powerup, transform.position, brick.powerup.transform.rotation);  // create powerup
-                powerup.GetComponent<PowerupController>().playerId = playerId;      // pass player ID to powerup object
-                powerup.GetComponent<PowerupController>().player = player;          // pass correct player to powerup object
-                powerup.GetComponent<PowerupController>().levelController = levelController;    // pass correct level controller to powerup object
+                GameObject powerup = Instantiate(brick.powerup, transform.position, brick.powerup.transform.rotation, transform.parent);  // create powerup
+                InitPowerup(powerup);
             }
-            levelController.GetComponent<LevelController>().destructableBrickCount--;   // decrease brick count
+            levelController.destructableBrickCount--;   // decrease brick count
             if(player.GetComponent<PlayerController>().isAgent){
                 player.GetComponent<AgentController>().DestroyedBrick();
             }
             Destroy(gameObject);                          // destroy brick
         }
+    }
+
+    private void InitPowerup(GameObject powerup){
+        // powerup.GetComponent<PowerupController>().playerId = playerId;      // pass player ID to powerup object
+        // powerup.GetComponent<PowerupController>().player = player;          // pass correct player to powerup object
+        // powerup.GetComponent<PowerupController>().levelController = levelController;    // pass correct level controller to powerup object
+        powerup.SetActive(true);
     }
 
 }

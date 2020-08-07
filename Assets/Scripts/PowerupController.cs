@@ -13,9 +13,12 @@ public class PowerupController : MonoBehaviour
     public GameObject powerupIndicator;
     private GameObject activeIndicator;
     public GameObject player;           // assigned in BrickController
-    public GameObject levelController;  // assigned in BrickController
+    public LevelController levelController;  // assigned in BrickController
     
     protected void Awake() {
+        levelController = transform.parent.gameObject.GetComponent<LevelController>();
+        playerId = levelController.playerId;
+        player = levelController.player;
         lowerBound = GameObject.Find("Bottom Sensor").transform.position.z; // get limit of motion
     }
 
@@ -43,8 +46,9 @@ public class PowerupController : MonoBehaviour
 
         player.GetComponent<PlayerController>().hasPowerup = true;                          // player has powerup
         isActive = true;                                                                    // powerup is active
-        activeIndicator = Instantiate(powerupIndicator, player.transform.position, powerupIndicator.transform.rotation);  // get indicator
-        activeIndicator.GetComponent<PowerupIndicatorController>().player = player;
+        activeIndicator = Instantiate(powerupIndicator, player.transform.position, powerupIndicator.transform.rotation, transform.parent);  // get indicator
+        // activeIndicator.GetComponent<PowerupIndicatorController>().player = player;
+        activeIndicator.SetActive(true);
         StartEffect();                                                                      // start powerup effect
         StartCoroutine(PowerupCountDownRoutine());                                          // start timer for powerup
         GetComponent<MeshRenderer>().enabled = false;                                       // make powerup object invisible
@@ -72,9 +76,5 @@ public class PowerupController : MonoBehaviour
 
     public virtual void EndEffect(){
         Debug.Log("running generic end");
-    }
-
-    private void OnDestroy() {
-        Debug.Log("destroying!");    
     }
 }

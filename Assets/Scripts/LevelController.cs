@@ -25,7 +25,7 @@ public class LevelController : MonoBehaviour
 
     [Header("Default Scene Values")]
     public GameObject playerPrefab;
-    private GameObject player;
+    public GameObject player;
     private Vector3 startPosition;
     public GameObject ballPrefab;
     public GameObject[] brickPrefabs;
@@ -102,25 +102,27 @@ public class LevelController : MonoBehaviour
     private void InitPlayer(){
         Debug.Log("ID: " + playerId);
         if(isAgent){
-            player = Instantiate(agentPrefab, agentPrefab.transform.position + transform.position, agentPrefab.transform.rotation);
-            player.GetComponent<PlayerController>().isAgent = true;
-            player.GetComponent<AgentController>().levelController = this.gameObject;
+            player = Instantiate(agentPrefab, agentPrefab.transform.position + transform.position, agentPrefab.transform.rotation, this.transform);
+            // player.GetComponent<PlayerController>().isAgent = true;
+            // player.GetComponent<AgentController>().levelController = this.gameObject;
         }
         else{
-            player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation); // set player in scene
-            player.GetComponent<PlayerController>().isAgent = false;
+            player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation, this.transform); // set player in scene
+            // player.GetComponent<PlayerController>().isAgent = false;
         }
-        player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
-        player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object        
+        // player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
+        // player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object        
         startPosition = player.transform.position;
+        player.SetActive(true);
     }
 
     private void InitBall(){
-        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation);  // set ball in scene
-        ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
-        ball.GetComponent<BallController>().player = player;
-        ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
+        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation, this.transform);  // set ball in scene
+        // ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
+        // ball.GetComponent<BallController>().player = player;
+        // ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
         ballCount = 1;
+        ball.SetActive(true);
     }
 
     private void SetPlayers(){
@@ -131,8 +133,8 @@ public class LevelController : MonoBehaviour
 
     // set up 2 player environment
     private void SetTwoPlayer(){
-        levelController2P.gameObject.SetActive(true);  // set LevelController2P to active
         mainCamera.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);   // set main Camera to half screen
+        levelController2P.gameObject.SetActive(true);  // set LevelController2P to active
         scoreText2P.gameObject.SetActive(true);
     }
 
@@ -210,21 +212,22 @@ public class LevelController : MonoBehaviour
     // Brick layouts block
     private void InitBrick(GameObject brick){
         BrickController bc = brick.GetComponent<BrickController>();
-        bc.playerId = playerId;   // pass player ID to brick object
-        bc.levelController = this.gameObject; // pass correct level controller to brick object
+        // bc.playerId = playerId;   // pass player ID to brick object
+        // bc.levelController = this.gameObject; // pass correct level controller to brick object
         bc.gameManager = gameManager; // pass this level's instance of GM to brick object for scoring
-        bc.player = player;       // pass player object to brick object
+        // bc.player = player;       // pass player object to brick object
         PowerUpStatus(brick);         // determine if this brick has a power up
         if(bc.brick.isDestructable){
             destructableBrickCount++;   // count bricks to be destroyed to complete level
         }
+        brick.SetActive(true);
     }
 
     private void MakeRow(float xPos, float xMax, int iter){
         while(xPos + maxBrickLength < xMax){              // while there is still space for the largest brick
             GameObject brickChoice = ChooseBrick();
             float brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
-            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + iter + rowSkip) + transform.position, brickChoice.transform.rotation);  // create brick at current position
+            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + iter + rowSkip) + transform.position, brickChoice.transform.rotation, this.transform);  // create brick at current position
             InitBrick(newBrick);
             xPos += brickLength;                                    // increment current position by length of this brick
         }
@@ -398,7 +401,7 @@ public class LevelController : MonoBehaviour
         GameObject[] powerups = GameObject.FindGameObjectsWithTag("Powerup");
         if(powerups.Length != 0){
             foreach(var powerup in powerups){
-                if(powerup.GetComponentInParent<PowerupController>().playerId == playerId){
+                if(powerup.GetComponent<PowerupController>().playerId == playerId){
                     Destroy(powerup);
                 }
             }
@@ -406,7 +409,7 @@ public class LevelController : MonoBehaviour
         GameObject[] powerupIndicators = GameObject.FindGameObjectsWithTag("PowerupIndicator");
         if(powerupIndicators.Length != 0){
             foreach(var indicator in powerupIndicators){
-                if(indicator.GetComponentInParent<PowerupController>().playerId == playerId){
+                if(indicator.GetComponent<PowerupIndicatorController>().playerId == playerId){
                     Destroy(indicator);
                 }
             }
@@ -425,7 +428,8 @@ public class LevelController : MonoBehaviour
             levCon.isAgent = true;
             levCon.isTraining = true;
             levCon.gameManager = gameManager;
-            levCon.mainCamera.GetComponent<AudioListener>().enabled = false;
+            // levCon.mainCamera.GetComponent<AudioListener>().enabled = false;
+            newLevelController.SetActive(true);
             nextPosition += new Vector3(200f, 0f, 0f);
         }
     }

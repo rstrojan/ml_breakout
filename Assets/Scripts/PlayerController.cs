@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public LevelController levelController;
     public int playerId;
     public bool isAgent;
     public bool isTwoPlayer;
@@ -19,6 +20,10 @@ public class PlayerController : MonoBehaviour
     private bool isColliding;
 
     private void Awake() {
+        levelController = transform.parent.gameObject.GetComponent<LevelController>();
+        playerId = levelController.playerId;
+        isAgent = levelController.isAgent;
+        isTwoPlayer = LevelController.isTwoPlayer;
         startPos = transform.position;
         xRange = GetFloorRange();
     }

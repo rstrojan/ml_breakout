@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7647135144393802919
 Transform:
   m_ObjectHideFlags: 0
@@ -132,5 +132,5 @@ MonoBehaviour:
     isDestructable: 1
     scoreValue: 5
     hasPowerUp: 0
-    powerup: {fileID: 3282497594078253156, guid: e94a8b84c82543e478a8d9264d105732,
+    powerup: {fileID: 3777832561556891002, guid: 6fb0278f23c71a04287f2f967a443305,
       type: 3}
