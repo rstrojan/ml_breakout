@@ -13,14 +13,13 @@ GameObject:
   - component: {fileID: 7472964554562413652}
   - component: {fileID: 4911006277767227875}
   - component: {fileID: 7607337187800239167}
-  - component: {fileID: 1304391631135115926}
   m_Layer: 0
   m_Name: PaddleGuns
-  m_TagString: Untagged
+  m_TagString: PowerupIndicator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3466283811468639700
 Transform:
   m_ObjectHideFlags: 0
@@ -107,15 +106,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 838c3dce4c718f942955194df691f225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1304391631135115926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785911591042985410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26fc53660b8b945429063c6bf43f9e79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  fireKey: 0

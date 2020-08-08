@@ -14,21 +14,21 @@ public class MultiBallPwrController : PowerupController
 
 
     public override void StartEffect(){
-        ballCount = levelController.GetComponent<LevelController>().ballCount;
+        ballCount = levelController.ballCount;
         FindBall();
         currentBallPosition = currentBall.transform.position;
         currentBallVelocity = currentBall.GetComponent<Rigidbody>().velocity;
         for(int i = 0; i < (ballsToMake - ballCount); i++){
             // Vector3 newBallVelocity = new Vector3((currentBallVelocity.x + angleVariation * (i + 1)), currentBallVelocity.y, currentBallVelocity.z);
             Vector3 newBallVelocity = Quaternion.AngleAxis(angleVariation * (i + 1), new Vector3(0, 1, 0)) * currentBallVelocity;
-            Debug.Log("new ball velocity: " + newBallVelocity);
-            Debug.Log("normalized: " + newBallVelocity.normalized);
-            GameObject newBall = Instantiate(ballPrefab, currentBallPosition, ballPrefab.transform.rotation);
+            GameObject newBall = Instantiate(ballPrefab, currentBallPosition, ballPrefab.transform.rotation, transform.parent);
             newBall.GetComponent<Rigidbody>().velocity = newBallVelocity;
-            newBall.GetComponent<BallController>().playerId = playerId;
-            newBall.GetComponent<BallController>().levelController = levelController;
+            newBall.SetActive(true);
+            // newBall.GetComponent<BallController>().playerId = playerId;
+            // newBall.GetComponent<BallController>().player = player;
+            // newBall.GetComponent<BallController>().levelController = levelController;
         }
-        levelController.GetComponent<LevelController>().ballCount += (ballsToMake - ballCount);
+        levelController.ballCount += (ballsToMake - ballCount);
     }
 
     public override void EndEffect(){
