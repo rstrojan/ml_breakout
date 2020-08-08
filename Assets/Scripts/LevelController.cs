@@ -58,7 +58,10 @@ public class LevelController : MonoBehaviour
     [SerializeField] Material[] wallMaterials;
 
     private void Awake() {
+        levelProgression = GameManager.levelTracker;
         isTwoPlayer = GameManager.isTwoPlayer;
+        isAgent = GameManager.playerOneIsAI;
+        levelController2P.GetComponent<LevelController>().isAgent = GameManager.playerTwoIsAI;
         // levelProgression = GameManager.levelProgression;
         // ground = this.transform.GetChild(1).gameObject.FindComponentChildWithTag<MeshRenderer>("Ground");
         groundWidth = ground.GetComponent<MeshRenderer>().bounds.size.x;      // get the width of the ground
@@ -302,9 +305,9 @@ public class LevelController : MonoBehaviour
             float xPos = Random.Range(minX, maxX);
             GameObject brickChoice = ChooseBrick();
             float brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
-            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos - (brickLength / 2f), 2, (float)randBrickZStartPos) + transform.position, brickChoice.transform.rotation);  // create brick at current position
+            GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos - (brickLength / 2f), 2, (float)randBrickZStartPos) + transform.position, brickChoice.transform.rotation, this.transform);  // create brick at current position
             InitBrick(newBrick);
-            newBrick = Instantiate(brickChoice, new Vector3(-xPos + (brickLength / 2f), 2, (float)randBrickZStartPos) + transform.position, brickChoice.transform.rotation);  // create brick at current position
+            newBrick = Instantiate(brickChoice, new Vector3(-xPos + (brickLength / 2f), 2, (float)randBrickZStartPos) + transform.position, brickChoice.transform.rotation, this.transform);  // create brick at current position
             InitBrick(newBrick);
             randBrickZStartPos++;
             if((maxZ - randBrickZStartPos) > (numRandomBricks - i + 1)){
