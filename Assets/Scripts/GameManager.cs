@@ -9,17 +9,29 @@ public class GameManager : MonoBehaviour
 {
 
     public GameObject uiController;
+
+    //Game state bools
     public static bool isPaused;
     public static bool isPlaying;
+    public static bool isNextLevel; //tracks whether player has moved passed level 1
+    public static bool isLevelComplete; //tracks whether a level has been completed
     public static bool isGameOver;
     public static bool isTwoPlayer;
+    public static bool playerOneIsAI;
+    public static bool playerTwoIsAI;
 
+    //for pause menu
     public float pausedTimeScale;
+
+    //High score data
     public string highScoreName;
     public int highScore;
     public string highScoreListText;
-    public int scorePlayerOne;
-    public int scorePlayerTwo;
+
+    // static objects used for carrying over data to next level
+    public static int scorePlayerOne;
+    public static int scorePlayerTwo;
+    public static int levelTracker;
 
     //these objects are for testing purposes.
     public InputField TEST_newScoreName;
@@ -29,19 +41,28 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // init scores in case theres no save data
-        scorePlayerOne = 0;
-        scorePlayerTwo = 0;
+        //for testing
+        Debug.Log("Now Playing Level " + levelTracker);
         // get high score
         LoadScore();
 
-        //set pause
+        if(!isNextLevel) //if a new game, 0 out static vars
+        {
+            // init scores in case theres no save data
+            scorePlayerOne = 0;
+            scorePlayerTwo = 0;
+            levelTracker = 0;
+        }
+
+        //certain states need to be reset at start of level
         isPaused = false;
+        isLevelComplete = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // when hit escape toggle pause
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -89,36 +110,63 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        GameOver();
     }
 
        
-    // MAKE ME DO STUFF!
+    // Set isLevelComplete
     public void LevelComplete(){
-        Debug.Log("Level Complete!");
+        isLevelComplete = true;
+       // Debug.Log("Level Complete!");
+    }
+
+    // Go to isNextLevel
+    public void NextLevel()
+    {
+        isGameOver = false;
+        levelTracker++;
+        isNextLevel = true;
+        SceneManager.LoadScene("Level1");
     }
 
     // Set isGameOver to true.
     public void GameOver()
     {
         isGameOver = true;
-        Debug.Log("Game Over");
+        isLevelComplete = false;
+        // Debug.Log("Game Over");
+    }
+
+    //toggle whether p1 is AI or not
+    public void PlayerOneIsAI()
+    {
+        playerOneIsAI = !playerOneIsAI;
+    }
+
+    //toggle whether p2 is AI or not
+    public void PlayerTwoIsAI()
+    {
+        playerTwoIsAI = !playerTwoIsAI;
     }
 
     // load mainmenu scene, make sure timescale is set to 1, isGameover to false
     public void ToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1;
         isGameOver = false;
+        SceneManager.LoadScene("MainMenu");
+
     }
 
-    // load level1 scene, make sure timescale is set to 1, isGameover to false
+    // start game from main menu
     public void StartGame()
     {
+        //load the scene
         SceneManager.LoadSceneAsync("Level1");
         Time.timeScale = 1;
+        //set game states for this type of load
+        isNextLevel = false;
         isGameOver = false;
+        isLevelComplete = false;
     }
 
     // restart current scene, make sure timescale is set to 1, isGameover to false
@@ -178,7 +226,7 @@ public class GameManager : MonoBehaviour
         highScore = loader.HighScoreList[0].score;
         highScoreName = loader.HighScoreList[0].name;
 
-        Debug.Log(scoreList);
+        // Debug.Log(scoreList);
     }
 
     //exit game to desktop
@@ -187,7 +235,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
     
-    //set isTwoPlayer to true
+    //set isTwoPlayer to true, and starts game
     public void SetTwoPlayer(){
         isTwoPlayer = true;
         StartGame();

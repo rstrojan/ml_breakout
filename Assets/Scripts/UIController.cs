@@ -18,18 +18,34 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI scoreTextPlayerOne;
     public TextMeshProUGUI scoreTextPlayerTwo;
 
+    //objects for count down
+    public bool isCountingDown;
+    public TextMeshProUGUI timerText;
+    public GameObject timerTextObject;
+    int timer = 3;
+    float savedTimesScale;
+    float startime;
+
     //main menu objects
     public GameObject mainMenuObject;
     public Button soloPlayButton;
     public Button duoPlayButton;
     public Button quitButton;
+    public Button playerOneAIButton;
+    public Button playerTwoAIButton;
     public TextMeshProUGUI mainMenuTitle;
     public TextMeshProUGUI highestScoreTitle;
     public GameObject highScoreListObject;
     public TextMeshProUGUI highScoreListTitle;
     public TextMeshProUGUI highScoreList;
 
+    //next level menu objects
+    public GameObject levelCompleteMenuObject;
+    public Button endRunButton;
+    public Button nextLevelButton;
+
     //game over menu objects
+    public GameObject gameOverMenuObject;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI highScoreObject;
@@ -53,6 +69,19 @@ public class UIController : MonoBehaviour
         //Turns on score UI overlay while game is being played
         if (SceneManager.GetActiveScene().name != "MainMenu" && !GameManager.isGameOver)
         {
+            //turn off main menu if not in main menu;
+            mainMenuObject.gameObject.SetActive(false);
+
+            //Setting up for countdown
+            savedTimesScale = Time.timeScale; //grab current timescale
+            timerText.gameObject.SetActive(true); //turn on the ui
+            isCountingDown = true; //make sure it starts
+            startime = Time.unscaledTime; //grab current time
+            Time.timeScale = 0;
+
+
+
+            //check for players
             if (!GameManager.isTwoPlayer)
             {
                 scoreTextPlayerOne.gameObject.SetActive(true);
@@ -71,9 +100,50 @@ public class UIController : MonoBehaviour
 
     }
 
+
+
+
     // Update is called once per frame
     void Update()
     {
+        //level complete block
+        if (GameManager.isLevelComplete)
+        {
+            levelCompleteMenuObject.gameObject.SetActive(true);
+        }
+        else
+        {
+            levelCompleteMenuObject.gameObject.SetActive(false);
+        }
+
+
+        //countdown block
+        if (isCountingDown)
+        {
+            if ((Time.unscaledTime - startime) < 1.0f)
+            {
+                timerText.text = "3";
+            }
+            else if ((Time.unscaledTime - startime) < 2.0f)
+            {
+                timerText.text = "2";
+            }
+            else if ((Time.unscaledTime - startime) < 3.0f)
+            {
+                timerText.text = "1";
+            }
+            else if ((Time.unscaledTime - startime) < 4.0f)
+            {
+                timerText.text = "GO!";
+                Time.timeScale = savedTimesScale;
+            }
+            else if ((Time.unscaledTime - startime) < 5.0f)
+            {
+                isCountingDown = false;
+                timerText.gameObject.SetActive(false);
+            }
+        }
+
 
         // if game is paused, turn on pause menu
         if (GameManager.isPaused == true)
@@ -94,16 +164,38 @@ public class UIController : MonoBehaviour
         // if game is over, call game over
         if (GameManager.isGameOver == true)
         {
+            gameOverMenuObject.gameObject.SetActive(true);
             GameOver();
+        }
+        else
+        {
+            gameOverMenuObject.gameObject.SetActive(false);
         }
 
         // toggle main menu 
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             mainMenuObject.gameObject.SetActive(true);
+            gameOverMenuObject.gameObject.SetActive(false); // make sure game over turns off
             gameManager.LoadScore();
             highestScoreTitle.text = "#1 Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
             highScoreList.text = gameManager.highScoreListText;
+            if (GameManager.playerOneIsAI)
+            {
+                playerOneAIButton.GetComponentInChildren<Text>().text = "P1 is AI";
+            }
+            else
+            {
+                playerOneAIButton.GetComponentInChildren<Text>().text = "P1 is Human";
+            }
+            if (GameManager.playerTwoIsAI)
+            {
+                playerTwoAIButton.GetComponentInChildren<Text>().text = "P2 is AI";
+            }
+            else
+            {
+                playerTwoAIButton.GetComponentInChildren<Text>().text = "P2 is Human";
+            }
         }
         else
         {
@@ -115,14 +207,18 @@ public class UIController : MonoBehaviour
     // manage gameover state
     public void GameOver()
     {
+        Time.timeScale = 0;
         gameManager.LoadScore(); // make sure we have high score dat
-        Debug.Log("score loaded");
         highScoreObject.gameObject.SetActive(true);
-        if (gameManager.highScore < gameManager.scorePlayerOne)
+        if (gameManager.highScore < GameManager.scorePlayerOne)
         {
-            newHighScoreObject.text = "New High Score: " + gameManager.scorePlayerOne;
+            newHighScoreObject.text = "New High Score: " + GameManager.scorePlayerOne;
             highScoreText.text = "Old High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
             newHighScoreObject.gameObject.SetActive(true);
+        }
+        else
+        {
+            highScoreText.text = "High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
         }
         mainMenuButton.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(true);
@@ -131,13 +227,14 @@ public class UIController : MonoBehaviour
     //update the in game score UI overlay.
     public void UpdateScore()
     { 
-        scoreTextPlayerOne.text = "Score: " + gameManager.scorePlayerOne;
-        scoreTextPlayerTwo.text = "Score: " + gameManager.scorePlayerTwo;
+        scoreTextPlayerOne.text = "Score: " + GameManager.scorePlayerOne;
+        scoreTextPlayerTwo.text = "Score: " + GameManager.scorePlayerTwo;
     }
 
     //button function for saving the score in gameover menu
     public void SaveButton()
     {
+        Debug.Log(newScoreName.text);
         gameManager.SaveScore(newScoreName.text);
 
         //if the newHighScoreObject is on, turn it off
