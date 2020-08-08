@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
             // init scores in case theres no save data
             scorePlayerOne = 0;
             scorePlayerTwo = 0;
-            levelTracker = 0;
+            levelTracker = 1;
         }
 
         //certain states need to be reset at start of level

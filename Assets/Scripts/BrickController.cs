@@ -50,9 +50,6 @@ public class BrickController : MonoBehaviour
     }
 
     private void InitPowerup(GameObject powerup){
-        // powerup.GetComponent<PowerupController>().playerId = playerId;      // pass player ID to powerup object
-        // powerup.GetComponent<PowerupController>().player = player;          // pass correct player to powerup object
-        // powerup.GetComponent<PowerupController>().levelController = levelController;    // pass correct level controller to powerup object
         powerup.SetActive(true);
     }
 
