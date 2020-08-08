@@ -180,6 +180,8 @@ public class UIController : MonoBehaviour
             gameManager.LoadScore();
             highestScoreTitle.text = "#1 Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
             highScoreList.text = gameManager.highScoreListText;
+
+            //toggle button text to reflect AI/Human
             if (GameManager.playerOneIsAI)
             {
                 playerOneAIButton.GetComponentInChildren<Text>().text = "P1 is AI";
