@@ -38,7 +38,7 @@ public class AgentController : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        Debug.Log("action0: " + vectorAction[0] + "\naction1: " + vectorAction[1]);
+        // Debug.Log("action0: " + vectorAction[0] + "\naction1: " + vectorAction[1]);
         var moveChoice = Mathf.FloorToInt(vectorAction[0]);
         Move(moveChoice);
         var fireChoice = Mathf.FloorToInt(vectorAction[1]);
@@ -73,40 +73,40 @@ public class AgentController : Agent
 
     public void LostBall(){
         // small negative reward
-        Debug.Log("Lost Ball");
+        // Debug.Log("Lost Ball");
         AddReward(-0.1f);
     }
 
     public void LostAllBalls(){
         // big negative reward
-        Debug.Log("Lost all balls");
+        // Debug.Log("Lost all balls");
         AddReward(-1.0f);
         EndEpisode();
     }
 
     public void GotPowerUp(){
         // small positive reward
-        Debug.Log("Got Powerup");
-        AddReward(0.1f);
+        // Debug.Log("Got Powerup");
+        AddReward(0.3f);
     }
 
     public void DestroyedBrick(){
         // medium positive reward
-        Debug.Log("Destroyed Brick");
-        AddReward(0.2f);
+        // Debug.Log("Destroyed Brick");
+        AddReward(0.05f);
     }
 
     public void DestroyedAllBricks(){
         // huge positive reward
-        Debug.Log("Destroyed all bricks");
-        AddReward(1.0f);
+        // Debug.Log("Destroyed all bricks");
+        AddReward(10.0f);
     }
 
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ball")){
             // small positive reward
-            Debug.Log("Hit Ball");
-            AddReward(0.1f);
+            // Debug.Log("Hit Ball");
+            AddReward(1.0f);
         }
     }
 }
