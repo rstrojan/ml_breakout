@@ -9,9 +9,12 @@ public class PaddleGunController : PowerupIndicatorController
     public KeyCode fireKey;
     private bool isAgent = false;
 
+    public SFXController sfx;
+
     // Start is called before the first frame update
     void Start()
     {
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
         FindFireKey();
         projectileOffsetX = gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f; // get size of paddle gun object
         projectileOffsetX *= 0.9f;      // bring offset in from edge
@@ -40,10 +43,12 @@ public class PaddleGunController : PowerupIndicatorController
     private void CheckPlayerFire(){
         if(Input.GetKeyDown(fireKey)){      
             Fire();
+            sfx.PlayLazerFire();
         }
     }
 
     private void Fire(){
+
         GameObject pooledProjectile1 = ObjectPooler.SharedInstance.GetPooledObject1();  // get first pooled object
         GameObject pooledProjectile2 = ObjectPooler.SharedInstance.GetPooledObject2();  // get second pooled object
         if(pooledProjectile1 != null){

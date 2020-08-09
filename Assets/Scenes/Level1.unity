@@ -708,6 +708,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d136328e0eb039e4ba5a70c30556ad5e, type: 3}
   - {fileID: 8300000, guid: df630545d4d5b744592cd842449d3ff5, type: 3}
   - {fileID: 8300000, guid: 377cb55fcc571ed40bc0cb99f1bbdc07, type: 3}
+  brickBreaks:
+  - {fileID: 8300000, guid: da9da1f2060875143b8b09ca0b1adac6, type: 3}
+  - {fileID: 8300000, guid: c26d5180f7747844e855c22e9fe87b91, type: 3}
+  brickHit: {fileID: 8300000, guid: 774d9dbb5e5a1f24185fc8fc569f92a6, type: 3}
+  countDown:
+  - {fileID: 8300000, guid: 678df1dbb84f74c4788971aea2da8023, type: 3}
+  - {fileID: 8300000, guid: a4efccf3813957644b885254d52b7e6c, type: 3}
+  - {fileID: 8300000, guid: 2a9b295faf929a14d9f895958b5c7e56, type: 3}
+  - {fileID: 8300000, guid: 1e57dce5776ff8245952e7264ddd6e0b, type: 3}
+  lazerFire:
+  - {fileID: 8300000, guid: cec76d043494e9248a90dff639492914, type: 3}
+  - {fileID: 8300000, guid: 37e26d3c9d95cb8458e881cf26b88bdf, type: 3}
+  - {fileID: 8300000, guid: 7c31035dec9c9364cb216a36df8d6e67, type: 3}
 --- !u!4 &814748301
 Transform:
   m_ObjectHideFlags: 0

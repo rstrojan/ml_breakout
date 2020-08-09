@@ -14,6 +14,13 @@ public class UIController : MonoBehaviour
 {
     public GameManager gameManager;
 
+    //audio objects for countdown
+    public SFXController sfx;
+    public bool threeWasPlayed;
+    public bool twoWasPlayed;
+    public bool oneWasPlayed;
+    public bool goWasPlayed;
+
     //display strings for player scores
     public TextMeshProUGUI scoreTextPlayerOne;
     public TextMeshProUGUI scoreTextPlayerTwo;
@@ -66,6 +73,9 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //get the SFX controller object
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();     
+
         //Turns on score UI overlay while game is being played
         if (SceneManager.GetActiveScene().name != "MainMenu" && !GameManager.isGameOver)
         {
@@ -78,7 +88,7 @@ public class UIController : MonoBehaviour
             isCountingDown = true; //make sure it starts
             startime = Time.unscaledTime; //grab current time
             Time.timeScale = 0;
-
+            threeWasPlayed = twoWasPlayed = oneWasPlayed = goWasPlayed = false;
 
 
             //check for players
@@ -123,18 +133,40 @@ public class UIController : MonoBehaviour
             if ((Time.unscaledTime - startime) < 1.0f)
             {
                 timerText.text = "3";
+                if(!threeWasPlayed)
+                {
+                    sfx.PlayCountDown(3);
+                    threeWasPlayed = true;
+                }
+
             }
             else if ((Time.unscaledTime - startime) < 2.0f)
             {
                 timerText.text = "2";
+                if (!twoWasPlayed)
+                {
+                    sfx.PlayCountDown(2);
+                    twoWasPlayed = true;
+                }
             }
             else if ((Time.unscaledTime - startime) < 3.0f)
             {
                 timerText.text = "1";
+                if (!oneWasPlayed)
+                {
+                    sfx.PlayCountDown(1);
+                    oneWasPlayed = true;
+                }
+
             }
             else if ((Time.unscaledTime - startime) < 4.0f)
             {
                 timerText.text = "GO!";
+                if (!goWasPlayed)
+                {
+                    sfx.PlayCountDown(0);
+                    goWasPlayed = true;
+                }
                 Time.timeScale = savedTimesScale;
             }
             else if ((Time.unscaledTime - startime) < 5.0f)
