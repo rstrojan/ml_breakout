@@ -18,6 +18,9 @@ public class BallController : MonoBehaviour
     private bool isColliding;
 
     public bool bottomSensorBounce;
+
+    public SFXController sfx;
+
     
     // Start is called before the first frame update
     void Awake(){
@@ -31,6 +34,7 @@ public class BallController : MonoBehaviour
 
     private void Start() {
         GetFloorRange();
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
     }
 
     // Update is called once per frame
@@ -67,6 +71,10 @@ public class BallController : MonoBehaviour
                 player.GetComponent<AgentController>().LostBall();
             } 
             Destroy(gameObject);
+        }
+        else if(other.gameObject.CompareTag("Player"))
+        {
+            sfx.PlayPaddleHit();
         }
     }
 
