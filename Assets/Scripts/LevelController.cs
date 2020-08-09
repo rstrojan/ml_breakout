@@ -28,6 +28,7 @@ public class LevelController : MonoBehaviour
     public GameObject player;
     private Vector3 startPosition;
     public GameObject ballPrefab;
+    private GameObject ball;
     public GameObject[] brickPrefabs;
     public float[] chanceForBrickType;
     public float chanceForPowerUp;
@@ -39,7 +40,7 @@ public class LevelController : MonoBehaviour
 
     [Header("Values set during play")]
     public int destructableBrickCount = 0;
-    public int ballCount;
+    public int ballCount = 0;
     [SerializeField] int powerupCount = 0;            // I don't think this is necessary but good for testing
     [SerializeField] int[] brickPicks = {0, 0, 0, 0};   // for testing ratio of chosen bricks
 
@@ -104,25 +105,23 @@ public class LevelController : MonoBehaviour
         Debug.Log("ID: " + playerId);
         if(isAgent){
             player = Instantiate(agentPrefab, agentPrefab.transform.position + transform.position, agentPrefab.transform.rotation, this.transform);
-            // player.GetComponent<PlayerController>().isAgent = true;
-            // player.GetComponent<AgentController>().levelController = this.gameObject;
         }
         else{
             player = Instantiate(playerPrefab, playerPrefab.transform.position + transform.position, playerPrefab.transform.rotation, this.transform); // set player in scene
-            // player.GetComponent<PlayerController>().isAgent = false;
-        }
-        // player.GetComponent<PlayerController>().playerId = playerId;        // pass player ID to player object
-        // player.GetComponent<PlayerController>().isTwoPlayer = isTwoPlayer;  // pass 2 player status to player object        
-        startPosition = player.transform.position;
+        }       
+        startPosition = player.transform.position; // save for agent training resets
         player.SetActive(true);
     }
 
     private void InitBall(){
-        GameObject ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation, this.transform);  // set ball in scene
-        // ball.GetComponent<BallController>().playerId = playerId;            // pass player ID to ball object
-        // ball.GetComponent<BallController>().player = player;
-        // ball.GetComponent<BallController>().levelController = this.gameObject;  // pass correct level controller to ball object
+        ball = Instantiate(ballPrefab, ballPrefab.transform.position + transform.position, ballPrefab.transform.rotation, this.transform);  // set ball in scene
         ballCount = 1;
+        if(isTraining){
+            ball.SetActive(true);
+        }
+    }
+
+    public void StartPlay(){
         ball.SetActive(true);
     }
 

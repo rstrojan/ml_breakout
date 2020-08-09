@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public int playerId;
     public bool isAgent;
     public bool isTwoPlayer;
+    private bool isAgent2P;
     private string horizontalAxis;
 
     private Rigidbody playerRb;
@@ -26,6 +27,9 @@ public class PlayerController : MonoBehaviour
         isTwoPlayer = LevelController.isTwoPlayer;
         startPos = transform.position;
         xRange = GetFloorRange();
+        if(isTwoPlayer && playerId == 1){
+            isAgent2P = GameManager.playerTwoIsAI;
+        }
     }
 
     // Start is called before the first frame update
@@ -33,7 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("running player Start()\nplayerId: " + playerId);
         if(playerId == 1 && !isAgent){
-            if(isTwoPlayer){
+            if(isTwoPlayer && !isAgent2P){
                 horizontalAxis = "Player1_Horizontal";
             }
             else{

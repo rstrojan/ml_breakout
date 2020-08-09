@@ -1450,6 +1450,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1347881297, guid: 6ab8e6f8bc706774eae69a56fd9fe120, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 672615322920050366, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
         type: 3}
       propertyPath: m_IsActive
@@ -1570,6 +1574,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7718700208765300376, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
+        type: 3}
+      propertyPath: levelController
+      value: 
+      objectReference: {fileID: 8953176341816891855}
+    - target: {fileID: 7718700208765300376, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
+        type: 3}
+      propertyPath: levelContrller2P
+      value: 
+      objectReference: {fileID: 730607339}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ab8e6f8bc706774eae69a56fd9fe120, type: 3}
 --- !u!1001 &8953176341816891854
@@ -1629,7 +1643,7 @@ PrefabInstance:
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: chanceForPowerUp
-      value: 1
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041289, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
@@ -1703,3 +1717,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da74d5fd2be495e4b90f043edf4ed5b7, type: 3}
+--- !u!1 &8953176341816891855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8953176341196041291, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8953176341816891854}
+  m_PrefabAsset: {fileID: 0}

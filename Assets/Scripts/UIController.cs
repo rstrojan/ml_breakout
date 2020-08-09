@@ -15,10 +15,12 @@ public class UIController : MonoBehaviour
     public GameManager gameManager;
 
     //display strings for player scores
+    [Header("Display Strings For Player Scores")]
     public TextMeshProUGUI scoreTextPlayerOne;
     public TextMeshProUGUI scoreTextPlayerTwo;
 
     //objects for count down
+    [Header("Objects For Count Down")]
     public bool isCountingDown;
     public TextMeshProUGUI timerText;
     public GameObject timerTextObject;
@@ -27,6 +29,7 @@ public class UIController : MonoBehaviour
     float startime;
 
     //main menu objects
+    [Header("Main Menu Objects")]
     public GameObject mainMenuObject;
     public Button soloPlayButton;
     public Button duoPlayButton;
@@ -40,11 +43,13 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI highScoreList;
 
     //next level menu objects
+    [Header("Next Level Menu Objects")]
     public GameObject levelCompleteMenuObject;
     public Button endRunButton;
     public Button nextLevelButton;
 
     //game over menu objects
+    [Header("Game Over Menu Objects")]
     public GameObject gameOverMenuObject;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI highScoreText;
@@ -55,6 +60,7 @@ public class UIController : MonoBehaviour
     public InputField newScoreVal;
 
     //pause menu objects
+    [Header("Pause Menu Objects")]
     public GameObject pauseMenuObject;
     public TextMeshProUGUI pauseText;
     public Button restartLevelButton;
@@ -62,7 +68,11 @@ public class UIController : MonoBehaviour
     public Button mainMenuButton;
     public Button gameStartButton;
 
+    [Header("Level Controllers")]
+    public GameObject levelController;
+    public GameObject levelContrller2P;
 
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -73,11 +83,11 @@ public class UIController : MonoBehaviour
             mainMenuObject.gameObject.SetActive(false);
 
             //Setting up for countdown
-            savedTimesScale = Time.timeScale; //grab current timescale
+            // savedTimesScale = Time.timeScale; //grab current timescale
             timerText.gameObject.SetActive(true); //turn on the ui
             isCountingDown = true; //make sure it starts
-            startime = Time.unscaledTime; //grab current time
-            Time.timeScale = 0;
+            startime = Time.timeSinceLevelLoad; //grab current time
+            // Time.timeScale = 0;
 
 
 
@@ -119,25 +129,29 @@ public class UIController : MonoBehaviour
 
         //countdown block
         if (isCountingDown)
-        {
-            if ((Time.unscaledTime - startime) < 1.0f)
+        {Debug.Log("in iscountingdown");
+            if ((Time.timeSinceLevelLoad - startime) < 1.0f)
             {
                 timerText.text = "3";
             }
-            else if ((Time.unscaledTime - startime) < 2.0f)
+            else if ((Time.timeSinceLevelLoad - startime) < 2.0f)
             {
                 timerText.text = "2";
             }
-            else if ((Time.unscaledTime - startime) < 3.0f)
+            else if ((Time.timeSinceLevelLoad - startime) < 3.0f)
             {
                 timerText.text = "1";
             }
-            else if ((Time.unscaledTime - startime) < 4.0f)
+            else if ((Time.timeSinceLevelLoad - startime) < 4.0f)
             {
                 timerText.text = "GO!";
-                Time.timeScale = savedTimesScale;
+                // Time.timeScale = savedTimesScale;
+                levelController.GetComponent<LevelController>().StartPlay();
+                if(GameManager.isTwoPlayer){
+                    levelContrller2P.GetComponent<LevelController>().StartPlay();
+                }
             }
-            else if ((Time.unscaledTime - startime) < 5.0f)
+            else if ((Time.timeSinceLevelLoad - startime) < 5.0f)
             {
                 isCountingDown = false;
                 timerText.gameObject.SetActive(false);

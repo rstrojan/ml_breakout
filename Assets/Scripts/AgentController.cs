@@ -14,17 +14,21 @@ public class AgentController : Agent
     public bool fire;
     public bool useVectorObs;
     private int horizontalInput;
+    public bool isTraining;
 
     public override void Initialize() {
         levelController = transform.parent.gameObject.GetComponent<LevelController>();
         playerController = gameObject.GetComponent<PlayerController>();
+        isTraining = levelController.isTraining;
     }
 
     // resets the game for a new round of training
     public override void OnEpisodeBegin()
     {
-        levelController.ClearScene();
-        levelController.SetScene();
+        if(isTraining){
+            levelController.ClearScene();
+            levelController.SetScene();
+        }
     }
 
     void Start(){
