@@ -15,6 +15,7 @@ public class BallController : MonoBehaviour
     private float halfSize;
     public float minXPosition;
     public float maxXPosition;
+    private bool isColliding;
 
     public bool bottomSensorBounce;
     
@@ -48,15 +49,18 @@ public class BallController : MonoBehaviour
             freezeCheck = 0;
         }
         lastUpdateVelocity = ballRb.velocity;           // always grab current velocity
-
+        isColliding = false;
     }
 
     private void OnCollisionEnter(Collision other) {
         ContactPoint hitAngle = other.contacts[0];      // get point of contact with other object
         ReflectBounce(hitAngle.normal);                 // change forward direction
         if(other.gameObject.CompareTag("Bottom Sensor")){
-            if(bottomSensorBounce){
+            if(isColliding || bottomSensorBounce){
                 return;
+            }
+            else{
+                isColliding = true;     // prevent multiple registers of the collision as it passes through the sensor
             }
             levelController.ballCount--;
             if(player.GetComponent<PlayerController>().isAgent){

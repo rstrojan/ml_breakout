@@ -67,7 +67,7 @@ public class PowerupController : MonoBehaviour
         player.GetComponent<PlayerController>().hasPowerup = false;
         EndEffect();
         Destroy(activeIndicator);
-        Destroy(gameObject);       
+        Destroy(gameObject);   
     }
 
     public virtual void StartEffect(){

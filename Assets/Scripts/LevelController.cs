@@ -62,8 +62,6 @@ public class LevelController : MonoBehaviour
         isTwoPlayer = GameManager.isTwoPlayer;
         isAgent = GameManager.playerOneIsAI;
         levelController2P.GetComponent<LevelController>().isAgent = GameManager.playerTwoIsAI;
-        // levelProgression = GameManager.levelProgression;
-        // ground = this.transform.GetChild(1).gameObject.FindComponentChildWithTag<MeshRenderer>("Ground");
         groundWidth = ground.GetComponent<MeshRenderer>().bounds.size.x;      // get the width of the ground
     }
 
