@@ -9,8 +9,11 @@ public class SFXController : MonoBehaviour
     public AudioClip[] paddleHits;
     public AudioClip[] brickBreaks;
     public AudioClip brickHit;
+    public AudioClip brickMetal;
     public AudioClip[] countDown;
     public AudioClip[] lazerFire;
+    public AudioClip[] pause;
+    public AudioClip buttonClick;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +42,11 @@ public class SFXController : MonoBehaviour
         sfx.PlayOneShot(brickHit, .5f);
     }
 
+    public void PlayBrickMetal()
+    {
+        sfx.PlayOneShot(brickMetal, .5f);
+    }
+
     public void PlayCountDown(int x)
     {
         sfx.PlayOneShot(countDown[x], .5f);
@@ -47,6 +55,16 @@ public class SFXController : MonoBehaviour
     public void PlayLazerFire()
     {
         sfx.PlayOneShot(lazerFire[Random.Range(0, lazerFire.Length)], .5f);
+    }
+
+    public void PlayPause(int x)
+    {
+        sfx.PlayOneShot(pause[x], .5f);
+    }
+
+    public void PlayButtonClick()
+    {
+        sfx.PlayOneShot(buttonClick, .5f);
     }
 
 }

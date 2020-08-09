@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject uiController;
 
+    public SFXController sfx;
+
     //Game state bools
     public static bool isPaused;
     public static bool isPlaying;
@@ -41,6 +43,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //get sfx controller
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
+
         //for testing
         Debug.Log("Now Playing Level " + levelTracker);
         // get high score
@@ -99,12 +104,14 @@ public class GameManager : MonoBehaviour
             //check the bool
             if (isPaused == false)
             {
+                sfx.PlayPause(0); //0 = Pause sound
                 isPaused = true; //flip the bool
                 pausedTimeScale = Time.timeScale; //capture current timescale
                 Time.timeScale = 0; //set timescale to 0
             }
             else
             {
+                sfx.PlayPause(1); //1 = unpause sound
                 isPaused = false; //flip the bool
                 Time.timeScale = pausedTimeScale; //set the timescale to what it was before            
             }
@@ -122,6 +129,7 @@ public class GameManager : MonoBehaviour
     // Go to isNextLevel
     public void NextLevel()
     {
+        sfx.PlayButtonClick();
         isGameOver = false;
         levelTracker++;
         isNextLevel = true;
@@ -139,18 +147,21 @@ public class GameManager : MonoBehaviour
     //toggle whether p1 is AI or not
     public void PlayerOneIsAI()
     {
+        sfx.PlayButtonClick();
         playerOneIsAI = !playerOneIsAI;
     }
 
     //toggle whether p2 is AI or not
     public void PlayerTwoIsAI()
     {
+        sfx.PlayButtonClick();
         playerTwoIsAI = !playerTwoIsAI;
     }
 
     // load mainmenu scene, make sure timescale is set to 1, isGameover to false
     public void ToMainMenu()
     {
+        sfx.PlayButtonClick();
         Time.timeScale = 1;
         isGameOver = false;
         SceneManager.LoadScene("MainMenu");
@@ -160,6 +171,8 @@ public class GameManager : MonoBehaviour
     // start game from main menu
     public void StartGame()
     {
+        sfx.PlayButtonClick();
+
         //load the scene
         SceneManager.LoadSceneAsync("Level1");
         Time.timeScale = 1;
@@ -172,6 +185,8 @@ public class GameManager : MonoBehaviour
     // restart current scene, make sure timescale is set to 1, isGameover to false
     public void Restart()
     {
+        sfx.PlayButtonClick();
+
         // get current scene and reload it.
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
@@ -180,7 +195,8 @@ public class GameManager : MonoBehaviour
 
     public void SaveScore(string scoreName)
     {
-        
+        sfx.PlayButtonClick();
+
         SaveSerial saver = new SaveSerial();
         int scoreInt = scorePlayerOne;
 
@@ -200,6 +216,8 @@ public class GameManager : MonoBehaviour
     // delete the game file and clear all current vars
     public void ClearScore()
     {
+        sfx.PlayButtonClick();
+
         PlayerPrefs.DeleteAll();
 
         SaveSerial clearer = new SaveSerial();
@@ -211,6 +229,7 @@ public class GameManager : MonoBehaviour
     //open game file and load all vars
     public void LoadScore()
     {
+
         SaveSerial loader = new SaveSerial();
         loader.LoadGame();
         string scoreList = "";
@@ -232,6 +251,8 @@ public class GameManager : MonoBehaviour
     //exit game to desktop
     public void ExitGame()
     {
+        sfx.PlayButtonClick();
+
         Application.Quit();
     }
     

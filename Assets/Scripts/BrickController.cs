@@ -49,11 +49,11 @@ public class BrickController : MonoBehaviour
                 player.GetComponent<AgentController>().DestroyedBrick();
             }
             Destroy(gameObject);                          // destroy brick
-            sfx.PlayBrickBreak();
+            //sfx.PlayBrickBreak();
         }
         else
         {
-            sfx.PlayBrickHit();
+            //sfx.PlayBrickHit();
         }
     }
 
