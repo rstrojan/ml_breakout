@@ -17,7 +17,7 @@ public class Brick
         sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
 
         if (!isDestructable){
-            
+            sfx.PlayBrickMetal();
             return false;
         }
         else{

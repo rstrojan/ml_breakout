@@ -651,6 +651,7 @@ MonoBehaviour:
   - 0.2
   - 0.05
   chanceForPowerUp: 0.4
+  brickTextures: []
   destructableBrickCount: 0
   ballCount: 0
   powerupCount: 0
@@ -1655,6 +1656,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
+      propertyPath: brickTextures.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
       propertyPath: levelController2P
       value: 
       objectReference: {fileID: 730607339}
@@ -1705,6 +1711,36 @@ PrefabInstance:
       propertyPath: chanceForPowerUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: brickTextures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc793fdde6aefd541be428ceda9f79a4, type: 2}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: brickTextures.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 226ea2956ad985846805d12ab842e4ef, type: 2}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: brickTextures.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: ea90e69536f7c0141b2c8d78a8846fb3, type: 2}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: brickTextures.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: a195aa62ed79b7047906df294f92394b, type: 2}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: brickTextures.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: 85efd3a91d375094391d8005c79356d3, type: 2}
+    - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: brickTextures.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3e68e913d686e9d4f89efe22bd92f3e7, type: 2}
     - target: {fileID: 8953176341196041289, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: m_LocalPosition.x
