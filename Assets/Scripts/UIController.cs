@@ -14,6 +14,13 @@ public class UIController : MonoBehaviour
 {
     public GameManager gameManager;
 
+    //audio objects for countdown
+    public SFXController sfx;
+    public bool threeWasPlayed;
+    public bool twoWasPlayed;
+    public bool oneWasPlayed;
+    public bool goWasPlayed;
+
     //display strings for player scores
     [Header("Display Strings For Player Scores")]
     public TextMeshProUGUI scoreTextPlayerOne;
@@ -76,6 +83,9 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //get the SFX controller object
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();     
+
         //Turns on score UI overlay while game is being played
         if (SceneManager.GetActiveScene().name != "MainMenu" && !GameManager.isGameOver)
         {
@@ -88,7 +98,7 @@ public class UIController : MonoBehaviour
             isCountingDown = true; //make sure it starts
             startime = Time.timeSinceLevelLoad; //grab current time
             // Time.timeScale = 0;
-
+            threeWasPlayed = twoWasPlayed = oneWasPlayed = goWasPlayed = false;
 
 
             //check for players
@@ -133,14 +143,31 @@ public class UIController : MonoBehaviour
             if ((Time.timeSinceLevelLoad - startime) < 1.0f)
             {
                 timerText.text = "3";
+                if(!threeWasPlayed)
+                {
+                    sfx.PlayCountDown(3);
+                    threeWasPlayed = true;
+                }
+
             }
             else if ((Time.timeSinceLevelLoad - startime) < 2.0f)
             {
                 timerText.text = "2";
+                if (!twoWasPlayed)
+                {
+                    sfx.PlayCountDown(2);
+                    twoWasPlayed = true;
+                }
             }
             else if ((Time.timeSinceLevelLoad - startime) < 3.0f)
             {
                 timerText.text = "1";
+                if (!oneWasPlayed)
+                {
+                    sfx.PlayCountDown(1);
+                    oneWasPlayed = true;
+                }
+
             }
             else if ((Time.timeSinceLevelLoad - startime) < 4.0f)
             {
@@ -149,6 +176,11 @@ public class UIController : MonoBehaviour
                 levelController.GetComponent<LevelController>().StartPlay();
                 if(GameManager.isTwoPlayer){
                     levelContrller2P.GetComponent<LevelController>().StartPlay();
+                }
+                if (!goWasPlayed)
+                {
+                    sfx.PlayCountDown(0);
+                    goWasPlayed = true;
                 }
             }
             else if ((Time.timeSinceLevelLoad - startime) < 5.0f)

@@ -1586,6 +1586,80 @@ PrefabInstance:
       objectReference: {fileID: 730607339}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ab8e6f8bc706774eae69a56fd9fe120, type: 3}
+--- !u!1001 &1427612040311876805
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.284801
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.3383675
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.6021504
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137736, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427612039497137737, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: brickMetal
+      value: 
+      objectReference: {fileID: 8300000, guid: fd6c357aa53ee8a4aa1c26f730255627, type: 3}
+    - target: {fileID: 1427612039497137742, guid: 04443c4283db2f744996dd1021bb53dc,
+        type: 3}
+      propertyPath: m_Name
+      value: SFXController
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 04443c4283db2f744996dd1021bb53dc, type: 3}
 --- !u!1001 &8953176341816891854
 PrefabInstance:
   m_ObjectHideFlags: 0

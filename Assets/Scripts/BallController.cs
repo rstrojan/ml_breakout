@@ -15,6 +15,7 @@ public class BallController : MonoBehaviour
     public float maxXPosition;
     private float floorZRange;
     public bool bottomSensorBounce;
+    public SFXController sfx;
 
     [Header("Bad Behavior Checks")]
     private Vector3 lastUpdateVelocity;
@@ -36,6 +37,7 @@ public class BallController : MonoBehaviour
     private void Start() {
         GetFloorXRange();
         GetFloorZRange();
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
     }
 
     // Update is called once per frame
@@ -63,6 +65,10 @@ public class BallController : MonoBehaviour
                 player.GetComponent<AgentController>().LostBall();
             } 
             Destroy(gameObject);
+        }
+        else if(other.gameObject.CompareTag("Player"))
+        {
+            sfx.PlayPaddleHit();
         }
     }
 
