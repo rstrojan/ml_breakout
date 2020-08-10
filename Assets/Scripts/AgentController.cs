@@ -36,7 +36,7 @@ public class AgentController : Agent
     }
 
     void Update(){
-        speed = playerController.speed;        
+        speed = playerController.speed;
         transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
@@ -78,39 +78,39 @@ public class AgentController : Agent
     public void LostBall(){
         // small negative reward
         // Debug.Log("Lost Ball");
-        AddReward(-0.1f);
+        AddReward(-0.4f);
     }
 
     public void LostAllBalls(){
         // big negative reward
         // Debug.Log("Lost all balls");
-        AddReward(-1.0f);
+        AddReward(-0.5f);
         EndEpisode();
     }
 
     public void GotPowerUp(){
         // small positive reward
         // Debug.Log("Got Powerup");
-        AddReward(0.3f);
+        AddReward(0.1f);
     }
 
     public void DestroyedBrick(){
         // medium positive reward
         // Debug.Log("Destroyed Brick");
-        AddReward(0.05f);
+        AddReward(0.01f);
     }
 
     public void DestroyedAllBricks(){
         // huge positive reward
         // Debug.Log("Destroyed all bricks");
-        AddReward(10.0f);
+        AddReward(1.0f);
     }
 
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ball")){
             // small positive reward
             // Debug.Log("Hit Ball");
-            AddReward(1.0f);
+            AddReward(0.7f);
         }
     }
 }

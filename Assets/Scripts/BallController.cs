@@ -9,15 +9,19 @@ public class BallController : MonoBehaviour
     public GameObject player;
     private Rigidbody ballRb;
     public Vector3 startVelocity;
-    private Vector3 lastUpdateVelocity;
-    private float freezeCheck = 0;
     public float hitPower;
     private float halfSize;
     public float minXPosition;
     public float maxXPosition;
-    private bool isColliding;
-
+    private float floorZRange;
     public bool bottomSensorBounce;
+
+    [Header("Bad Behavior Checks")]
+    private Vector3 lastUpdateVelocity;
+    private bool isColliding;
+    private float freezeTimer = 0;
+    private float zeroXTimer = 0;
+    private float zeroZTimer = 0;
     
     // Start is called before the first frame update
     void Awake(){
@@ -30,7 +34,8 @@ public class BallController : MonoBehaviour
     }
 
     private void Start() {
-        GetFloorRange();
+        GetFloorXRange();
+        GetFloorZRange();
     }
 
     // Update is called once per frame
@@ -38,16 +43,7 @@ public class BallController : MonoBehaviour
     {
         CheckXBoundary();
         ballRb.velocity = ballRb.velocity.normalized * startVelocity.magnitude; // maintain constant speed
-        if(ballRb.velocity.magnitude < startVelocity.magnitude){
-            freezeCheck += Time.deltaTime;
-            if(freezeCheck >= 0.8f){
-                ballRb.velocity = startVelocity;
-                freezeCheck = 0;
-            }
-        }
-        else{
-            freezeCheck = 0;
-        }
+        FreezeChecks();
         lastUpdateVelocity = ballRb.velocity;           // always grab current velocity
         isColliding = false;
     }
@@ -88,15 +84,56 @@ public class BallController : MonoBehaviour
         }
     }
 
-    // return size of current level floor
-    private void GetFloorRange(){
+    // return x size of current level floor
+    private void GetFloorXRange(){
         float xRange = GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.x / 2f;
         minXPosition = transform.parent.gameObject.transform.position.x - xRange + halfSize;
         maxXPosition = transform.parent.gameObject.transform.position.x + xRange - halfSize;
+    }
+
+    // return z size of current level floor
+    private void GetFloorZRange(){
+        floorZRange = GameObject.Find("Ground").GetComponent<MeshRenderer>().bounds.size.z;
     }
 
     // set new ball velocity
     public void SetBallVelocity(Vector3 newVelocity){
         ballRb.velocity = newVelocity;
     }
+
+    
+    private void FreezeChecks(){
+        // check if ball is stuck somewhere
+        if(ballRb.velocity.magnitude < startVelocity.magnitude){
+            freezeTimer += Time.deltaTime;
+            if(freezeTimer >= 0.8f){
+                float x = Random.Range(1f, startVelocity.magnitude);
+                float z = Random.Range(1f, startVelocity.magnitude);
+                ballRb.velocity = new Vector3(x, 0, z);
+            }
+        }
+        else{
+            freezeTimer = 0;
+        }
+
+        // check if ball is being boring
+        if(ballRb.velocity.x == 0){
+            zeroXTimer += Time.deltaTime;
+            if (zeroXTimer >= ((maxXPosition - minXPosition) * 2)){
+                ballRb.velocity = new Vector3(0.1f, 0, ballRb.velocity.z); 
+            }
+        }
+        else{
+            zeroXTimer = 0;
+        }
+
+        if(ballRb.velocity.z == 0){
+            zeroZTimer += Time.deltaTime;
+            if(zeroZTimer >= (floorZRange * 2)){
+                ballRb.velocity = new Vector3(ballRb.velocity.x, 0, 0.1f);
+            }
+        }
+
+    }
+
 }

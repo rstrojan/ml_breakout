@@ -59,17 +59,19 @@ public class LevelController : MonoBehaviour
     [SerializeField] Material[] wallMaterials;
 
     private void Awake() {
-        levelProgression = GameManager.levelTracker;
-        isTwoPlayer = GameManager.isTwoPlayer;
-        isAgent = GameManager.playerOneIsAI;
-        levelController2P.GetComponent<LevelController>().isAgent = GameManager.playerTwoIsAI;
+        if(!isTraining){
+            levelProgression = GameManager.levelTracker;
+            isTwoPlayer = GameManager.isTwoPlayer;
+            isAgent = GameManager.playerOneIsAI;
+            levelController2P.GetComponent<LevelController>().isAgent = GameManager.playerTwoIsAI;
+        }
         groundWidth = ground.GetComponent<MeshRenderer>().bounds.size.x;      // get the width of the ground
     }
 
     void Start(){
         RunSceneGenerator();    // generate level variation variables based on progression
         SetPlayers();           // set one or two player
-        SetEvironment();        // set the environment variables
+        SetEnvironment();        // set the environment variables
         InitPlayer();           // initialize player
         if(!isTraining){
             InitBall();             // initialize primary ball
@@ -139,7 +141,7 @@ public class LevelController : MonoBehaviour
     }
 
     // set ground and wall materials for current scene
-    private void SetEvironment(){
+    private void SetEnvironment(){
         if(playerId != 1){
             return;
         }
@@ -295,10 +297,8 @@ public class LevelController : MonoBehaviour
         float minX = 0f;
         float maxX = groundWidth / 2f - maxBrickLength;
         int numRandomBricks = Random.Range(0, (int)(maxZ - minZ));
-        Debug.Log("numRandBricks: " + numRandomBricks);
         int randBrickZStartPos = (int)Random.Range(minZ, maxZ - numRandomBricks);
         for(int i = 0; i < numRandomBricks; i++){
-            Debug.Log("randBrickZStartPos: " + randBrickZStartPos);
             float xPos = Random.Range(minX, maxX);
             GameObject brickChoice = ChooseBrick();
             float brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
@@ -310,7 +310,6 @@ public class LevelController : MonoBehaviour
             if((maxZ - randBrickZStartPos) > (numRandomBricks - i + 1)){
                 int skipRowChance = Random.Range(0, 1);
                 if(skipRowChance > 0.5){
-                    Debug.Log("skipping row");
                     randBrickZStartPos++;
                 }
             }

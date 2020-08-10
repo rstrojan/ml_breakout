@@ -159,6 +159,7 @@ MonoBehaviour:
   levelController: {fileID: 0}
   fire: 0
   useVectorObs: 1
+  isTraining: 0
 --- !u!114 &-1533593388025755600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +196,8 @@ MonoBehaviour:
   - Brick
   - Powerup
   - Wall
-  m_RaysPerDirection: 6
-  m_MaxRayDegrees: 70
+  m_RaysPerDirection: 30
+  m_MaxRayDegrees: 20
   m_SphereCastRadius: 0.5
   m_RayLength: 34
   m_RayLayerMask:

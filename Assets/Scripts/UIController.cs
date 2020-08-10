@@ -129,7 +129,7 @@ public class UIController : MonoBehaviour
 
         //countdown block
         if (isCountingDown)
-        {Debug.Log("in iscountingdown");
+        {
             if ((Time.timeSinceLevelLoad - startime) < 1.0f)
             {
                 timerText.text = "3";
