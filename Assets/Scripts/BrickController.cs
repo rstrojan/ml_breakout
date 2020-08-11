@@ -16,6 +16,7 @@ public class BrickController : MonoBehaviour
         levelController = transform.parent.gameObject.GetComponent<LevelController>();
         playerId = levelController.playerId;
         player = levelController.player;
+        gameManager = levelController.gameManager;
         sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
     }
 

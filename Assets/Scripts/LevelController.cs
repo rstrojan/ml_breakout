@@ -37,6 +37,7 @@ public class LevelController : MonoBehaviour
     private float brickWidth;
     private int brickZMin = 5;
     private int brickZMax = 10;
+    public Material[] brickTextures;
 
     [Header("Values set during play")]
     public int destructableBrickCount = 0;
@@ -60,7 +61,7 @@ public class LevelController : MonoBehaviour
 
     private void Awake() {
         if(!isTraining){
-            levelProgression = GameManager.levelTracker;
+            // levelProgression = GameManager.levelTracker;
             isTwoPlayer = GameManager.isTwoPlayer;
             isAgent = GameManager.playerOneIsAI;
             levelController2P.GetComponent<LevelController>().isAgent = GameManager.playerTwoIsAI;
@@ -214,10 +215,6 @@ public class LevelController : MonoBehaviour
     // Brick layouts block
     private void InitBrick(GameObject brick){
         BrickController bc = brick.GetComponent<BrickController>();
-        // bc.playerId = playerId;   // pass player ID to brick object
-        // bc.levelController = this.gameObject; // pass correct level controller to brick object
-        bc.gameManager = gameManager; // pass this level's instance of GM to brick object for scoring
-        // bc.player = player;       // pass player object to brick object
         PowerUpStatus(brick);         // determine if this brick has a power up
         if(bc.brick.isDestructable){
             destructableBrickCount++;   // count bricks to be destroyed to complete level
@@ -231,6 +228,8 @@ public class LevelController : MonoBehaviour
             float brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
             GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos + (brickLength/2f), 2, brickZPosStart + iter + rowSkip) + transform.position, brickChoice.transform.rotation, this.transform);  // create brick at current position
             InitBrick(newBrick);
+            newBrick.GetComponent<Renderer>().material = brickTextures[Random.Range(0, 5)];
+
             xPos += brickLength;                                    // increment current position by length of this brick
         }
     }
