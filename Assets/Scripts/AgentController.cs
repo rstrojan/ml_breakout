@@ -15,11 +15,14 @@ public class AgentController : Agent
     public bool useVectorObs;
     private int horizontalInput;
     public bool isTraining;
+    private string horizontalAxis;
 
     public override void Initialize() {
         levelController = transform.parent.gameObject.GetComponent<LevelController>();
         playerController = gameObject.GetComponent<PlayerController>();
         isTraining = levelController.isTraining;
+        horizontalAxis = "Horizontal";
+        // Time.timeScale = 1.0f;
     }
 
     // resets the game for a new round of training
@@ -61,6 +64,25 @@ public class AgentController : Agent
             default:
                 horizontalInput = 0;
                 break;
+        }
+    }
+
+    
+    public override void Heuristic(float[] actionsOut){
+        actionsOut[0] = 0;
+        actionsOut[1] = 0;
+        if(Input.GetAxisRaw(horizontalAxis) == -1){
+            actionsOut[0] = 1;
+        }
+        else if(Input.GetAxisRaw(horizontalAxis) == 1){
+            actionsOut[0] = 2;
+        }
+        else{
+            actionsOut[0] = 0;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space)){
+            actionsOut[1] = 1;
         }
     }
 

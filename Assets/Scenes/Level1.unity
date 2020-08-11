@@ -1457,7 +1457,7 @@ PrefabInstance:
     - target: {fileID: 672615322920050366, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672615323778057098, guid: 6ab8e6f8bc706774eae69a56fd9fe120,
         type: 3}
@@ -1667,6 +1667,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8953176340835342500, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176340874489849, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: levelController2P
@@ -1697,22 +1707,22 @@ PrefabInstance:
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: isAgent
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: isTraining
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: levelProgression
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: numSimulations
-      value: 0
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
@@ -1788,6 +1798,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8953176341559983946, guid: da74d5fd2be495e4b90f043edf4ed5b7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 20.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da74d5fd2be495e4b90f043edf4ed5b7, type: 3}

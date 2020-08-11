@@ -32,13 +32,13 @@ behaviors:
     time_horizon: 64
     summary_freq: 10000
     keep_checkpoints: 5
-    checkpoint_interval: 50000
+    checkpoint_interval: 10000
     threaded: true
     init_path: null
 
     # behavior cloning
     behavioral_cloning:
-      demo_path: Project/Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
+      demo_path: Assets/Demonstrations/PaddleAgentDemo_1.demo
       strength: 0.5
       steps: 150000
       batch_size: 512
@@ -63,7 +63,7 @@ behaviors:
         strength: 0.01
         gamma: 0.99
         encoding_size: 128
-        demo_path: Project/Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
+        demo_path: Assets/Demonstrations/PaddleAgentDemo_1.demo
         learning_rate: 3.0e-4
         use_actions: false
         use_vail: false

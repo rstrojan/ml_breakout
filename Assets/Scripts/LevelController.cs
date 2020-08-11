@@ -427,7 +427,8 @@ public class LevelController : MonoBehaviour
             levCon.isAgent = true;
             levCon.isTraining = true;
             levCon.gameManager = gameManager;
-            // levCon.mainCamera.GetComponent<AudioListener>().enabled = false;
+            levCon.chanceForPowerUp = chanceForPowerUp;
+            levCon.levelProgression = levelProgression;
             newLevelController.SetActive(true);
             nextPosition += new Vector3(200f, 0f, 0f);
         }

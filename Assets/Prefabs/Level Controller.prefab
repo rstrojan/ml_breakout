@@ -379,7 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAgent: 0
   isTraining: 0
-  numSimulations: 5
+  numSimulations: 0
   agentPrefab: {fileID: 8071313727967465630, guid: 99ef05470b57e0a4a9cc4f25ee7f9037,
     type: 3}
   levelControllerPrefab: {fileID: 8953176341196041291}
@@ -391,6 +391,7 @@ MonoBehaviour:
   ground: {fileID: 8953176340874489853}
   playerPrefab: {fileID: 7762289324594964532, guid: fec127c37a269c746a830864ac162758,
     type: 3}
+  player: {fileID: 0}
   ballPrefab: {fileID: 9124081322659260902, guid: 3df69faca33eb55408f4ebc2a9a93723,
     type: 3}
   brickPrefabs:
@@ -408,7 +409,7 @@ MonoBehaviour:
   ballCount: 0
   powerupCount: 0
   brickPicks: 00000000000000000000000000000000
-  levelProgression: 1
+  levelProgression: 2
   groundMaterials:
   - {fileID: 2100000, guid: 9be3bf14d30b3734698eb978a26e07bb, type: 2}
   - {fileID: 2100000, guid: 1c8d20bd47222a54cacaaea3bff6645b, type: 2}
