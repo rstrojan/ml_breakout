@@ -58,6 +58,20 @@ public class AgentController : Agent
                 horizontalInput = 0;
                 break;
         }
+        // transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
+    }
+
+    public override void Heuristic(float[] actionsOut)
+    {
+        actionsOut[0] = 0;
+        if (Input.GetKey(KeyCode.A))
+        {
+            actionsOut[0] = 1;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            actionsOut[0] = 2;
+        }
     }
 
     private void DoFire(int fireChoice){
@@ -74,7 +88,7 @@ public class AgentController : Agent
     public void LostBall(){
         // small negative reward
         // Debug.Log("Lost Ball");
-        AddReward(-0.1f);
+        // AddReward(-0.1f);
     }
 
     public void LostAllBalls(){
@@ -87,19 +101,19 @@ public class AgentController : Agent
     public void GotPowerUp(){
         // small positive reward
         // Debug.Log("Got Powerup");
-        AddReward(0.3f);
+        // AddReward(0.2f);
     }
 
     public void DestroyedBrick(){
         // medium positive reward
         // Debug.Log("Destroyed Brick");
-        AddReward(0.05f);
+        // AddReward(0.05f);
     }
 
     public void DestroyedAllBricks(){
         // huge positive reward
         // Debug.Log("Destroyed all bricks");
-        AddReward(10.0f);
+        // AddReward(1.0f);
     }
 
     private void OnCollisionEnter(Collision other) {

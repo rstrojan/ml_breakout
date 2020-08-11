@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mlagents-learn \
+    Assets/ML-Agents/Config/agent_sac.yaml \
+    --run-id=sac_01 \
+    --force

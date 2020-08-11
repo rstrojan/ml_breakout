@@ -1202,7 +1202,7 @@ PrefabInstance:
     - target: {fileID: 8953176341196041288, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
       propertyPath: chanceForPowerUp
-      value: 0.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8953176341196041289, guid: da74d5fd2be495e4b90f043edf4ed5b7,
         type: 3}
