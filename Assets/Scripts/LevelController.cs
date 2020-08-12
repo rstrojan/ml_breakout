@@ -61,7 +61,7 @@ public class LevelController : MonoBehaviour
 
     private void Awake() {
         if(!isTraining){
-            // levelProgression = GameManager.levelTracker;
+            levelProgression = GameManager.levelTracker;
             isTwoPlayer = GameManager.isTwoPlayer;
             isAgent = GameManager.playerOneIsAI;
             levelController2P.GetComponent<LevelController>().isAgent = GameManager.playerTwoIsAI;
@@ -91,7 +91,12 @@ public class LevelController : MonoBehaviour
                 player.GetComponent<AgentController>().LostAllBalls();
             }
             else{
-                gameManager.GameOver();     // if all balls destroyed, end game
+                if(!isTwoPlayer){
+                    gameManager.GameOver();     // if all balls destroyed, end game
+                }
+                else{
+                    ResetPlayer();
+                }
             }
         }
         if(destructableBrickCount <= 0){
@@ -102,6 +107,17 @@ public class LevelController : MonoBehaviour
                 gameManager.LevelComplete();    // if all destroyable bricks are destroyed, complete level
             }
         }
+    }
+
+    private void ResetPlayer(){
+        gameManager.UpdateScore(-50, playerId);
+        InitBall();
+        StartCoroutine(WaitForNewBall());
+    }
+
+    IEnumerator WaitForNewBall(){
+        yield return new WaitForSeconds(3.0f);
+        StartPlay();
     }
 
     private void InitPlayer(){
@@ -279,6 +295,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    // mix up the ratio of brick types
     private void BrickMix(){
         float chanceSum = 0;
         for(int i = 0; i < maxBrickTypes; i++){
@@ -290,23 +307,24 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    // adds pairs of random bricks between the player and the primary rows
     private void AddRandomBricks(){
-        float minZ = playerPrefab.transform.position.z + 1;
-        float maxZ = brickZPosStart;
-        float minX = 0f;
-        float maxX = groundWidth / 2f - maxBrickLength;
-        int numRandomBricks = Random.Range(0, (int)(maxZ - minZ));
-        int randBrickZStartPos = (int)Random.Range(minZ, maxZ - numRandomBricks);
-        for(int i = 0; i < numRandomBricks; i++){
-            float xPos = Random.Range(minX, maxX);
-            GameObject brickChoice = ChooseBrick();
+        float minZ = playerPrefab.transform.position.z + 1; // row above the player
+        float maxZ = brickZPosStart;                        // row where primary rows start
+        float minX = 0f;                                    // center of floor
+        float maxX = groundWidth / 2f - maxBrickLength;     // edge of floor
+        int numRandomBricks = Random.Range(0, (int)(maxZ - minZ));  // number of pairs to generate
+        int randBrickZStartPos = (int)Random.Range(minZ, maxZ - numRandomBricks);   // first row to populate
+        for(int i = 0; i < numRandomBricks; i++){          
+            float xPos = Random.Range(minX, maxX);          // x position
+            GameObject brickChoice = ChooseBrick();         // get a brick type
             float brickLength = brickChoice.GetComponent<MeshRenderer>().bounds.size.x;   // get the length of this brick
             GameObject newBrick = Instantiate(brickChoice, new Vector3(xPos - (brickLength / 2f), 2, (float)randBrickZStartPos) + transform.position, brickChoice.transform.rotation, this.transform);  // create brick at current position
             InitBrick(newBrick);
             newBrick = Instantiate(brickChoice, new Vector3(-xPos + (brickLength / 2f), 2, (float)randBrickZStartPos) + transform.position, brickChoice.transform.rotation, this.transform);  // create brick at current position
             InitBrick(newBrick);
             randBrickZStartPos++;
-            if((maxZ - randBrickZStartPos) > (numRandomBricks - i + 1)){
+            if((maxZ - randBrickZStartPos) > (numRandomBricks - i + 1)){    // maybe skip a row?
                 int skipRowChance = Random.Range(0, 1);
                 if(skipRowChance > 0.5){
                     randBrickZStartPos++;
@@ -321,24 +339,37 @@ public class LevelController : MonoBehaviour
             return;
         }
         switch(levelProgression){
-            case 1:
+            case 1:                             // level 1
                 maxBrickTypes = 2;
                 break;
-            case 2:
-                maxBrickTypes = 3;
-                brickColumnCount = 2;
-                brickRows = 5;
-                groundMatChoice = 2;
-                wallMatChoice = 2;
+            case 2:                             // level 2
+                maxBrickTypes = 3;              // more types of bricks
+                brickColumnCount = 2;           // change layout
+                brickRows = 5;                  // more rows
+                groundMatChoice = 2;            // change floor material
+                wallMatChoice = 2;              // change wall material
                 break;
-            case 3:
-                maxBrickTypes = brickPrefabs.Length;
-                brickColumnCount = 3;
-                brickRows = 4;
-                groundMatChoice = 3;
-                wallMatChoice = 3;
+            case 3:                             // level 3
+                maxBrickTypes = brickPrefabs.Length;    // all brick types
+                brickColumnCount = 3;           // change layout
+                brickRows = 5;                  // same rows
+                groundMatChoice = 3;            // change floor material
+                wallMatChoice = 3;              // change wall material
                 break;
-            case 4:
+            case 4:                             // level 4
+                maxBrickTypes = brickPrefabs.Length;    // all brick types
+                brickColumnCount = Random.Range(1, 4);  // random layout
+                brickRows = Random.Range(4, 8);         // random number of rows
+                chanceForPowerUp = Random.Range(0.2f, 0.5f);    // change odds for a powerup
+                brickZPosStart = Random.Range(brickZMin, brickZMax);    // move bottom of primary rows around
+                rowSkip = Random.Range(0, 2);           // maybe skip a row of bricks?
+                if(rowSkip == 1){
+                    brickZPosStart--;           // add space just in case there isn't enough room
+                }
+                groundMatChoice = Random.Range(0, groundMaterials.Length);  // random floor material
+                wallMatChoice = Random.Range(0, wallMaterials.Length);      // random wall material
+                break;
+            default:                            // level 5 or higher - go crazy
                 maxBrickTypes = brickPrefabs.Length;
                 brickColumnCount = Random.Range(1, 4);
                 brickRows = Random.Range(4, 8);
@@ -350,22 +381,8 @@ public class LevelController : MonoBehaviour
                 }
                 groundMatChoice = Random.Range(0, groundMaterials.Length);
                 wallMatChoice = Random.Range(0, wallMaterials.Length);
-                break;
-            default:
-                Debug.Log("level 5+");
-                maxBrickTypes = brickPrefabs.Length;
-                brickColumnCount = Random.Range(1, 4);
-                brickRows = Random.Range(4, 8);
-                chanceForPowerUp = Random.Range(0.2f, 0.5f);
-                brickZPosStart = Random.Range(brickZMin, brickZMax);
-                rowSkip = Random.Range(0, 2);
-                if(rowSkip == 1){
-                    brickZPosStart--;
-                }
-                groundMatChoice = Random.Range(0, groundMaterials.Length);
-                wallMatChoice = Random.Range(0, wallMaterials.Length);
-                BrickMix();
-                doAddRandomBricks = true;
+                BrickMix();                     // change odds for bricks types
+                doAddRandomBricks = true;       // add random bricks
                 break;
         }
     }
@@ -414,6 +431,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    // make copies of scene for training agents
     private void MakeSceneCopies(){
         if(playerId != 1){
             return;

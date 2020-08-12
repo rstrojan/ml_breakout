@@ -74,9 +74,7 @@ public class BallController : MonoBehaviour
 
     // change forward direction of ball based on collision
     private void ReflectBounce(Vector3 barrierNormal){
-        // Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity.normalized, barrierNormal); // get angle of reflection
         Vector3 newAngle = Vector3.Reflect(lastUpdateVelocity, barrierNormal);
-        // SetBallVelocity(newAngle * startVelocity.magnitude);
         SetBallVelocity(newAngle);
     }
 
@@ -107,26 +105,25 @@ public class BallController : MonoBehaviour
         ballRb.velocity = newVelocity;
     }
 
-    
+    // check if ball is stuck somewhere   
     private void FreezeChecks(){
-        // check if ball is stuck somewhere
-        if(ballRb.velocity.magnitude < startVelocity.magnitude){
+        if(ballRb.velocity.magnitude < startVelocity.magnitude){    // ball might be stuck
             freezeTimer += Time.deltaTime;
             if(freezeTimer >= 0.8f){
                 float x = Random.Range(1f, startVelocity.magnitude);
                 float z = Random.Range(1f, startVelocity.magnitude);
-                ballRb.velocity = new Vector3(x, 0, z);
+                ballRb.velocity = new Vector3(x, 0, z);     // add random velocity until it is not stuck
             }
         }
         else{
             freezeTimer = 0;
         }
 
-        // check if ball is being boring
+        // check if ball is being boring (stuck along an axis)
         if(ballRb.velocity.x == 0){
             zeroXTimer += Time.deltaTime;
-            if (zeroXTimer >= ((maxXPosition - minXPosition) * 2)){
-                ballRb.velocity = new Vector3(0.1f, 0, ballRb.velocity.z); 
+            if (zeroXTimer >= ((maxXPosition - minXPosition) * 2)){ // time to traverse the width of the floor twice
+                ballRb.velocity = new Vector3(1.0f, 0, ballRb.velocity.z); 
             }
         }
         else{
@@ -135,9 +132,12 @@ public class BallController : MonoBehaviour
 
         if(ballRb.velocity.z == 0){
             zeroZTimer += Time.deltaTime;
-            if(zeroZTimer >= (floorZRange * 2)){
-                ballRb.velocity = new Vector3(ballRb.velocity.x, 0, 0.1f);
+            if(zeroZTimer >= (floorZRange * 2)){                    // time to traverse the length of the floor twice
+                ballRb.velocity = new Vector3(ballRb.velocity.x, 0, 1.0f);
             }
+        }
+        else{
+            zeroZTimer = 0;
         }
 
     }
