@@ -31,6 +31,7 @@ public class LevelController : MonoBehaviour
     public GameObject[] brickPrefabs;
     public float[] chanceForBrickType;
     public float chanceForPowerUp;
+    public GameObject ball;
     
     private float maxBrickLength;
     private float brickWidth;

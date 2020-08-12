@@ -1,6 +1,6 @@
 #!/bin/bash
 
 mlagents-learn \
-    Assets/ML-Agents/Config/agent_sac.yaml \
-    --run-id=sac_01 \
+    Assets/ML-Agents/Config/agent_ppo_default.yaml \
+    --run-id=ppo_default_xy \
     --force

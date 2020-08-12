@@ -14,6 +14,7 @@ public class AgentController : Agent
     public bool fire;
     public bool useVectorObs;
     private int horizontalInput;
+    public GameObject ball;
 
     public override void Initialize() {
         levelController = transform.parent.gameObject.GetComponent<LevelController>();
@@ -25,6 +26,7 @@ public class AgentController : Agent
     {
         levelController.ClearScene();
         levelController.SetScene();
+        ball = GameObject.FindGameObjectWithTag("Ball");
     }
 
     void Start(){
@@ -33,16 +35,34 @@ public class AgentController : Agent
 
     void Update(){
         speed = playerController.speed;        
-        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
+        // transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        // Debug.Log("action0: " + vectorAction[0] + "\naction1: " + vectorAction[1]);
+        // Debug.Log("action0: " + vectorAction[0]);
         var moveChoice = Mathf.FloorToInt(vectorAction[0]);
         Move(moveChoice);
-        var fireChoice = Mathf.FloorToInt(vectorAction[1]);
-        DoFire(fireChoice);        
+        // var fireChoice = Mathf.FloorToInt(vectorAction[1]);
+        // DoFire(fireChoice);        
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        // x position of paddle
+        sensor.AddObservation(this.transform.localPosition.x);
+
+        // x any y position of ball
+        if (ball != null)
+        {
+            sensor.AddObservation(ball.transform.localPosition.x);
+            sensor.AddObservation(ball.transform.localPosition.y);
+        }
+        else
+        {
+            sensor.AddObservation(0.0f);
+            sensor.AddObservation(0.0f);
+        }
     }
 
     private void Move(int moveChoice){
@@ -58,7 +78,7 @@ public class AgentController : Agent
                 horizontalInput = 0;
                 break;
         }
-        // transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
+        transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
     public override void Heuristic(float[] actionsOut)
@@ -107,7 +127,7 @@ public class AgentController : Agent
     public void DestroyedBrick(){
         // medium positive reward
         // Debug.Log("Destroyed Brick");
-        // AddReward(0.05f);
+        AddReward(1.0f);
     }
 
     public void DestroyedAllBricks(){
