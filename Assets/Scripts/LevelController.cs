@@ -58,7 +58,13 @@ public class LevelController : MonoBehaviour
     [SerializeField] Material[] groundMaterials;
     [SerializeField] Material[] wallMaterials;
 
+    // objects for bg music
+    public AudioClip[] music;
+    public AudioSource audioSource;
+
     private void Awake() {
+        //get the audiosource from the camera
+        audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         levelProgression = GameManager.levelTracker;
         isTwoPlayer = GameManager.isTwoPlayer;
         isAgent = GameManager.playerOneIsAI;
@@ -98,6 +104,10 @@ public class LevelController : MonoBehaviour
             else{                
                 gameManager.LevelComplete();    // if all destroyable bricks are destroyed, complete level
             }
+        }
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(music[Random.Range(0, music.Length)]);
         }
     }
 

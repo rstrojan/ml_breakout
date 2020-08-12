@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     //High score data
     public string highScoreName;
     public int highScore;
+    public int lowScore;
     public string highScoreListText;
 
     // static objects used for carrying over data to next level
@@ -123,7 +124,8 @@ public class GameManager : MonoBehaviour
     // Set isLevelComplete
     public void LevelComplete(){
         isLevelComplete = true;
-       // Debug.Log("Level Complete!");
+        Time.timeScale = 0;
+        // Debug.Log("Level Complete!");
     }
 
     // Go to isNextLevel
@@ -141,6 +143,7 @@ public class GameManager : MonoBehaviour
     {
         isGameOver = true;
         isLevelComplete = false;
+        Time.timeScale = 0;
         // Debug.Log("Game Over");
     }
 
@@ -244,6 +247,7 @@ public class GameManager : MonoBehaviour
         }
         highScore = loader.HighScoreList[0].score;
         highScoreName = loader.HighScoreList[0].name;
+        lowScore = loader.HighScoreList[loader.HighScoreList.Count-1].score;
 
         // Debug.Log(scoreList);
     }
