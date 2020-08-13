@@ -10,10 +10,14 @@ public class BrickController : MonoBehaviour
     public GameObject player;           // assigned in Level Controller
     public Brick brick;
 
+    public SFXController sfx;
+
     private void Awake() {
         levelController = transform.parent.gameObject.GetComponent<LevelController>();
         playerId = levelController.playerId;
         player = levelController.player;
+        gameManager = levelController.gameManager;
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
     }
 
     // brick is hit by ball
@@ -46,13 +50,15 @@ public class BrickController : MonoBehaviour
                 player.GetComponent<AgentController>().DestroyedBrick();
             }
             Destroy(gameObject);                          // destroy brick
+            //sfx.PlayBrickBreak();
+        }
+        else
+        {
+            //sfx.PlayBrickHit();
         }
     }
 
     private void InitPowerup(GameObject powerup){
-        // powerup.GetComponent<PowerupController>().playerId = playerId;      // pass player ID to powerup object
-        // powerup.GetComponent<PowerupController>().player = player;          // pass correct player to powerup object
-        // powerup.GetComponent<PowerupController>().levelController = levelController;    // pass correct level controller to powerup object
         powerup.SetActive(true);
     }
 

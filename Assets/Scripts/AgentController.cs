@@ -14,17 +14,24 @@ public class AgentController : Agent
     public bool fire;
     public bool useVectorObs;
     private int horizontalInput;
+    public bool isTraining;
+    private string horizontalAxis;
 
     public override void Initialize() {
         levelController = transform.parent.gameObject.GetComponent<LevelController>();
         playerController = gameObject.GetComponent<PlayerController>();
+        isTraining = levelController.isTraining;
+        horizontalAxis = "Horizontal";
+        // Time.timeScale = 1.0f;
     }
 
     // resets the game for a new round of training
     public override void OnEpisodeBegin()
     {
-        levelController.ClearScene();
-        levelController.SetScene();
+        if(isTraining){
+            levelController.ClearScene();
+            levelController.SetScene();
+        }
     }
 
     void Start(){
@@ -32,7 +39,7 @@ public class AgentController : Agent
     }
 
     void Update(){
-        speed = playerController.speed;        
+        speed = playerController.speed;
         transform.Translate(Vector3.right * Time.deltaTime * horizontalInput * speed);
     }
 
@@ -60,6 +67,25 @@ public class AgentController : Agent
         }
     }
 
+    
+    public override void Heuristic(float[] actionsOut){
+        actionsOut[0] = 0;
+        actionsOut[1] = 0;
+        if(Input.GetAxisRaw(horizontalAxis) == -1){
+            actionsOut[0] = 1;
+        }
+        else if(Input.GetAxisRaw(horizontalAxis) == 1){
+            actionsOut[0] = 2;
+        }
+        else{
+            actionsOut[0] = 0;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space)){
+            actionsOut[1] = 1;
+        }
+    }
+
     private void DoFire(int fireChoice){
         switch(fireChoice){
             case 1:
@@ -74,39 +100,39 @@ public class AgentController : Agent
     public void LostBall(){
         // small negative reward
         // Debug.Log("Lost Ball");
-        AddReward(-0.1f);
+        AddReward(-0.4f);
     }
 
     public void LostAllBalls(){
         // big negative reward
         // Debug.Log("Lost all balls");
-        AddReward(-1.0f);
+        AddReward(-0.5f);
         EndEpisode();
     }
 
     public void GotPowerUp(){
         // small positive reward
         // Debug.Log("Got Powerup");
-        AddReward(0.3f);
+        AddReward(0.1f);
     }
 
     public void DestroyedBrick(){
         // medium positive reward
         // Debug.Log("Destroyed Brick");
-        AddReward(0.05f);
+        AddReward(0.01f);
     }
 
     public void DestroyedAllBricks(){
         // huge positive reward
         // Debug.Log("Destroyed all bricks");
-        AddReward(10.0f);
+        AddReward(1.0f);
     }
 
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ball")){
             // small positive reward
             // Debug.Log("Hit Ball");
-            AddReward(1.0f);
+            AddReward(0.7f);
         }
     }
 }

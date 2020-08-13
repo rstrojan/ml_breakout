@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 0
   speed: 5
-  duration: 0.1
+  duration: 2
   isActive: 0
   powerupIndicator: {fileID: 2149101644975052512, guid: 5e3d329f2003ba84982e3e5b2a4b7034,
     type: 3}
@@ -117,6 +117,5 @@ MonoBehaviour:
   levelController: {fileID: 0}
   ballPrefab: {fileID: 593747313408661961, guid: b8e266aa1f57f5e4f97bdf3206ccb17a,
     type: 3}
-  ballCount: 0
-  ballsToMake: 5
+  totalBallsToMake: 5
   angleVariation: 30

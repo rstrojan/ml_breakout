@@ -11,16 +11,23 @@ public class Brick
     public bool hasPowerUp;
     public GameObject powerup;
 
+    public SFXController sfx;
+
     public bool IsDestroyed(float hitPower){
-        if(!isDestructable){
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
+
+        if (!isDestructable){
+            sfx.PlayBrickMetal();
             return false;
         }
         else{
             hitCount -= hitPower;
             if(hitCount <= 0){
+                sfx.PlayBrickBreak();
                 return true;
             }
             else{
+                sfx.PlayBrickHit();
                 return false;
             }
         }

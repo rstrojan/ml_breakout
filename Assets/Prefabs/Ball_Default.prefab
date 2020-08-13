@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 55b91e48611cd8e4f92c8372ffb31c19, type: 2}
+  - {fileID: 2100000, guid: 13f617a7030a5904592f3220168f2363, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,11 +123,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485e30ba4b9819b4fbbab8fac30b3fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelController: {fileID: 0}
   playerId: 0
   player: {fileID: 0}
-  startVelocity: {x: 0, y: 0, z: 12}
+  startVelocity: {x: 0, y: 0, z: 10}
   hitPower: 1
   minXPosition: 0
   maxXPosition: 0
-  levelController: {fileID: 0}
   bottomSensorBounce: 0
+  sfx: {fileID: 0}

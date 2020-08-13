@@ -11,7 +11,7 @@ public class SaveSerial
 
     public void SaveGame(string newName, int newScore)
     {
-        Debug.Log("Savegame called");
+        // Debug.Log("Savegame called");
         FileStream file;
         BinaryFormatter bf = new BinaryFormatter();
         // persistant path is C:\Users\[user]\AppData\LocalLow\[company name]
@@ -50,7 +50,7 @@ public class SaveSerial
 
     public void LoadGame()
     {
-        Debug.Log("Lodagame called");
+        // Debug.Log("Lodagame called");
         HighScoreList = new List<HighScoreEntry>(); //set or reset highscorelist
 
         //check if there is a game file.
@@ -63,7 +63,7 @@ public class SaveSerial
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 HighScoreList = (List<HighScoreEntry>)bf.Deserialize(file);
-                Debug.Log("Game data loaded!");
+                //Debug.Log("Game data loaded!");
             }
             catch //let us know if not
             {
@@ -109,20 +109,20 @@ public class SaveSerial
 
     public int AddHighScore(HighScoreEntry newEntry)
     {
-        Debug.Log("In AddHighScore");
+        //Debug.Log("In AddHighScore");
         int count = 0; // track where we are in the list
         int insertIndex = -1; //if inserted, store in here
         if(HighScoreList.Count != 0) // if the list is not empty
         {
             foreach (HighScoreEntry oldEntry in HighScoreList)
             {
-                Debug.Log("In highscore loop");
+                //Debug.Log("In highscore loop");
                 int comparedResult = CompareHighScore(newEntry, oldEntry);
                 if (comparedResult == 1)
                 {
                     HighScoreList.Insert(count, newEntry);
                     insertIndex = count;
-                    Debug.LogError("added new");
+                    //Debug.LogError("added new");
                     break;
                 }
                 count++;
@@ -131,7 +131,7 @@ public class SaveSerial
             //Trim scores to keep at 10.
             while (HighScoreList.Count > 10)
             {
-                Debug.Log("trimming list");
+               // Debug.Log("trimming list");
                 HighScoreList.RemoveAt(HighScoreList.Count - 1);
 
             }
@@ -142,7 +142,7 @@ public class SaveSerial
         }
 
 
-        Debug.LogError("returning index");
+        //Debug.LogError("returning index");
         return insertIndex;
     }
 
