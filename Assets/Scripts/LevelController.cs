@@ -18,7 +18,7 @@ public class LevelController : MonoBehaviour
     public static bool isTwoPlayer;
     [SerializeField] GameObject levelController2P;
     [SerializeField] TextMeshProUGUI scoreText2P;
-    [SerializeField] GameObject mainCamera;
+    public GameObject mainCamera;
     public GameManager gameManager; 
     public GameObject ground;
     private float groundWidth;

@@ -16,16 +16,16 @@ GameObject:
   - component: {fileID: 7920966801622152667}
   - component: {fileID: -8263485815737088830}
   - component: {fileID: -1533593388025755600}
-  - component: {fileID: 5754017017722617031}
   - component: {fileID: -17480477886082924}
   - component: {fileID: -4671978130279811527}
+  - component: {fileID: -8848020051080950989}
   m_Layer: 0
   m_Name: Player_Agent
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8071313727967465626
 Transform:
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BrainParameters:
     VectorObservationSize: 0
-    NumStackedVectorObservations: 3
+    NumStackedVectorObservations: 5
     VectorActionSize: 0300000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
@@ -179,33 +179,6 @@ MonoBehaviour:
   isTwoPlayer: 0
   speed: 10
   hasPowerup: 0
---- !u!114 &5754017017722617031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8071313727967465630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensor
-  m_DetectableTags:
-  - Ball
-  m_RaysPerDirection: 20
-  m_MaxRayDegrees: 20
-  m_SphereCastRadius: 1
-  m_RayLength: 34
-  m_RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967291
-  m_ObservationStacks: 1
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 0
-  m_EndVerticalOffset: 0
 --- !u!114 &-17480477886082924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,3 +208,21 @@ MonoBehaviour:
   Record: 0
   DemonstrationName: PaddleAgent Demo
   DemonstrationDirectory: 
+--- !u!114 &-8848020051080950989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8071313727967465630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
+  m_SensorName: CameraSensor
+  m_Width: 40
+  m_Height: 50
+  m_Grayscale: 0
+  m_Compression: 1

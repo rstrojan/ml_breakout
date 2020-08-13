@@ -22,6 +22,7 @@ public class AgentController : Agent
         playerController = gameObject.GetComponent<PlayerController>();
         isTraining = levelController.isTraining;
         horizontalAxis = "Horizontal";
+        gameObject.GetComponent<CameraSensorComponent>().Camera = levelController.mainCamera.GetComponent<Camera>();
         // Time.timeScale = 1.0f;
     }
 
