@@ -405,6 +405,13 @@ MonoBehaviour:
   - 0.2
   - 0.05
   chanceForPowerUp: 0.4
+  brickTextures:
+  - {fileID: 2100000, guid: dc793fdde6aefd541be428ceda9f79a4, type: 2}
+  - {fileID: 2100000, guid: 226ea2956ad985846805d12ab842e4ef, type: 2}
+  - {fileID: 2100000, guid: ea90e69536f7c0141b2c8d78a8846fb3, type: 2}
+  - {fileID: 2100000, guid: a195aa62ed79b7047906df294f92394b, type: 2}
+  - {fileID: 2100000, guid: 85efd3a91d375094391d8005c79356d3, type: 2}
+  - {fileID: 2100000, guid: 3e68e913d686e9d4f89efe22bd92f3e7, type: 2}
   destructableBrickCount: 0
   ballCount: 0
   powerupCount: 0
@@ -432,6 +439,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: af51e2919ad6df14482578404801dbe5, type: 2}
   - {fileID: 2100000, guid: 9adb5ecdf22c4ff448615330af7d76b9, type: 2}
   - {fileID: 2100000, guid: 9e05aca5c536e9e4eb819667ce3e215f, type: 2}
+  music: []
+  audioSource: {fileID: 0}
 --- !u!1 &8953176341390587071
 GameObject:
   m_ObjectHideFlags: 0

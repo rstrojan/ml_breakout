@@ -113,7 +113,7 @@ public class LevelController : MonoBehaviour
                 gameManager.LevelComplete();    // if all destroyable bricks are destroyed, complete level
             }
         }
-        if (!audioSource.isPlaying)
+        if (!isTraining && !audioSource.isPlaying)
         {
             audioSource.PlayOneShot(music[Random.Range(0, music.Length)]);
         }
@@ -447,7 +447,7 @@ public class LevelController : MonoBehaviour
             return;
         }
         Vector3 nextPosition = transform.position + new Vector3(200f, 0f, 0f);
-        for(int i = 0; i < numSimulations; i++){
+        for(int i = 0; i < numSimulations - 1; i++){
             GameObject newLevelController = Instantiate(levelControllerPrefab, nextPosition, levelControllerPrefab.transform.rotation);
             LevelController levCon = newLevelController.GetComponent<LevelController>();
             levCon.playerId = playerId + 1 + i;

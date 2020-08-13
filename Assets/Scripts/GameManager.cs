@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         levelTracker++;
         isNextLevel = true;
+        Time.timeScale = 1;
         SceneManager.LoadScene("Level1");
     }
 
