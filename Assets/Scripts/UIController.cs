@@ -65,6 +65,7 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI newHighScoreObject;
     public InputField newScoreName;
     public InputField newScoreVal;
+    public bool hasBeenSaved;
 
     //pause menu objects
     [Header("Pause Menu Objects")]
@@ -84,7 +85,10 @@ public class UIController : MonoBehaviour
     void Start()
     {
         //get the SFX controller object
-        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();     
+        sfx = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXController>();
+
+        //bool to track if score has been saved
+        hasBeenSaved = false;
 
         //Turns on score UI overlay while game is being played
         if (SceneManager.GetActiveScene().name != "MainMenu" && !GameManager.isGameOver)
@@ -253,18 +257,51 @@ public class UIController : MonoBehaviour
     // manage gameover state
     public void GameOver()
     {
-        Time.timeScale = 0;
-        gameManager.LoadScore(); // make sure we have high score dat
+        Time.timeScale = 0; //pauses the game
+        gameManager.LoadScore(); // make sure we have high score data
         highScoreObject.gameObject.SetActive(true);
-        if (gameManager.highScore < GameManager.scorePlayerOne)
+        if (!GameManager.isTwoPlayer)
         {
-            newHighScoreObject.text = "New High Score: " + GameManager.scorePlayerOne;
-            highScoreText.text = "Old High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
-            newHighScoreObject.gameObject.SetActive(true);
+            //if the score is in the top 10 and has not already been saved
+            if (gameManager.lowScore < GameManager.scorePlayerOne && !hasBeenSaved)
+            {
+                newHighScoreObject.text = "New High Score: " + GameManager.scorePlayerOne;
+                highScoreText.text = "Old High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
+                newHighScoreObject.gameObject.SetActive(true);
+            }
+            else
+            {
+                newHighScoreObject.gameObject.SetActive(false);
+                highScoreText.text = "High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
+            }
         }
         else
         {
-            highScoreText.text = "High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
+            //grab the controllers so we can check ball counts
+            LevelController p1 = GameObject.Find("Level Controller").GetComponent<LevelController>();
+            LevelController p2 = GameObject.Find("Level Controller 2P").GetComponent<LevelController>();
+            //first check ball counts as that is higher priority than score
+            if (p1.ballCount == 0)
+            {
+                highScoreText.text = "Player Two Wins!";
+            }
+            else if (p2.ballCount == 0)
+            {
+                highScoreText.text = "Player One Wins!";
+            }
+            //then check scores for winner
+            else if (GameManager.scorePlayerOne > GameManager.scorePlayerTwo)
+            {
+                highScoreText.text = "Player One Wins!";
+            }
+            else if (GameManager.scorePlayerOne < GameManager.scorePlayerTwo)
+            {
+                highScoreText.text = "Player Two Wins!";
+            }
+            else
+            {
+                highScoreText.text = "Wow, I can't believe you actually tied.";
+            }
         }
         mainMenuButton.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(true);
@@ -280,6 +317,7 @@ public class UIController : MonoBehaviour
     //button function for saving the score in gameover menu
     public void SaveButton()
     {
+        hasBeenSaved = true; //mark that score has been saved
         Debug.Log(newScoreName.text);
         gameManager.SaveScore(newScoreName.text);
 
@@ -290,7 +328,6 @@ public class UIController : MonoBehaviour
         }
 
         highScoreText.text = "High Score: " + gameManager.highScoreName + " - " + gameManager.highScore;
-
 
     }
 
